@@ -102,7 +102,7 @@ p.message { font-size: 1.5em; margin-bottom: 40px; }
 
 /* ---------------- Carrusel ---------------- */
 .carousel {
-    width: 80%%;
+    width: 80%;
     max-width: 600px;
     margin: 0 auto 40px auto;
     overflow: hidden;
@@ -116,7 +116,7 @@ p.message { font-size: 1.5em; margin-bottom: 40px; }
 }
 
 .carousel img {
-    width: 100%%;
+    width: 100%;
     flex-shrink: 0;
     border-radius: 15px;
 }
@@ -124,11 +124,11 @@ p.message { font-size: 1.5em; margin-bottom: 40px; }
 /* Flechas */
 .arrow {
     position: absolute;
-    top: 50%%;
-    transform: translateY(-50%%);
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 2em;
     background-color: rgba(255,255,255,0.6);
-    border-radius: 50%%;
+    border-radius: 50%;
     padding: 5px 10px;
     cursor: pointer;
     user-select: none;
@@ -145,13 +145,13 @@ p.message { font-size: 1.5em; margin-bottom: 40px; }
 
 /* ---------------- Timeline ---------------- */
 .timeline {
-    width: 80%%;
+    width: 80%;
     max-width: 800px;
     margin: 0 auto;
     text-align: left;
 }
 
-event {
+.event {
     margin-bottom: 20px;
     padding: 15px 10px;
     border-left: 4px solid #4CAF50;
@@ -162,7 +162,7 @@ event {
     transition: all 0.6s ease;
 }
 
-event.visible {
+.event.visible {
     opacity: 1;
     transform: translateX(0);
 }
@@ -179,8 +179,8 @@ event.visible {
     p.message { font-size: 1em; }
     .arrow { font-size: 1.5em; padding: 6px 10px; }
     .container { padding: 30px 10px; }
-    .timeline { width: 95%%; }
-    .carousel { width: 95%%; }
+    .timeline { width: 95%; }
+    .carousel { width: 95%; }
 }
 </style>
 </head>
@@ -208,9 +208,12 @@ event.visible {
     <!-- Carrusel de fotos -->
     <div class="carousel" id="carousel">
         <div class="carousel-track">
-            <img src="foto1.jpg" alt="Foto 1">
-            <img src="foto2.jpg" alt="Foto 2">
-            <img src="foto3.jpg" alt="Foto 3">
+            <!-- Primera imagen: IMG_001 de docs/images -->
+            <img src="images/IMG_001.jpeg" alt="Foto 1">
+            <!-- Segunda imagen existente -->
+            <img src="images/IMG_8777.jpeg" alt="Foto 2">
+            <!-- Tercera imagen (opcional) -->
+            <img src="images/foto3.jpg" alt="Foto 3">
         </div>
         <div class="arrow arrow-left">&#10094;</div>
         <div class="arrow arrow-right">&#10095;</div>
