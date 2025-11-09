@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Carta de Amor</title>
+<style>
+/* ---------------- Pantalla de carga ---------------- */
+#loader {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background-color: #FFD6E0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction: column;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+}
+
+#loader span {
+    font-size: 3em;
+    margin-bottom:20px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%,100% { transform: scale(1);}
+    50% { transform: scale(1.2);}
+}
+
+/* ---------------- Confirmación ---------------- */
+#confirm {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background-color: rgba(255,214,224,0.95);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction: column;
+    z-index: 9998;
+    font-family: Arial, sans-serif;
+}
+
+#confirm button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border:none;
+    border-radius:10px;
+    background-color:#4CAF50;
+    color:white;
+    cursor:pointer;
+    margin-top:20px;
+    transition: 0.3s;
+}
+
+#confirm button:hover { background-color: #45a049; }
+
+/* ---------------- Fondo y emojis ---------------- */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #FFD6E0;
+    color: #333;
+    position: relative;
+    overflow-x: hidden;
+}
+
+#emoji-bg {
+    position: fixed;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.emoji {
+    position: absolute;
+    font-size: 20px;
+    opacity: 0.08;
+    animation: float 20s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh) translateX(0);}
+    100% { transform: translateY(-20vh) translateX(200px);}
+}
+
+/* ---------------- Contenedor ---------------- */
+.container {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+/* ---------------- Título y mensaje ---------------- */
+h1 { font-size: 3em; margin-bottom: 10px; }
+p.message { font-size: 1.5em; margin-bottom: 40px; }
+
+/* ---------------- Carrusel ---------------- */
+.carousel {
+    width: 80%%;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    overflow: hidden;
+    border-radius: 15px;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel img {
+    width: 100%%;
+    flex-shrink: 0;
+    border-radius: 15px;
+}
+
+/* Flechas */
+.arrow {
+    position: absolute;
+    top: 50%%;
+    transform: translateY(-50%%);
+    font-size: 2em;
+    background-color: rgba(255,255,255,0.6);
+    border-radius: 50%%;
+    padding: 5px 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.arrow-left { left: 10px; }
+.arrow-right { right: 10px; }
+
+/* ---------------- Contador ---------------- */
+.counter {
+    font-size: 2em;
+    margin-bottom: 40px;
+}
+
+/* ---------------- Timeline ---------------- */
+.timeline {
+    width: 80%%;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+event {
+    margin-bottom: 20px;
+    padding: 15px 10px;
+    border-left: 4px solid #4CAF50;
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 10px;
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.6s ease;
+}
+
+event.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 768px){
+    h1 { font-size: 2em; }
+    p.message { font-size: 1.2em; }
+    .arrow { font-size: 1.8em; padding: 8px 12px; }
+}
+
+@media (max-width: 480px){
+    h1 { font-size: 1.8em; }
+    p.message { font-size: 1em; }
+    .arrow { font-size: 1.5em; padding: 6px 10px; }
+    .container { padding: 30px 10px; }
+    .timeline { width: 95%%; }
+    .carousel { width: 95%%; }
+}
+</style>
+</head>
+<body>
+
+<!-- Pantalla de carga -->
+<div id="loader">
+    <span>💚</span>
+    <p>Cargando tu mensaje de amor...</p>
+</div>
+
+<!-- Confirmación -->
+<div id="confirm">
+    <h2>Ábreme si me quieres 💚</h2>
+    <button id="openBtn">Abrir</button>
+</div>
+
+<!-- Fondo de emojis -->
+<div id="emoji-bg"></div>
+
+<div class="container" id="mainContent" style="display:none;">
+    <h1>Mi Amor 💚</h1>
+    <p class="message">Cada momento juntos es un recuerdo que quiero guardar para siempre.</p>
+
+    <!-- Carrusel de fotos -->
+    <div class="carousel" id="carousel">
+        <div class="carousel-track">
+            <img src="foto1.jpg" alt="Foto 1">
+            <img src="foto2.jpg" alt="Foto 2">
+            <img src="foto3.jpg" alt="Foto 3">
+        </div>
+        <div class="arrow arrow-left">&#10094;</div>
+        <div class="arrow arrow-right">&#10095;</div>
+    </div>
+
+    <!-- Contador -->
+    <div class="counter" id="contador"></div>
+
+    <!-- Timeline -->
+    <div class="timeline" id="timeline">
+        <div class="event"><span class="date">2 Jul 2025:</span> Empezamos a salir.</div>
+        <div class="event"><span class="date">15 Jul 2025:</span> Conocí a sus padres.</div>
+        <div class="event"><span class="date">5 Nov 2025:</span> Primer viaje juntos.</div>
+    </div>
+</div>
+
+<script>
+// ---------------- Pantalla de carga ----------------
+window.addEventListener('load', () => {
+    setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 1500);
+});
+
+// ---------------- Confirmación ----------------
+document.getElementById('openBtn').addEventListener('click', () => {
+    document.getElementById('confirm').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+});
+
+// ---------------- Fondo de emojis ----------------
+const emojiContainer = document.getElementById('emoji-bg');
+for(let i=0;i<100;i++){
+    const e = document.createElement('div');
+    e.className='emoji';
+    e.textContent='💚';
+    e.style.left=Math.random()*100+'%';
+    e.style.top=Math.random()*100+'%';
+    e.style.fontSize=15+Math.random()*25+'px';
+    e.style.opacity=0.05+Math.random()*0.1;
+    e.style.animationDuration=(15+Math.random()*10)+'s';
+    emojiContainer.appendChild(e);
+}
+
+// ---------------- Carrusel con slide ----------------
+const track = document.querySelector('.carousel-track');
+const slides = Array.from(track.children);
+let currentIndex = 0;
+
+function moveToSlide(index){
+    track.style.transform = `translateX(-${index * 100}%)`;
+}
+
+document.querySelector('.arrow-left').addEventListener('click',()=>{
+    currentIndex = (currentIndex-1+slides.length)%slides.length;
+    moveToSlide(currentIndex);
+});
+document.querySelector('.arrow-right').addEventListener('click',()=>{
+    currentIndex = (currentIndex+1)%slides.length;
+    moveToSlide(currentIndex);
+});
+
+// Autoplay
+setInterval(()=>{
+    currentIndex = (currentIndex+1)%slides.length;
+    moveToSlide(currentIndex);
+},5000);
+
+// Touch gestures
+let startX=0;
+const carousel = document.getElementById('carousel');
+carousel.addEventListener('touchstart', e=>{ startX = e.touches[0].clientX; });
+carousel.addEventListener('touchmove', e=>{ e.preventDefault(); });
+carousel.addEventListener('touchend', e=>{
+    let diff = startX - e.changedTouches[0].clientX;
+    if(diff>30) currentIndex=(currentIndex+1)%slides.length;
+    else if(diff<-30) currentIndex=(currentIndex-1+slides.length)%slides.length;
+    moveToSlide(currentIndex);
+});
+
+// ---------------- Contador ----------------
+const contador=document.getElementById('contador');
+const startDate=new Date('2025-07-02T00:00:00');
+function updateCounter(){
+    const now=new Date();
+    let diff=Math.floor((now-startDate)/1000);
+    const days=Math.floor(diff/86400);
+    diff%=86400;
+    const hours=Math.floor(diff/3600);
+    diff%=3600;
+    const minutes=Math.floor(diff/60);
+    const seconds=diff%60;
+    contador.textContent=`${days} días ${hours} h ${minutes} m ${seconds} s`;
+}
+setInterval(updateCounter,1000);
+updateCounter();
+
+// ---------------- Timeline fade-in ----------------
+const events = document.querySelectorAll('.event');
+function checkVisibility(){
+    const triggerBottom = window.innerHeight * 0.85;
+    events.forEach(event => {
+        const boxTop = event.getBoundingClientRect().top;
+        if(boxTop < triggerBottom) event.classList.add('visible');
+    });
+}
+window.addEventListener('scroll', checkVisibility);
+window.addEventListener('load', checkVisibility);
+</script>
+</body>
+</html>
