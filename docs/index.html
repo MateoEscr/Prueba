@@ -117,8 +117,12 @@
     background: #45a049;
 }
 
-.music-buttons input[type="range"] {
-    width: 110px;
+.progress-container {
+    width: 100%;
+}
+
+.music-progress {
+    width: 100%;
 }
 
 /* ---------------- Fondo y emojis ---------------- */
@@ -247,14 +251,18 @@ div.event.visible {
 <div id="confirm">
     <h2>Ábreme si te gustan los takis 💚</h2>
 
-    <!-- Reproductor en pantalla de confirmación -->
+    <!-- Reproductor confirmación -->
     <div class="music-player">
         <img src="images/portada.JPG" alt="Portada">
         <div class="music-controls">
             <div class="music-title">Cancion para acompañar... 🥹</div>
+
             <div class="music-buttons">
                 <button id="playBtnConfirm">▶️</button>
-                <input id="volConfirm" type="range" min="0" max="1" step="0.01">
+            </div>
+
+            <div class="progress-container">
+                <input id="progressConfirm" class="music-progress" type="range" min="0" max="100" value="0">
             </div>
         </div>
     </div>
@@ -267,14 +275,18 @@ div.event.visible {
 
 <div class="container" id="mainContent" style="display:none;">
 
-    <!-- Reproductor dentro de la carta -->
+    <!-- Reproductor interior -->
     <div class="music-player">
         <img src="images/portada.JPG" alt="Portada">
         <div class="music-controls">
             <div class="music-title">Cancion para acompañar... 🥹</div>
+
             <div class="music-buttons">
                 <button id="playBtnMain">▶️</button>
-                <input id="volMain" type="range" min="0" max="1" step="0.01">
+            </div>
+
+            <div class="progress-container">
+                <input id="progressMain" class="music-progress" type="range" min="0" max="100" value="0">
             </div>
         </div>
     </div>
@@ -345,17 +357,13 @@ document.getElementById('openBtn').addEventListener('click', () => {
 
 // ---------------- Reproductor de música ----------------
 const audio = new Audio("images/musica.mp3");
-audio.loop = true;
+audio.loop = false;  // sin autoplay y sin loop
 
 const playConfirm = document.getElementById("playBtnConfirm");
 const playMain = document.getElementById("playBtnMain");
 
-const volConfirm = document.getElementById("volConfirm");
-const volMain = document.getElementById("volMain");
-
-volConfirm.value = 0.5;
-volMain.value = 0.5;
-audio.volume = 0.5;
+const progressConfirm = document.getElementById("progressConfirm");
+const progressMain = document.getElementById("progressMain");
 
 function togglePlay(btn1, btn2){
     if(audio.paused){
@@ -372,15 +380,23 @@ function togglePlay(btn1, btn2){
 playConfirm.addEventListener("click", ()=> togglePlay(playConfirm, playMain));
 playMain.addEventListener("click", ()=> togglePlay(playMain, playConfirm));
 
-volConfirm.addEventListener("input", ()=>{
-    audio.volume = volConfirm.value;
-    volMain.value = volConfirm.value;
+
+// ---------------- Barra de progreso sincronizada ----------------
+audio.addEventListener("timeupdate", () => {
+    let porcentaje = (audio.currentTime / audio.duration) * 100;
+    progressConfirm.value = porcentaje;
+    progressMain.value = porcentaje;
 });
 
-volMain.addEventListener("input", ()=>{
-    audio.volume = volMain.value;
-    volConfirm.value = volMain.value;
-});
+// Al mover la barra → cambiar el tiempo de la canción
+function cambiarTiempo(e){
+    let nuevoTiempo = (e.target.value / 100) * audio.duration;
+    audio.currentTime = nuevoTiempo;
+}
+
+progressConfirm.addEventListener("input", cambiarTiempo);
+progressMain.addEventListener("input", cambiarTiempo);
+
 
 // ---------------- Fondo de emojis ----------------
 const emojiContainer = document.getElementById('emoji-bg');
@@ -413,12 +429,6 @@ document.querySelector('.arrow-right').addEventListener('click',()=>{
     currentIndex = (currentIndex+1)%slides.length;
     moveToSlide(currentIndex);
 });
-
-// Autoplay
-setInterval(()=>{
-    currentIndex = (currentIndex+1)%slides.length;
-    moveToSlide(currentIndex);
-},5000);
 
 // Touch
 let startX=0;
