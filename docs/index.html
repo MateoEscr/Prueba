@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mi Carta de Amor</title>
+
 <style>
 /* ---------------- Pantalla de carga ---------------- */
 #loader {
@@ -64,6 +65,62 @@
 
 #confirm button:hover { background-color: #45a049; }
 
+/* ---------------- Reproductor de música ---------------- */
+.music-player {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.85);
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    gap: 15px;
+    width: 90%;
+    max-width: 400px;
+}
+
+.music-player img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.music-controls {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.music-title {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.music-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.music-buttons button {
+    background: #4CAF50;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.music-buttons button:hover {
+    background: #45a049;
+}
+
+.music-buttons input[type="range"] {
+    width: 110px;
+}
+
 /* ---------------- Fondo y emojis ---------------- */
 body {
     margin: 0;
@@ -123,11 +180,11 @@ p.message { font-size: 1.5em; margin-bottom: 40px; }
 
 .carousel img {
     width: 100%;
-    height: auto;          /* Mantiene proporción */
-    object-fit: contain;    /* Ajusta la imagen sin recortar */
+    height: auto;
+    object-fit: contain;
     flex-shrink: 0;
     border-radius: 15px;
-    background-color: #FFD6E0; /* Fondo si no llena todo */
+    background-color: #FFD6E0;
 }
 
 /* Flechas */
@@ -176,21 +233,6 @@ div.event.visible {
     transform: translateX(0);
 }
 
-/* ---------------- Responsive ---------------- */
-@media (max-width: 768px){
-    h1 { font-size: 2em; }
-    p.message { font-size: 1.2em; }
-    .arrow { font-size: 1.8em; padding: 8px 12px; }
-}
-
-@media (max-width: 480px){
-    h1 { font-size: 1.8em; }
-    p.message { font-size: 1em; }
-    .arrow { font-size: 1.5em; padding: 6px 10px; }
-    .container { padding: 30px 10px; }
-    .timeline { width: 95%; }
-    .carousel { width: 95%; }
-}
 </style>
 </head>
 <body>
@@ -204,6 +246,19 @@ div.event.visible {
 <!-- Confirmación -->
 <div id="confirm">
     <h2>Ábreme si me quieres 💚</h2>
+
+    <!-- Reproductor en pantalla de confirmación -->
+    <div class="music-player">
+        <img src="images/portada.jpeg" alt="Portada">
+        <div class="music-controls">
+            <div class="music-title">Nuestra canción 💚</div>
+            <div class="music-buttons">
+                <button id="playBtnConfirm">▶️</button>
+                <input id="volConfirm" type="range" min="0" max="1" step="0.01">
+            </div>
+        </div>
+    </div>
+
     <button id="openBtn">Abrir</button>
 </div>
 
@@ -211,37 +266,52 @@ div.event.visible {
 <div id="emoji-bg"></div>
 
 <div class="container" id="mainContent" style="display:none;">
+
+    <!-- Reproductor dentro de la carta -->
+    <div class="music-player">
+        <img src="images/portada.jpeg" alt="Portada">
+        <div class="music-controls">
+            <div class="music-title">Nuestra canción 💚</div>
+            <div class="music-buttons">
+                <button id="playBtnMain">▶️</button>
+                <input id="volMain" type="range" min="0" max="1" step="0.01">
+            </div>
+        </div>
+    </div>
+
     <h1>Mi Amor 💚</h1>
     <p class="message">Cada momento juntos es un recuerdo que quiero guardar para siempre.</p>
 
-    <!-- Carrusel de fotos -->
-    <!-- Carrusel de fotos -->
-<div class="carousel" id="carousel">
-    <div class="carousel-track">
-        <img src="imágenes/IMG_7604.jpeg" alt="Foto 1">
-        <img src="imágenes/IMG_1209.jpeg" alt="Foto 2">
-        <img src="imágenes/IMG_0991.jpeg" alt="Foto 3">
-        <img src="imágenes/IMG_1102.jpeg" alt="Foto 4">
-        <img src="imágenes/IMG_1204.jpeg" alt="Foto 5">
-        <img src="imágenes/IMG_0948.jpeg" alt="Foto 6">
-        <img src="imágenes/7fa3e78a-31ea-4964-b4c9-bf778241.jpeg" alt="Foto 7">
-        <img src="imágenes/a35975e2-9ba2-42fe-8fdf-ab06c0f8.jpeg" alt="Foto 8">
-        <img src="imágenes/3f335f85-afe4-4974-a54a-53d1bb9f.jpeg" alt="Foto 9">
-        <img src="imágenes/IMG_0595.jpeg" alt="Foto 10">
-        <img src="imágenes/IMG_0562.jpeg" alt="Foto 11">
-        <img src="imágenes/d7f447bf-6380-4d6c-bf36-ac9981c.jpeg" alt="Foto 12">
-        <img src="imágenes/IMG_0413.jpeg" alt="Foto 13">
-        <img src="imágenes/3dafce51-cfde-4746-9112-f214c3e11.jpeg" alt="Foto 14">
-        <img src="imágenes/468e0e3b-cbc9-49a8-a4f3-9874b0.jpeg" alt="Foto 15">
-        <img src="imágenes/66a65ac3-bc0e-4c0e-83ef-63d653d.jpeg" alt="Foto 16">
-        <img src="imágenes/31f14a18-3ecf-466d-97f6-350c24db.jpeg" alt="Foto 17">
-        <img src="imágenes/IMG_4945.jpeg" alt="Foto 18">
-        <img src="imágenes/IMG_5003.jpeg" alt="Foto 19">
-        <img src="imágenes/IMG_8777.jpeg" alt="Foto 20">
+    <!-- Carrusel -->
+    <div class="carousel" id="carousel">
+        <div class="carousel-track">
+
+            <img src="images/IMG_7604.jpeg">
+            <img src="images/IMG_1209.jpeg">
+            <img src="images/IMG_0991.jpeg">
+            <img src="images/IMG_1102.jpeg">
+            <img src="images/IMG_1204.jpeg">
+            <img src="images/IMG_0948.jpeg">
+            <img src="images/7fa3e78a-31ea-4964-b4c9-bf778241.jpeg">
+            <img src="images/a35975e2-9ba2-42fe-8fdf-ab06c0f8.jpeg">
+            <img src="images/3f335f85-afe4-4974-a54a-53d1bb9f.jpeg">
+            <img src="images/IMG_0595.jpeg">
+            <img src="images/IMG_0562.jpeg">
+            <img src="images/d7f447bf-6380-4d6c-bf36-ac9981c.jpeg">
+            <img src="images/IMG_0413.jpeg">
+            <img src="images/3dafce51-cfde-4746-9112-f214c3e11.jpeg">
+            <img src="images/468e0e3b-cbc9-49a8-a4f3-9874b0.jpeg">
+            <img src="images/66a65ac3-bc0e-4c0e-83ef-63d653d.jpeg">
+            <img src="images/31f14a18-3ecf-466d-97f6-350c24db.jpeg">
+            <img src="images/IMG_4945.jpeg">
+            <img src="images/IMG_5003.jpeg">
+            <img src="images/IMG_8777.jpeg">
+
+        </div>
+
+        <div class="arrow arrow-left">&#10094;</div>
+        <div class="arrow arrow-right">&#10095;</div>
     </div>
-    <div class="arrow arrow-left">&#10094;</div>
-    <div class="arrow arrow-right">&#10095;</div>
-</div>
 
     <!-- Contador -->
     <div class="counter" id="contador"></div>
@@ -259,13 +329,52 @@ div.event.visible {
 window.addEventListener('load', () => {
     setTimeout(() => { 
         document.getElementById('loader').style.display = 'none'; 
-    }, 2000); // duración animación carga 2s
+    }, 2000);
 });
 
 // ---------------- Confirmación ----------------
 document.getElementById('openBtn').addEventListener('click', () => {
     document.getElementById('confirm').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
+});
+
+// ---------------- Reproductor de música ----------------
+const audio = new Audio("images/musica.mp3");
+audio.loop = true;
+
+const playConfirm = document.getElementById("playBtnConfirm");
+const playMain = document.getElementById("playBtnMain");
+
+const volConfirm = document.getElementById("volConfirm");
+const volMain = document.getElementById("volMain");
+
+volConfirm.value = 0.5;
+volMain.value = 0.5;
+audio.volume = 0.5;
+
+function togglePlay(btn1, btn2){
+    if(audio.paused){
+        audio.play();
+        btn1.textContent = "⏸️";
+        btn2.textContent = "⏸️";
+    } else {
+        audio.pause();
+        btn1.textContent = "▶️";
+        btn2.textContent = "▶️";
+    }
+}
+
+playConfirm.addEventListener("click", ()=> togglePlay(playConfirm, playMain));
+playMain.addEventListener("click", ()=> togglePlay(playMain, playConfirm));
+
+volConfirm.addEventListener("input", ()=>{
+    audio.volume = volConfirm.value;
+    volMain.value = volConfirm.value;
+});
+
+volMain.addEventListener("input", ()=>{
+    audio.volume = volMain.value;
+    volConfirm.value = volMain.value;
 });
 
 // ---------------- Fondo de emojis ----------------
@@ -282,7 +391,7 @@ for(let i=0;i<100;i++){
     emojiContainer.appendChild(e);
 }
 
-// ---------------- Carrusel con slide ----------------
+// ---------------- Carrusel ----------------
 const track = document.querySelector('.carousel-track');
 const slides = Array.from(track.children);
 let currentIndex = 0;
@@ -306,7 +415,7 @@ setInterval(()=>{
     moveToSlide(currentIndex);
 },5000);
 
-// Touch gestures
+// Touch
 let startX=0;
 const carousel = document.getElementById('carousel');
 carousel.addEventListener('touchstart', e=>{ startX = e.touches[0].clientX; });
@@ -320,8 +429,7 @@ carousel.addEventListener('touchend', e=>{
 
 // ---------------- Contador ----------------
 const contador=document.getElementById('contador');
-// Fecha de inicio en Madrid (CET)
-const startDate = new Date('2025-07-02T00:00:00+01:00'); 
+const startDate = new Date('2025-07-02T00:00:00+02:00');
 
 function updateCounter(){
     const now = new Date();
@@ -337,7 +445,7 @@ function updateCounter(){
 setInterval(updateCounter,1000);
 updateCounter();
 
-// ---------------- Timeline fade-in ----------------
+// ---------------- Timeline ----------------
 const events = document.querySelectorAll('.event');
 function checkVisibility(){
     const triggerBottom = window.innerHeight * 0.85;
@@ -349,5 +457,6 @@ function checkVisibility(){
 window.addEventListener('scroll', checkVisibility);
 window.addEventListener('load', checkVisibility);
 </script>
+
 </body>
 </html>
