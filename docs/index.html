@@ -1,488 +1,606 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Los mejores 6 meses de mi vida</title>
-<style>
-/* ---------- Variables y reset ---------- */
-:root{
-  --bg: #FFD6E0;
-  --accent: #4CAF50;
-  --text: #2b2b2b;
-  --glass: rgba(255,255,255,0.65);
-  --glass-strong: rgba(255,255,255,0.85);
-  --card-shadow: 0 10px 28px rgba(0,0,0,0.12);
-  --rounded: 14px;
-}
-*{box-sizing:border-box}
-html,body{height:100%; overflow-x:hidden;}
-body{
-  margin:0;
-  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-  background: var(--bg);
-  color:var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  -webkit-touch-callout:none;
-}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Los mejores 6 meses de mi vida</title>
+    <style>
+        /* ---------- Variables y reset ---------- */
+        :root{
+            --bg: #FFD6E0;
+            --accent: #4CAF50;
+            --text: #2b2b2b;
+            --glass: rgba(255,255,255,0.65);
+            --glass-strong: rgba(255,255,255,0.85);
+            --card-shadow: 0 10px 28px rgba(0,0,0,0.12);
+            --rounded: 14px;
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%; overflow-x:hidden;}
+        body{ 
+            margin:0; 
+            font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif; 
+            background: var(--bg); 
+            color:var(--text); 
+            -webkit-font-smoothing:antialiased; 
+            -moz-osx-font-smoothing:grayscale; 
+            -webkit-touch-callout:none; 
+        }
 
-/* ---------- Fondo emojis ---------- */
-#emoji-bg{ position:fixed; inset:0; z-index:-3; pointer-events:none; overflow:hidden; }
-.emoji{ position:absolute; opacity:0.07; font-size: calc(14px + 1.4vw); transform-origin:center; animation: float linear infinite; }
-@keyframes float{
-  from{ transform: translateY(110vh) rotate(0deg); }
-  to{ transform: translateY(-10vh) rotate(360deg); }
-}
+        /* ---------- Fondo emojis ---------- */
+        #emoji-bg{ 
+            position:fixed; 
+            inset:0; 
+            z-index:-3; 
+            pointer-events:none; 
+            overflow:hidden; 
+        }
+        .emoji{ 
+            position:absolute; 
+            opacity:0.07; 
+            font-size: calc(14px + 1.4vw); 
+            transform-origin:center; 
+            animation: float linear infinite; 
+        }
+        @keyframes float{ 
+            from{ 
+                transform: translateY(110vh) rotate(0deg); 
+            } 
+            to{ 
+                transform: translateY(-10vh) rotate(360deg); 
+            } 
+        }
 
-/* ---------- Loader ---------- */
-#loader{
-  position:fixed; inset:0;
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  background:linear-gradient(180deg,rgba(255,214,224,0.98),var(--bg));
-  z-index:9999;
-  transition: opacity .5s ease, visibility .5s;
-}
-#loader.hidden{ opacity:0; visibility:hidden; }
-#loader span{ font-size:3rem; animation:pulse 1.6s infinite; }
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+        /* ---------- Loader ---------- */
+        #loader{ 
+            position:fixed; 
+            inset:0; 
+            display:flex; 
+            flex-direction:column; 
+            align-items:center; 
+            justify-content:center; 
+            background:linear-gradient(180deg,rgba(255,214,224,0.98),var(--bg)); 
+            z-index:9999; 
+            transition: opacity .5s ease, visibility .5s; 
+        }
+        #loader.hidden{ 
+            opacity:0; 
+            visibility:hidden; 
+        }
+        #loader span{ 
+            font-size:3rem; 
+            animation:pulse 1.6s infinite; 
+        }
+        @keyframes pulse{
+            0%,100%{transform:scale(1)}
+            50%{transform:scale(1.12)}
+        }
 
-/* ---------- Confirm ---------- */
-#confirm{ position:fixed; inset:0; display:grid; place-items:center; z-index:9998; padding:20px; }
-.confirm-card{
-  width:100%; max-width:520px; border-radius:18px;
-  padding:18px;
-  background:linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0.5));
-  box-shadow:var(--card-shadow);
-  backdrop-filter:blur(6px);
-  display:flex; flex-direction:column; gap:12px; align-items:center;
-}
+        /* ---------- Confirm ---------- */
+        #confirm{ 
+            position:fixed; 
+            inset:0; 
+            display:grid; 
+            place-items:center; 
+            z-index:9998; 
+            padding:20px; 
+        }
+        .confirm-card{ 
+            width:100%; 
+            max-width:520px; 
+            border-radius:18px; 
+            padding:18px; 
+            background:linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0.5)); 
+            box-shadow:var(--card-shadow); 
+            backdrop-filter:blur(6px); 
+            display:flex; 
+            flex-direction:column; 
+            gap:12px; 
+            align-items:center; 
+        }
 
-/* ---------- Music player compacto ---------- */
-.compact-player{ display:flex; align-items:center; gap:12px; width:100%; justify-content:center; }
-.cover-wrap{
-  position:relative; width:64px; height:64px; flex:0 0 64px;
-  border-radius:10px; overflow:hidden;
-  box-shadow:0 8px 20px rgba(0,0,0,0.12);
-}
-.cover-wrap img{
-  width:100%; height:100%; object-fit:cover;
-  display:block; transition: transform 0.8s linear;
-}
-.cover-wrap.playing img{
-  animation: rotateCover 6s linear infinite;
-}
-@keyframes rotateCover{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
+        /* ---------- Music player compacto ---------- */
+        .compact-player{ 
+            display:flex; 
+            align-items:center; 
+            gap:12px; 
+            width:100%; 
+            justify-content:center; 
+        }
+        .cover-wrap{ 
+            position:relative; 
+            width:64px; 
+            height:64px; 
+            flex:0 0 64px; 
+            border-radius:10px; 
+            overflow:hidden; 
+            box-shadow:0 8px 20px rgba(0,0,0,0.12); 
+        }
+        .cover-wrap img{ 
+            width:100%; 
+            height:100%; 
+            object-fit:cover; 
+            display:block; 
+            transition: transform 0.8s linear; 
+        }
+        .cover-wrap.playing img{ 
+            animation: rotateCover 6s linear infinite; 
+        }
+        @keyframes rotateCover{ 
+            from{transform:rotate(0)} 
+            to{transform:rotate(360deg)} 
+        }
+        .play-overlay{ 
+            position:absolute; 
+            inset:0; 
+            display:flex; 
+            align-items:center; 
+            justify-content:center; 
+            background:rgba(0,0,0,0.04); 
+        }
+        .play-circle{ 
+            width:36px; 
+            height:36px; 
+            border-radius:50%; 
+            display:grid; 
+            place-items:center; 
+            background:rgba(255,255,255,0.12); 
+            border:2px solid rgba(255,255,255,0.15); 
+            cursor:pointer; 
+            transition:transform .12s; 
+        }
+        .play-circle:active{ 
+            transform:scale(.95); 
+        }
+        .player-meta{ 
+            display:flex; 
+            flex-direction:column; 
+            gap:6px; 
+        }
+        .player-title{ 
+            font-size:0.95rem; 
+            font-weight:700; 
+            margin:0; 
+            white-space:nowrap; 
+            max-width:160px; 
+            overflow:hidden; 
+            text-overflow:ellipsis; 
+        }
+        .player-time{ 
+            font-size:0.86rem; 
+            color:rgba(0,0,0,0.55); 
+        }
+        .small-progress{ 
+            width:150px; 
+            height:6px; 
+            background:linear-gradient(90deg,rgba(0,0,0,0.08),rgba(0,0,0,0.04)); 
+            border-radius:6px; 
+            overflow:hidden; 
+        }
+        .small-progress input[type="range"]{ 
+            width:100%; 
+            -webkit-appearance:none; 
+            appearance:none; 
+            height:6px; 
+            background:linear-gradient(90deg,var(--accent),rgba(76,175,80,.6)); 
+        }
+        .small-progress input[type="range"]::-webkit-slider-thumb{ 
+            -webkit-appearance:none; 
+            width:10px;
+            height:10px;
+            border-radius:50%; 
+            background:white;
+            border:2px solid var(--accent); 
+            margin-top:-2px; 
+        }
 
-.play-overlay{
-  position:absolute; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  background:rgba(0,0,0,0.04);
-}
-.play-circle{
-  width:36px; height:36px;
-  border-radius:50%;
-  display:grid; place-items:center;
-  background:rgba(255,255,255,0.12);
-  border:2px solid rgba(255,255,255,0.15);
-  cursor:pointer;
-  transition:transform .12s;
-}
-.play-circle:active{ transform:scale(.95); }
+        /* ---------- Main ---------- */
+        .container{ 
+            max-width:1100px; 
+            margin:0 auto; 
+            padding:28px 16px 80px; 
+            position:relative; 
+            z-index:1; 
+        }
+        .header{ 
+            display:flex; 
+            justify-content:center; 
+            margin-bottom:18px; 
+        }
+        .title-wrap{ 
+            text-align:center; 
+            margin:10px 0 14px; 
+        }
+        h1{ 
+            font-size:3em; 
+            margin:0; 
+            line-height:1.05; 
+        }
+        p.message{ 
+            font-size:1.1rem; 
+            color:rgba(0,0,0,0.6); 
+            margin:14px 0 22px 
+        }
 
-.player-meta{ display:flex; flex-direction:column; gap:6px; }
-.player-title{ font-size:0.95rem; font-weight:700; margin:0; white-space:nowrap; max-width:160px; overflow:hidden; text-overflow:ellipsis; }
-.player-time{ font-size:0.86rem; color:rgba(0,0,0,0.55); }
+        /* ---------- Carousel (MEJORADO Y FIJO) ---------- */
+        .carousel{ 
+            width:100%; 
+            max-width:820px; 
+            margin:10px auto 28px; 
+            position:relative; 
+            padding:8px; 
+        }
+        .carousel-stage{ 
+            position:relative; 
+            display:flex; 
+            align-items:center; 
+            justify-content:center; 
+            height:360px; 
+            min-height:360px; 
+            overflow:hidden; 
+        }
+        .slide{ 
+            position:absolute; 
+            inset:0; 
+            display:flex; 
+            align-items:center; 
+            justify-content:center; 
+            opacity:0; 
+            transition: opacity .8s ease; 
+        }
+        .slide.active{ 
+            opacity:1; 
+        }
 
-.small-progress{
-  width:150px; height:6px;
-  background:linear-gradient(90deg,rgba(0,0,0,0.08),rgba(0,0,0,0.04));
-  border-radius:6px; overflow:hidden;
-}
-.small-progress input[type="range"]{
-  width:100%; -webkit-appearance:none; appearance:none;
-  height:6px;
-  background:linear-gradient(90deg,var(--accent),rgba(76,175,80,.6));
-}
-.small-progress input[type="range"]::-webkit-slider-thumb{
-  -webkit-appearance:none;
-  width:10px;height:10px;border-radius:50%;
-  background:white;border:2px solid var(--accent);
-  margin-top:-2px;
-}
+        /* Imagen suave, centrada, sin recortes */
+        .slide img{ 
+            width:auto; 
+            height:auto; 
+            max-width:100%; 
+            max-height:100%; 
+            object-fit:contain; 
+            border-radius:12px; 
+            box-shadow:0 12px 30px rgba(0,0,0,.12); 
+        }
 
-/* ---------- Main ---------- */
-.container{ max-width:1100px; margin:0 auto; padding:28px 16px 80px; position:relative; z-index:1; }
+        /* Flechas */
+        .arrow button{ 
+            background:var(--glass-strong); 
+            border-radius:50%; 
+            border:none; 
+            width:44px; 
+            height:44px; 
+            display:grid; 
+            place-items:center; 
+            box-shadow:var(--card-shadow); 
+        }
+        .arrow-left{ 
+            position:absolute; 
+            top:50%; 
+            left:6px; 
+            transform:translateY(-50%); 
+        }
+        .arrow-right{ 
+            position:absolute; 
+            top:50%; 
+            right:6px; 
+            transform:translateY(-50%); 
+        }
 
-.header{ display:flex; justify-content:center; margin-bottom:18px; }
+        /* ---------- Timeline ---------- */
+        .timeline{ 
+            max-width:820px; 
+            margin:10px auto; 
+            display:flex; 
+            flex-direction:column; 
+            gap:12px; 
+        }
+        .event{ 
+            background:linear-gradient(180deg,rgba(255,255,255,0.7),rgba(255,255,255,0.55)); 
+            border-radius:12px; 
+            padding:12px 14px; 
+            box-shadow:var(--card-shadow); 
+            border-left:4px solid var(--accent); 
+            opacity:0; 
+            transform:translateY(20px); 
+            transition:all .5s ease; 
+            display:flex; 
+            gap:12px; 
+        }
+        .event.visible{ 
+            opacity:1; 
+            transform:none; 
+        }
+        .dot{ 
+            width:12px;
+            height:12px;
+            border-radius:50%;
+            background:var(--accent);
+            margin-top:6px; 
+        }
 
-.title-wrap{ text-align:center; margin:10px 0 14px; }
-h1{ font-size:3em; margin:0; line-height:1.05; }
-p.message{ font-size:1.1rem; color:rgba(0,0,0,0.6); margin:14px 0 22px }
-
-/* ---------- Carousel (MEJORADO Y FIJO) ---------- */
-.carousel{
-  width:100%; max-width:820px;
-  margin:10px auto 28px;
-  position:relative; padding:8px;
-}
-
-.carousel-stage{
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  height:360px;
-  min-height:360px;
-  overflow:hidden;
-}
-
-.slide{
-  position:absolute; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  opacity:0;
-  transition: opacity .8s ease;
-}
-.slide.active{ opacity:1; }
-
-/* Imagen suave, centrada, sin recortes */
-.slide img{
-  width:auto; height:auto;
-  max-width:100%; max-height:100%;
-  object-fit:contain;
-  border-radius:12px;
-  box-shadow:0 12px 30px rgba(0,0,0,.12);
-}
-
-/* Flechas */
-.arrow button{
-  background:var(--glass-strong);
-  border-radius:50%; border:none;
-  width:44px; height:44px;
-  display:grid; place-items:center;
-  box-shadow:var(--card-shadow);
-}
-.arrow-left{ position:absolute; top:50%; left:6px; transform:translateY(-50%); }
-.arrow-right{ position:absolute; top:50%; right:6px; transform:translateY(-50%); }
-
-/* ---------- Timeline ---------- */
-.timeline{ max-width:820px; margin:10px auto; display:flex; flex-direction:column; gap:12px; }
-.event{
-  background:linear-gradient(180deg,rgba(255,255,255,0.7),rgba(255,255,255,0.55));
-  border-radius:12px; padding:12px 14px;
-  box-shadow:var(--card-shadow);
-  border-left:4px solid var(--accent);
-  opacity:0; transform:translateY(20px);
-  transition:all .5s ease;
-  display:flex; gap:12px;
-}
-.event.visible{ opacity:1; transform:none; }
-.dot{ width:12px;height:12px;border-radius:50%;background:var(--accent);margin-top:6px; }
-
-/* ---------- Responsive ---------- */
-@media(max-width:720px){
-  h1{ font-size:2.4rem }
-  .cover-wrap{ width:56px; height:56px }
-  .small-progress{ width:120px }
-}
-@media(max-width:420px){
-  h1{ font-size:2rem }
-}
-</style>
+        /* ---------- Responsive ---------- */
+        @media(max-width:720px){ 
+            h1{ 
+                font-size:2.4rem 
+            } 
+            .cover-wrap{ 
+                width:56px; 
+                height:56px 
+            } 
+            .small-progress{ 
+                width:120px 
+            } 
+        }
+        @media(max-width:420px){ 
+            h1{ 
+                font-size:2rem 
+            } 
+        }
+    </style>
 </head>
 <body>
+    <div id="emoji-bg"></div>
 
-<!-- fondo emojis -->
-<div id="emoji-bg"></div>
-
-<!-- loader -->
-<div id="loader">
-  <span>💚</span>
-  <div style="font-weight:600;color:#6b2b2b">Cargando algo muy especial...</div>
-</div>
-
-<!-- confirm -->
-<div id="confirm">
-  <div class="confirm-card">
-    <h2>Ábreme si te gustan los takis 💚</h2>
-
-    <div class="compact-player" id="confirmCompact">
-      <div class="cover-wrap" id="coverWrapConfirm">
-        <img src="images/portada.JPG" id="coverImgConfirm">
-        <div class="play-overlay"><div class="play-circle" id="playOverlayConfirm"></div></div>
-      </div>
-      <div class="player-meta">
-        <div class="player-title">Cancion para acompañar... 🥹</div>
-        <div class="player-time"><span id="timeCurC">0:00</span> / <span id="timeDurC">0:00</span></div>
-        <div class="small-progress"><input id="progressC" type="range" min="0" max="100"></div>
-      </div>
+    <div id="loader"> 
+        <span>💚</span> 
+        <div style="font-weight:600;color:#6b2b2b">Cargando algo muy especial...</div> 
     </div>
 
-    <button id="openBtn">Abrir</button>
-  </div>
-</div>
-
-<!-- MAIN -->
-<div class="container" id="mainContent" style="display:none;">
-
-  <div class="header">
-    <div class="compact-player">
-      <div class="cover-wrap" id="coverWrapMain">
-        <img src="images/portada.JPG" id="coverImgMain">
-        <div class="play-overlay"><div class="play-circle" id="playOverlayMain"></div></div>
-      </div>
-      <div class="player-meta">
-        <div class="player-title">Cancion para acompañar...</div>
-        <div class="player-time"><span id="timeCurM">0:00</span> / <span id="timeDurM">0:00</span></div>
-        <div class="small-progress"><input id="progressM" type="range" min="0" max="100"></div>
-      </div>
+    <div id="confirm"> 
+        <div class="confirm-card"> 
+            <h2>Ábreme si te gustan los takis 💚</h2> 
+            <div class="compact-player" id="confirmCompact"> 
+                <div class="cover-wrap" id="coverWrapConfirm"> 
+                    <img src="images/portada.JPG" id="coverImgConfirm"> 
+                    <div class="play-overlay">
+                        <div class="play-circle" id="playOverlayConfirm"></div>
+                    </div>
+                </div> 
+                <div class="player-meta"> 
+                    <div class="player-title">Cancion para acompañar... 🥹</div> 
+                    <div class="player-time">
+                        <span id="timeCurC">0:00</span> / <span id="timeDurC">0:00</span>
+                    </div> 
+                    <div class="small-progress">
+                        <input id="progressC" type="range" min="0" max="100">
+                    </div> 
+                </div> 
+            </div> 
+            <button id="openBtn">Abrir</button> 
+        </div> 
     </div>
-  </div>
 
-  <div class="title-wrap">
-    <h1>¿Te creías que el concierto era lo único que iba a regalarte?</h1>
-    <p class="message">TEXTO</p>
-    <p class="message">1. Porque contigo puedo ser realmente yo, y me sacas una sonrisa hasta cuando nadie puede hacerme sonreír</p>
-    <p class="message">2. Porque tienes el alma más pura que he visto nunca, y todo lo haces con una sonrisa que alegra hasta el peor de los días</p>
-    <p class="message">3. Porque me haces la persona más feliz del mundo y estoy muy orgulloso de ti ❤️</p>
-    <p class="message">4. Porque dia a dia te esfuerzas por hacer y decir cosas que no te apetecen o no son lo que más quieres 🥹❤️</p>
-    <p class="message">5. Porque me incluyes en todo y me haces sentirme DEMASIADO cómodo y feliz en todo momento que paso contigo😁😇❤️😋</p>
-    <p class="message">6. Porque si tengo que aprender de alguien, es de ti. Eres la hermana que todo hermano querría tener, la hija que todo padre y la nieta que todo abuelo (No pongo novia porque aunque cualquier hombre querría, u r mine)</p>
-    <p class="message">7. Porque ahora que me he parado a pensarlo, mi suerte no es nada de 1 entre 1.000.000 ni nada por el estilo. Eres 1/1 y eso demuestra que no puedo tener mucha más suerte. No puedes ser mejor hermana mayor. Gracias por incluirme en tu familia, apoyarme y hacer que aprenda a ser una mejor persona día a día ❤️</p>
-    <p class="message">8. Porque siempre sacas lo mejor de mí y me valoras mucho. Porque haces hasta las cosas que menos pueden apetecerte, algo que habla mucho y muy bien de quien y como eres</p>
-    <p class="message">9. Porque no solo eres mi novia, sino que también mi mejor amiga y la persona con la que quiero hacerlo todo, incluso hacer nada. Y si esto es así, es por cómo eres. De buena, de maja, de considerada, de risueña, interesante, amigable, guapa, atenta, lista, te esfuerzas y haces todo lo mejor posible. Además, mensajes como el que te respondo hacen mucho, ya que hasta con la idea de que no iba a hacer más me has hecho ponerme a las 11 a terminar 3 ejercicios... en fin. 🩷</p>
-    <p class="message">10. Porque gracias a ti, lo que me valoras y cuanto me haces saberlo para que me valore a mí mismo, el problema de sobrepensarlo todo va cada vez a menos. Y, en caso de darme, se que tengo una persona para hablar eso o cualquier cosa, y además es alguien en quien no puedo confiar más🤗❤️</p>
-    <p class="message">11. Porque te admiro.</p>
-    <p class="message">12. Porque no solo me duermo y me despierto pensando y hablandote/leyendo mensajes tuyos, si no que también me miro a la muñeca y veo un detalle que vale más que mucho dinero. Miro a la lámpara y hay otro. En mi armario? Otros dos. En otra caja, chocolates de tu primer partido del Madrid. Todos esos detalles que te parecen "tonterías" pero que aún así las haces, como podrás ver me importan y mucho, y te lo intento agradecer pero igual no lo suficiente. (Aun no sabes porque empieza todo por porque). 😁❤️</p>
-    <p class="message">13. Porque cualquier día es automáticamente bueno si estoy o voy a quedar contigo</p>
-    <p class="message">15. Dos semanas mandándote mensaje diario cutie. Fin? Jejeje. Siempre gracias pero tenía que añadir hoy que amo como cantas y como te sabes las letras y lo bien que cantas y entonces y pronuncias y entiendes. Todo ❤️❤️❤️❤️. Te quiero, good night peque, descansa 💚</p>
-    <p class="message">14. No empiezo por porque pero si que explico. Si he empezado estos mensajes así al principio pensaba que era para decirte luego en plan porque te quiero. Pero muy basic no? Ahora creo que pueden haber sido razones (sencillas) que explican porque admiro y quiero, y agradezco a Carlota.
-<br> Es importante recordar lo que me dijo tu abuelo también al conocerle, y toda la razón que tenía.<br>
-Agradezco que me hagas una persona mejor cada día que pasa, agradezco que te preocupes, que seas atenta, que te esfuerces por expresarte. En fin, todo esto te lo he dicho ya en alguno de los 14 mensajes previos. <br>
- Con motivo de ayer y algo que he pensado bastante inconscientemente, uso este mensaje para explicar otra vez porque estoy contigo y no con "otra" como me preguntabas ayer. <br>
-Otra, no me hace feliz. Otra, no me importa como haces tú. Otra no tiene la sonrisa bonita que tienes tú, ni los ojos oscuros pero en los que me veo reflejado cuando me miras, o tú pelo marrón/negro (depende de la luz) que siempre está perfecto y onduladito que tanto me gusta, ni tu habilidad para hacer una foto patata. Tampoco tiene los valores ni la educación que tienes tú. Ni tu forma de ser que TANTO me gusta y TANTO disfruto todos los días y que agradezco. <br>
-Tampoco tienen tu fe, ni la transmiten, ni vive orgullosa de ella como haces tú y algo de lo que estoy muy orgulloso y feliz. <br>
-No tiene esa atención al detalle que me has demostrado tener pese a decir que no te acuerdas de las cosas y eres "menos atenta". <br>
-No canta ni tanto ni tan bien. No me atrae como haces tú. No me importa como me importas tú. No me trata como me tratas tú. <br>
-No me ayuda ni me tranquiliza como haces tú.</p>
+    <div class="container" id="mainContent" style="display:none;"> 
+        <div class="header"> 
+            <div class="compact-player"> 
+                <div class="cover-wrap" id="coverWrapMain"> 
+                    <img src="images/portada.JPG" id="coverImgMain"> 
+                    <div class="play-overlay">
+                        <div class="play-circle" id="playOverlayMain"></div>
+                    </div>
+                </div> 
+                <div class="player-meta"> 
+                    <div class="player-title">Cancion para acompañar...</div> 
+                    <div class="player-time">
+                        <span id="timeCurM">0:00</span> / <span id="timeDurM">0:00</span>
+                    </div> 
+                    <div class="small-progress">
+                        <input id="progressM" type="range" min="0" max="100">
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+        <div class="title-wrap"> 
+            <h1>¿Te creías que el concierto era lo único que iba a regalarte?</h1> 
+            <p class="message">TEXTO</p> 
+            <p class="message">1. Porque contigo puedo ser realmente yo, y me sacas una sonrisa hasta cuando nadie puede hacerme sonreír</p> 
+            <p class="message">2. Porque tienes el alma más pura que he visto nunca, y todo lo haces con una sonrisa que alegra hasta el peor de los días</p> 
+            <p class="message">3. Porque me haces la persona más feliz del mundo y estoy muy orgulloso de ti ❤️</p> 
+            <p class="message">4. Porque dia a dia te esfuerzas por hacer y decir cosas que no te apetecen o no son lo que más quieres 🥹❤️</p> 
+            <p class="message">5. Porque me incluyes en todo y me haces sentirme DEMASIADO cómodo y feliz en todo momento que paso contigo😁😇❤️😋</p> 
+            <p class="message">6. Porque si tengo que aprender de alguien, es de ti. Eres la hermana que todo hermano querría tener, la hija que todo padre y la nieta que todo abuelo (No pongo novia porque aunque cualquier hombre querría, u r mine)</p> 
+            <p class="message">7. Porque ahora que me he parado a pensarlo, mi suerte no es nada de 1 entre 1.000.000 ni nada por el estilo. Eres 1/1 y eso demuestra que no puedo tener mucha más suerte. No puedes ser mejor hermana mayor. Gracias por incluirme en tu familia, apoyarme y hacer que aprenda a ser una mejor persona día a día ❤️</p> 
+            <p class="message">8. Porque siempre sacas lo mejor de mí y me valoras mucho. Porque haces hasta las cosas que menos pueden apetecerte, algo que habla mucho y muy bien de quien y como eres</p> 
+            <p class="message">9. Porque no solo eres mi novia, sino que también mi mejor amiga y la persona con la que quiero hacerlo todo, incluso hacer nada. Y si esto es así, es por cómo eres. De buena, de maja, de considerada, de risueña, interesante, amigable, guapa, atenta, lista, te esfuerzas y haces todo lo mejor posible. Además, mensajes como el que te respondo hacen mucho, ya que hasta con la idea de que no iba a hacer más me has hecho ponerme a las 11 a terminar 3 ejercicios... en fin. 🩷</p> 
+            <p class="message">10. Porque gracias a ti, lo que me valoras y cuanto me haces saberlo para que me valore a mí mismo, el problema de sobrepensarlo todo va cada vez a menos. Y, en caso de darme, se que tengo una persona para hablar eso o cualquier cosa, y además es alguien en quien no puedo confiar más🤗❤️</p> 
+            <p class="message">11. Porque te admiro.</p> 
+            <p class="message">12. Porque no solo me duermo y me despierto pensando y hablandote/leyendo mensajes tuyos, si no que también me miro a la muñeca y veo un detalle que vale más que mucho dinero. Miro a la lámpara y hay otro. En mi armario? Otros dos. En otra caja, chocolates de tu primer partido del Madrid. Todos esos detalles que te parecen "tonterías" pero que aún así las haces, como podrás ver me importan y mucho, y te lo intento agradecer pero igual no lo suficiente. (Aun no sabes porque empieza todo por porque). 😁❤️</p> 
+            <p class="message">13. Porque cualquier día es automáticamente bueno si estoy o voy a quedar contigo</p> 
+            <p class="message">15. Dos semanas mandándote mensaje diario cutie. Fin? Jejeje. Siempre gracias pero tenía que añadir hoy que amo como cantas y como te sabes las letras y lo bien que cantas y entonces y pronuncias y entiendes. Todo ❤️❤️❤️❤️. Te quiero, good night peque, descansa 💚</p> 
+            <p class="message">14. No empiezo por porque pero si que explico. Si he empezado estos mensajes así al principio pensaba que era para decirte luego en plan porque te quiero. Pero muy basic no? Ahora creo que pueden haber sido razones (sencillas) que explican porque admiro y quiero, y agradezco a Carlota. <br> Es importante recordar lo que me dijo tu abuelo también al conocerle, y toda la razón que tenía.<br> Agradezco que me hagas una persona mejor cada día que pasa, agradezco que te preocupes, que seas atenta, que te esfuerces por expresarte. En fin, todo esto te lo he dicho ya en alguno de los 14 mensajes previos. <br> Con motivo de ayer y algo que he pensado bastante inconscientemente, uso este mensaje para explicar otra vez porque estoy contigo y no con "otra" como me preguntabas ayer. <br> Otra, no me hace feliz. Otra, no me importa como haces tú. Otra no tiene la sonrisa bonita que tienes tú, ni los ojos oscuros pero en los que me veo reflejado cuando me miras, o tú pelo marrón/negro (depende de la luz) que siempre está perfecto y onduladito que tanto me gusta, ni tu habilidad para hacer una foto patata. Tampoco tiene los valores ni la educación que tienes tú. Ni tu forma de ser que TANTO me gusta y TANTO disfruto todos los días y que agradezco. <br> Tampoco tienen tu fe, ni la transmiten, ni vive orgullosa de ella como haces tú y algo de lo que estoy muy orgulloso y feliz. <br> No tiene esa atención al detalle que me has demostrado tener pese a decir que no te acuerdas de las cosas y eres "menos atenta". <br> No canta ni tanto ni tan bien. No me atrae como haces tú. No me importa como me importas tú. No me trata como me tratas tú. <br> No me ayuda ni me tranquiliza como haces tú.</p> 
+        </div>
 
-  </div>
+        <div class="carousel"> 
+            <div class="arrow-left">
+                <button id="prevBtn">‹</button>
+            </div> 
+            <div class="carousel-stage" id="stage"> 
+                <div class="slide active"><img src="images/IMG_8777.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_7604.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_7567.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_7372.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_5003.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_1427.jpeg"></div> 
+                <div class="slide"><img src="images/f52fc0bf-7153-43cc-abdc-201a14e7431c.jpeg"></div> 
+                <div class="slide"><img src="images/f051fdc8-7e2a-46e3-a65c-d632f135f325.jpeg"></div> 
+                <div class="slide"><img src="images/bc9a39ed-631b-43f8-9a86-ca373ff34698.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_1204.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_1113.jpeg"></div> 
+                <div class="slide"><img src="images/a35975e2-9ba2-42fe-8fdf-ab06c0f87336.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_1097.jpeg"></div> 
+                <div class="slide"><img src="images/894dc007-6d33-4bd4-bef9-0f419769eb58.jpeg"></div> 
+                <div class="slide"><img src="images/7fa3e78a-31ea-4964-b4c9-bf778241b46a.jpeg"></div> 
+                <div class="slide"><img src="images/3dafce51-cfde-4746-9112-f214c3e11876.jpeg"></div> 
+                <div class="slide"><img src="images/31f14a18-3ecf-466d-97f6-350c24dbdbc5.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_0991.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_0951.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_0594.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_0567.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_0411.jpeg"></div> 
+                <div class="slide"><img src="images/IMG_0056.jpeg"></div> 
+                <div class="slide"><img src="images/2bb2426c-6cda-4f0a-adcf-d5f0ac3bfd09.jpeg"></div> 
+                <div class="slide"><img src="images/24f8cb99-1774-441a-9c2a-ba494afdbec9.jpeg"></div> 
+            </div> 
+            <div class="arrow-right">
+                <button id="nextBtn">›</button>
+            </div> 
+        </div>
 
-  <!-- CARRUSEL -->
-  <div class="carousel">
-    <div class="arrow-left"><button id="prevBtn">‹</button></div>
-    <div class="carousel-stage" id="stage">
-      <!-- TUS IMÁGENES, NO CAMBIADAS -->
-      <div class="slide active"><img src="images/IMG_8777.jpeg"></div>
-      <div class="slide"><img src="images/IMG_7604.jpeg"></div>
-      <div class="slide"><img src="images/IMG_7567.jpeg"></div>
-      <div class="slide"><img src="images/IMG_7372.jpeg"></div>
-      <div class="slide"><img src="images/IMG_5003.jpeg"></div>
-      <div class="slide"><img src="images/IMG_1427.jpeg"></div>
-      <div class="slide"><img src="images/f52fc0bf-7153-43cc-abdc-201a14e7431c.jpeg"></div>
-      <div class="slide"><img src="images/f051fdc8-7e2a-46e3-a65c-d632f135f325.jpeg"></div>
-      <div class="slide"><img src="images/bc9a39ed-631b-43f8-9a86-ca373ff34698.jpeg"></div>
-      <div class="slide"><img src="images/IMG_1204.jpeg"></div>
-      <div class="slide"><img src="images/IMG_1113.jpeg"></div>
-      <div class="slide"><img src="images/a35975e2-9ba2-42fe-8fdf-ab06c0f87336.jpeg"></div>
-      <div class="slide"><img src="images/IMG_1097.jpeg"></div>
-      <div class="slide"><img src="images/894dc007-6d33-4bd4-bef9-0f419769eb58.jpeg"></div>
-      <div class="slide"><img src="images/7fa3e78a-31ea-4964-b4c9-bf778241b46a.jpeg"></div>
-      <div class="slide"><img src="images/3dafce51-cfde-4746-9112-f214c3e11876.jpeg"></div>
-      <div class="slide"><img src="images/31f14a18-3ecf-466d-97f6-350c24dbdbc5.jpeg"></div>
-      <div class="slide"><img src="images/IMG_0991.jpeg"></div>
-      <div class="slide"><img src="images/IMG_0951.jpeg"></div>
-      <div class="slide"><img src="images/IMG_0594.jpeg"></div>
-      <div class="slide"><img src="images/IMG_0567.jpeg"></div>
-      <div class="slide"><img src="images/IMG_0411.jpeg"></div>
-      <div class="slide"><img src="images/IMG_0056.jpeg"></div>
-      <div class="slide"><img src="images/2bb2426c-6cda-4f0a-adcf-d5f0ac3bfd09.jpeg"></div>
-      <div class="slide"><img src="images/24f8cb99-1774-441a-9c2a-ba494afdbec9.jpeg"></div>
+        <div style="text-align:center;font-weight:700;font-size:1.1rem;margin-top:20px;"> 
+            <div style="font-size:1.4rem; margin-bottom:6px;">FUN FACT! Sabes que llevamos saliendo...</div> 
+            <div id="contador"></div> 
+        </div>
+
+        <div class="timeline" id="timeline"> 
+            <div class="event"><div class="dot"></div><div><div class="date">31 de Mayo de 2025</div><div class="desc">Conocí a la persona más imporante (TÚ, por si acaso)</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">3 de Junio de 2025</div><div class="desc">Nuestra primera cita (y caminata jeje)</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">9 de Junio de 2025</div><div class="desc">Tu primera visita a Tiki Tako (y cócteles)</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">21 de Junio de 2025</div><div class="desc">Primera vez que se rompió tu móvil bien (Portugal)</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">2 de Julio 2025</div><div class="desc">Empezamos a salir.</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">5 de Julio 2025</div><div class="desc">Nuestra primera foto juntos (en el RIU)</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">29 de Julio 2025</div><div class="desc">REENCUENTRO POST Honduras (y primera vez en tu casa) </div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">10 de Agosto 2025</div><div class="desc">Día juntos en Santander (y primera vez juntos en misa + conocí a tu padre)</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">20 de Agosto 2025</div><div class="desc">Primer partido del Bernabeu (noche de despues), reenctro y tren a Torrelavega</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">5 de Septiembre 2025</div><div class="desc">CONOCISTE A MIS PADRES!!!!!</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">7 de Septiembre 2025</div><div class="desc">CONOCÍ A TU FAMILIA!!!!! (excepto a Ale)</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">20 de Septiembre 2025</div><div class="desc">Conociste a TODA mi familia</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">25 de Septiembre 2025</div><div class="desc">Conocí a TODA tu familia (kinda)</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">28 de Septiembre 2025</div><div class="desc">Conocí a tus amigas de la UNI (todas, cumple Violeta)</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">10 de Octubre 2025</div><div class="desc">Primera sesión de Baking (Brookies!!)</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">11 de Octubre 2025</div><div class="desc">Primeras flores (MIRA QUE ME COSTÓ AGHH)</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">13 de Octubre 2025</div><div class="desc">TEÓRICO CHECK</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">16 de Octubre 2025</div><div class="desc">Musical REY LEÓN!</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">30 de Octubre 2025</div><div class="desc">NUESTRO PRIMER VIAJE - LONDON!</div></div></div> 
+            <div class="event"><div class="dot"></div><div><div class="date">15 de Noviembre 2025</div><div class="desc">TOEFL CHECK (y Crisantemos blancos)</div></div></div> 
+        </div> 
     </div>
-    <div class="arrow-right"><button id="nextBtn">›</button></div>
-  </div>
 
-  <!-- CONTADOR -->
-<div style="text-align:center; margin-top:20px;">
-  <div style="font-size:1.4rem; margin-bottom:10px; font-weight:700;">FUN FACT! Sabes que llevamos saliendo...</div>
-  <div id="contador" class="contador-card"></div>
-</div>
+    <script> 
+        /* emojis */ 
+        (function(){ 
+            const container = document.getElementById('emoji-bg'); 
+            const hearts=['💚','💖']; 
+            for(let i=0;i<25;i++){ 
+                const e=document.createElement('div'); 
+                e.className='emoji'; 
+                e.textContent=hearts[Math.floor(Math.random()*hearts.length)]; 
+                e.style.left=Math.random()*100+'%'; 
+                e.style.top=Math.random()*100+'%'; 
+                e.style.opacity=(0.04+Math.random()*0.08); 
+                e.style.fontSize=(12+Math.random()*36)+'px'; 
+                e.style.animationDuration=(20+Math.random()*22)+'s'; 
+                container.appendChild(e); 
+            } 
+        })(); 
 
-<style>
-/* Contador bonito */
-.contador-card{
-  display: inline-block;
-  padding: 16px 28px;
-  background: linear-gradient(135deg, #FFDEE9, #B5FFFC);
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #2b2b2b;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: pulse 2s infinite;
-}
+        /* loader */ 
+        window.addEventListener('load',()=>{ 
+            setTimeout(()=>document.getElementById('loader').classList.add('hidden'),2000); 
+        }); 
 
-/* Animación sutil */
-@keyframes pulse{
-  0%, 100% { transform: scale(1); box-shadow: 0 8px 24px rgba(0,0,0,0.18);}
-  50% { transform: scale(1.03); box-shadow: 0 12px 28px rgba(0,0,0,0.22);}
-}
-</style>
+        /* confirm */ 
+        document.getElementById('openBtn').onclick=()=>{ 
+            document.getElementById('confirm').style.display='none'; 
+            document.getElementById('mainContent').style.display='block'; 
+        }; 
 
-<script>
-const startDate = new Date('2025-07-02T00:00:00+02:00');
-const contador = document.getElementById('contador');
+        /* audio */ 
+        const audio=new Audio("images/musica.mp3"); 
+        audio.preload='metadata'; 
+        const playOverlayConfirm=document.getElementById('playOverlayConfirm'); 
+        const playOverlayMain=document.getElementById('playOverlayMain'); 
+        const coverWrapConfirm=document.getElementById('coverWrapConfirm'); 
+        const coverWrapMain=document.getElementById('coverWrapMain'); 
+        const progressC=document.getElementById('progressC'); 
+        const progressM=document.getElementById('progressM'); 
+        const timeCurC=document.getElementById('timeCurC'); 
+        const timeCurM=document.getElementById('timeCurM'); 
+        const timeDurC=document.getElementById('timeDurC'); 
+        const timeDurM=document.getElementById('timeDurM'); 
 
-function updateContador() {
-  const now = new Date();
-  let diff = Math.floor((now - startDate)/1000);
-  const d = Math.floor(diff/86400); diff %= 86400;
-  const h = Math.floor(diff/3600); diff %= 3600;
-  const m = Math.floor(diff/60); const s = diff%60;
-  contador.textContent = `${d} días — ${h} h ${m} m ${s} s`;
-}
+        function fmt(s){ 
+            if(!isFinite(s)) return '0:00'; 
+            const m=Math.floor(s/60); 
+            const sec=Math.floor(s%60).toString().padStart(2,'0'); 
+            return `${m}:${sec}`;
+        } 
 
-updateContador();
-setInterval(updateContador, 1000);
-</script>
+        function setPlayingUI(play){ 
+            coverWrapConfirm.classList.toggle('playing',play); 
+            coverWrapMain.classList.toggle('playing',play); 
+            const svgPlay='<svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9z" fill="#fff"/></svg>'; 
+            const svgPause='<svg width="14" height="14" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" fill="#fff"/><rect x="14" y="5" width="4" height="14" fill="#fff"/></svg>'; 
+            playOverlayConfirm.innerHTML=play?svgPause:svgPlay; 
+            playOverlayMain.innerHTML=play?svgPause:svgPlay; 
+        } 
 
-  <!-- EVENTOS -->
-  <div class="timeline" id="timeline">
-    <div class="event"><div class="dot"></div><div><div class="date">31 de Mayo de 2025</div><div class="desc">Conocí a la persona más imporante (TÚ, por si acaso)</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">3 de Junio de 2025</div><div class="desc">Nuestra primera cita (y caminata jeje)</div></div></div>    
-    <div class="event"><div class="dot"></div><div><div class="date">9 de Junio de 2025</div><div class="desc">Tu primera visita a Tiki Tako (y cócteles)</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">21 de Junio de 2025</div><div class="desc">Primera vez que se rompió tu móvil bien (Portugal)</div></div></div>    
-    <div class="event"><div class="dot"></div><div><div class="date">2 de Julio 2025</div><div class="desc">Empezamos a salir.</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">5 de Julio 2025</div><div class="desc">Nuestra primera foto juntos (en el RIU)</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">29 de Julio 2025</div><div class="desc">REENCUENTRO POST Honduras (y primera vez en tu casa) </div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">10 de Agosto 2025</div><div class="desc">Día juntos en Santander (y primera vez juntos en misa + conocí a tu padre)</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">20 de Agosto 2025</div><div class="desc">Primer partido del Bernabeu (noche de despues), reenctro y tren a Torrelavega</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">5 de Septiembre 2025</div><div class="desc">CONOCISTE A MIS PADRES!!!!!</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">7 de Septiembre 2025</div><div class="desc">CONOCÍ A TU FAMILIA!!!!! (excepto a Ale)</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">20 de Septiembre 2025</div><div class="desc">Conociste a TODA mi familia</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">25 de Septiembre 2025</div><div class="desc">Conocí a TODA tu familia (kinda)</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">28 de Septiembre 2025</div><div class="desc">Conocí a tus amigas de la UNI (todas, cumple Violeta)</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">10 de Octubre 2025</div><div class="desc">Primera sesión de Baking (Brookies!!)</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">11 de Octubre 2025</div><div class="desc">Primeras flores (MIRA QUE ME COSTÓ AGHH)</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">13 de Octubre 2025</div><div class="desc">TEÓRICO CHECK</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">16 de Octubre 2025</div><div class="desc">Musical REY LEÓN!</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">30 de Octubre 2025</div><div class="desc">NUESTRO PRIMER VIAJE - LONDON!</div></div></div>
-    <div class="event"><div class="dot"></div><div><div class="date">15 de Noviembre 2025</div><div class="desc">TOEFL CHECK (y Crisantemos blancos)</div></div></div>
-  </div>
+        function togglePlay(){ 
+            audio.paused?(audio.play(),setPlayingUI(true)):(audio.pause(),setPlayingUI(false)); 
+        } 
 
-</div>
+        coverWrapConfirm.onclick=togglePlay; 
+        coverWrapMain.onclick=togglePlay; 
 
-<script>
-/* emojis */
-(function(){
-  const container = document.getElementById('emoji-bg');
-  const hearts=['💚','💖'];
-  for(let i=0;i<25;i++){
-    const e=document.createElement('div');
-    e.className='emoji';
-    e.textContent=hearts[Math.floor(Math.random()*hearts.length)];
-    e.style.left=Math.random()*100+'%';
-    e.style.top=Math.random()*100+'%';
-    e.style.opacity=(0.04+Math.random()*0.08);
-    e.style.fontSize=(12+Math.random()*36)+'px';
-    e.style.animationDuration=(20+Math.random()*22)+'s';
-    container.appendChild(e);
-  }
-})();
+        audio.onloadedmetadata=()=>{ 
+            timeDurC.textContent=fmt(audio.duration); 
+            timeDurM.textContent=fmt(audio.duration); 
+        }; 
 
-/* loader */
-window.addEventListener('load',()=>{
-  setTimeout(()=>document.getElementById('loader').classList.add('hidden'),2000);
-});
+        audio.ontimeupdate=()=>{ 
+            if(!audio.duration)return; 
+            const pct=(audio.currentTime/audio.duration)*100; 
+            progressC.value=pct; 
+            progressM.value=pct; 
+            timeCurC.textContent=fmt(audio.currentTime); 
+            timeCurM.textContent=fmt(audio.currentTime); 
+        }; 
 
-/* confirm */
-document.getElementById('openBtn').onclick=()=>{
-  document.getElementById('confirm').style.display='none';
-  document.getElementById('mainContent').style.display='block';
-};
+        audio.onended=()=>setPlayingUI(false); 
 
-/* audio */
-const audio=new Audio("images/musica.mp3");
-audio.preload='metadata';
+        progressC.oninput=e=>audio.currentTime=(e.target.value/100)*audio.duration; 
+        progressM.oninput=e=>audio.currentTime=(e.target.value/100)*audio.duration; 
 
-const playOverlayConfirm=document.getElementById('playOverlayConfirm');
-const playOverlayMain=document.getElementById('playOverlayMain');
-const coverWrapConfirm=document.getElementById('coverWrapConfirm');
-const coverWrapMain=document.getElementById('coverWrapMain');
-const progressC=document.getElementById('progressC');
-const progressM=document.getElementById('progressM');
-const timeCurC=document.getElementById('timeCurC');
-const timeCurM=document.getElementById('timeCurM');
-const timeDurC=document.getElementById('timeDurC');
-const timeDurM=document.getElementById('timeDurM');
+        /* carousel */ 
+        const slides=[...document.querySelectorAll('.slide')]; 
+        let current=0; 
 
-function fmt(s){ if(!isFinite(s)) return '0:00'; const m=Math.floor(s/60); const sec=Math.floor(s%60).toString().padStart(2,'0'); return `${m}:${sec}`;}
+        function show(i){ 
+            slides.forEach((s,x)=>s.classList.toggle('active',x===i)); 
+            current=i; 
+        } 
 
-function setPlayingUI(play){
-  coverWrapConfirm.classList.toggle('playing',play);
-  coverWrapMain.classList.toggle('playing',play);
-  const svgPlay='<svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9z" fill="#fff"/></svg>';
-  const svgPause='<svg width="14" height="14" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" fill="#fff"/><rect x="14" y="5" width="4" height="14" fill="#fff"/></svg>';
-  playOverlayConfirm.innerHTML=play?svgPause:svgPlay;
-  playOverlayMain.innerHTML=play?svgPause:svgPlay;
-}
+        document.getElementById('prevBtn').onclick=()=>show((current-1+slides.length)%slides.length); 
+        document.getElementById('nextBtn').onclick=()=>show((current+1)%slides.length); 
+        slides.forEach((s,i)=>s.onclick=()=>show((i+1)%slides.length)); 
 
-function togglePlay(){ audio.paused?(audio.play(),setPlayingUI(true)):(audio.pause(),setPlayingUI(false)); }
-coverWrapConfirm.onclick=togglePlay;
-coverWrapMain.onclick=togglePlay;
+        /* contador */ 
+        const startDate=new Date('2025-07-02T00:00:00+02:00'); 
+        const contador=document.getElementById('contador'); 
 
-audio.onloadedmetadata=()=>{
-  timeDurC.textContent=fmt(audio.duration);
-  timeDurM.textContent=fmt(audio.duration);
-};
-audio.ontimeupdate=()=>{
-  if(!audio.duration)return;
-  const pct=(audio.currentTime/audio.duration)*100;
-  progressC.value=pct; progressM.value=pct;
-  timeCurC.textContent=fmt(audio.currentTime);
-  timeCurM.textContent=fmt(audio.currentTime);
-};
-audio.onended=()=>setPlayingUI(false);
+        function update(){ 
+            const now=new Date(); 
+            let diff=Math.floor((now-startDate)/1000); 
+            const d=Math.floor(diff/86400); 
+            diff%=86400; 
+            const h=Math.floor(diff/3600); 
+            diff%=3600; 
+            const m=Math.floor(diff/60); 
+            const s=diff%60; 
+            contador.textContent=`${d} días — ${h} h ${m} m ${s} s`; 
+        } 
+        update(); 
+        setInterval(update,1000); 
 
-progressC.oninput=e=>audio.currentTime=(e.target.value/100)*audio.duration;
-progressM.oninput=e=>audio.currentTime=(e.target.value/100)*audio.duration;
-
-/* carousel */
-const slides=[...document.querySelectorAll('.slide')];
-let current=0;
-function show(i){
-  slides.forEach((s,x)=>s.classList.toggle('active',x===i));
-  current=i;
-}
-document.getElementById('prevBtn').onclick=()=>show((current-1+slides.length)%slides.length);
-document.getElementById('nextBtn').onclick=()=>show((current+1)%slides.length);
-slides.forEach((s,i)=>s.onclick=()=>show((i+1)%slides.length));
-
-/* contador */
-const startDate=new Date('2025-07-02T00:00:00+02:00');
-const contador=document.getElementById('contador');
-function update(){
-  const now=new Date();
-  let diff=Math.floor((now-startDate)/1000);
-  const d=Math.floor(diff/86400); diff%=86400;
-  const h=Math.floor(diff/3600); diff%=3600;
-  const m=Math.floor(diff/60); const s=diff%60;
-  contador.textContent=`${d} días — ${h} h ${m} m ${s} s`;
-}
-update(); setInterval(update,1000);
-
-/* timeline reveal */
-function check(){
-  const t=window.innerHeight*0.85;
-  document.querySelectorAll('.event').forEach(e=>{
-    if(e.getBoundingClientRect().top<t)e.classList.add('visible');
-  });
-}
-window.addEventListener('scroll',check);
-window.addEventListener('load',check);
-</script>
-
+        /* timeline reveal */ 
+        function check(){ 
+            const t=window.innerHeight*0.85; 
+            document.querySelectorAll('.event').forEach(e=>{ 
+                if(e.getBoundingClientRect().top<t)e.classList.add('visible'); 
+            }); 
+        } 
+        window.addEventListener('scroll',check); 
+        window.addEventListener('load',check); 
+    </script>
 </body>
 </html>
