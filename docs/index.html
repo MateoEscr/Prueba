@@ -101,12 +101,22 @@
         }
 
         /* ---------- Music player compacto ---------- */
+        .player-wrapper{
+            display:flex;
+            justify-content:center;
+            margin-bottom: 20px;
+        }
         .compact-player{ 
             display:flex; 
             align-items:center; 
             gap:12px; 
             width:100%; 
+            max-width: fit-content;
             justify-content:center; 
+            padding: 10px 20px;
+            border-radius: var(--rounded);
+            background: var(--glass-strong);
+            box-shadow: var(--card-shadow);
         }
         .cover-wrap{ 
             position:relative; 
@@ -203,27 +213,39 @@
             position:relative; 
             z-index:1; 
         }
-        .header{ 
-            display:flex; 
-            justify-content:center; 
-            margin-bottom:18px; 
-        }
         .title-wrap{ 
             text-align:center; 
-            margin:10px 0 14px; 
+            margin:10px 0 28px; 
         }
         h1{ 
             font-size:3em; 
             margin:0; 
             line-height:1.05; 
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* Sombra sutil para el título */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); 
         }
+        
+        /* Tarjeta general para bloques de texto */
+        .text-card {
+            max-width: 820px;
+            margin: 20px auto 30px;
+            padding: 20px;
+            border-radius: var(--rounded);
+            background: var(--glass-strong);
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(6px);
+            text-align: left; /* Alineación del contenido de la tarjeta */
+        }
+        
         p.message{ 
             font-size:1.1rem; 
-            color:rgba(0,0,0,0.6); 
-            margin:14px auto 22px; /* Centrar párrafos */
-            max-width: 820px;
-            text-align: left;
+            color:rgba(0,0,0,0.7); 
+            margin:14px 0; 
+        }
+        p.message:first-child {
+            margin-top: 0;
+        }
+        p.message:last-child {
+            margin-bottom: 0;
         }
         .message-center{
             text-align: center;
@@ -233,7 +255,7 @@
             max-width: 820px;
         }
 
-        /* ---------- Carousel (MEJORADO Y FIJO) ---------- */
+        /* ---------- Carousel ---------- */
         .carousel{ 
             width:100%; 
             max-width:820px; 
@@ -264,7 +286,6 @@
             opacity:1; 
         }
 
-        /* Imagen suave, centrada, sin recortes */
         .slide img{ 
             width:auto; 
             height:auto; 
@@ -309,8 +330,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px; /* Espacio entre el contador y el texto debajo */
-            margin-bottom: 28px; /* Espacio antes del timeline */
+            gap: 16px; 
+            margin-bottom: 28px; 
         }
         .counter-card{
             width: 100%;
@@ -339,9 +360,15 @@
 
 
         /* ---------- Timeline ---------- */
-        .timeline{ 
+        .timeline-wrapper {
             max-width:820px; 
-            margin:10px auto 30px; /* Margen inferior añadido */
+            margin:10px auto 30px;
+        }
+        .timeline-wrapper .text-card {
+            margin: 0 0 30px 0; /* Ajuste para que la tarjeta de texto dentro no tenga doble margen */
+        }
+
+        .timeline{ 
             display:flex; 
             flex-direction:column; 
             gap:12px; 
@@ -471,7 +498,7 @@
     </div>
 
     <div class="container" id="mainContent" style="display:none;"> 
-        <div class="header"> 
+        <div class="player-wrapper">
             <div class="compact-player"> 
                 <div class="cover-wrap" id="coverWrapMain"> 
                     <img src="images/portada.JPG" id="coverImgMain" alt="Portada de la música"> 
@@ -489,9 +516,13 @@
                     </div> 
                 </div> 
             </div> 
-        </div> 
+        </div>
+
         <div class="title-wrap"> 
             <h1>¿Te creías que el concierto era lo único que iba a regalarte?</h1> 
+        </div>
+
+        <div class="text-card">
             <p class="message">TEXTO</p> 
             <p class="message">1. Porque contigo puedo ser realmente yo, y me sacas una sonrisa hasta cuando nadie puede hacerme sonreír</p> 
             <p class="message">2. Porque tienes el alma más pura que he visto nunca, y todo lo haces con una sonrisa que alegra hasta el peor de los días</p> 
@@ -556,27 +587,34 @@
             </div>
             </div>
 
-        <div class="timeline" id="timeline"> 
-            <div class="event"><div class="dot"></div><div><div class="date">31 de Mayo de 2025</div><div class="desc">Conocí a la persona más imporante (TÚ, por si acaso)</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">3 de Junio de 2025</div><div class="desc">Nuestra primera cita (y caminata jeje)</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">9 de Junio de 2025</div><div class="desc">Tu primera visita a Tiki Tako (y cócteles)</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">21 de Junio de 2025</div><div class="desc">Primera vez que se rompió tu móvil bien (Portugal)</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">2 de Julio 2025</div><div class="desc">Empezamos a salir.</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">5 de Julio 2025</div><div class="desc">Nuestra primera foto juntos (en el RIU)</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">29 de Julio 2025</div><div class="desc">REENCUENTRO POST Honduras (y primera vez en tu casa) </div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">10 de Agosto 2025</div><div class="desc">Día juntos en Santander (y primera vez juntos en misa + conocí a tu padre)</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">20 de Agosto 2025</div><div class="desc">Primer partido del Bernabeu (noche de despues), reenctro y tren a Torrelavega</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">5 de Septiembre 2025</div><div class="desc">CONOCISTE A MIS PADRES!!!!!</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">7 de Septiembre 2025</div><div class="desc">CONOCÍ A TU FAMILIA!!!!! (excepto a Ale)</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">20 de Septiembre 2025</div><div class="desc">Conociste a TODA mi familia</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">25 de Septiembre 2025</div><div class="desc">Conocí a TODA tu familia (kinda)</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">28 de Septiembre 2025</div><div class="desc">Conocí a tus amigas de la UNI (todas, cumple Violeta)</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">10 de Octubre 2025</div><div class="desc">Primera sesión de Baking (Brookies!!)</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">11 de Octubre 2025</div><div class="desc">Primeras flores (MIRA QUE ME COSTÓ AGHH)</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">13 de Octubre 2025</div><div class="desc">TEÓRICO CHECK</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">16 de Octubre 2025</div><div class="desc">Musical REY LEÓN!</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">30 de Octubre 2025</div><div class="desc">NUESTRO PRIMER VIAJE - LONDON!</div></div></div> 
-            <div class="event"><div class="dot"></div><div><div class="date">15 de Noviembre 2025</div><div class="desc">TOEFL CHECK (y Crisantemos blancos)</div></div></div> 
+        <div class="timeline-wrapper"> 
+            <div class="text-card">
+                <p class="message" style="font-weight: 700;">
+                    Estos son solo algunos de nuestros recuerdos juntos (la lista no está en orden cronológico, y sigue creciendo cada día):
+                </p>
+                <div class="timeline" id="timeline"> 
+                    <div class="event"><div class="dot"></div><div><div class="date">31 de Mayo de 2025</div><div class="desc">Conocí a la persona más imporante (TÚ, por si acaso)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">3 de Junio de 2025</div><div class="desc">Nuestra primera cita (y caminata jeje)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">9 de Junio de 2025</div><div class="desc">Tu primera visita a Tiki Tako (y cócteles)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">21 de Junio de 2025</div><div class="desc">Primera vez que se rompió tu móvil bien (Portugal)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">2 de Julio 2025</div><div class="desc">Empezamos a salir.</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">5 de Julio 2025</div><div class="desc">Nuestra primera foto juntos (en el RIU)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">29 de Julio 2025</div><div class="desc">REENCUENTRO POST Honduras (y primera vez en tu casa) </div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">10 de Agosto 2025</div><div class="desc">Día juntos en Santander (y primera vez juntos en misa + conocí a tu padre)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">20 de Agosto 2025</div><div class="desc">Primer partido del Bernabeu (noche de despues), reenctro y tren a Torrelavega</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">5 de Septiembre 2025</div><div class="desc">CONOCISTE A MIS PADRES!!!!!</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">7 de Septiembre 2025</div><div class="desc">CONOCÍ A TU FAMILIA!!!!! (excepto a Ale)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">20 de Septiembre 2025</div><div class="desc">Conociste a TODA mi familia</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">25 de Septiembre 2025</div><div class="desc">Conocí a TODA tu familia (kinda)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">28 de Septiembre 2025</div><div class="desc">Conocí a tus amigas de la UNI (todas, cumple Violeta)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">10 de Octubre 2025</div><div class="desc">Primera sesión de Baking (Brookies!!)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">11 de Octubre 2025</div><div class="desc">Primeras flores (MIRA QUE ME COSTÓ AGHH)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">13 de Octubre 2025</div><div class="desc">TEÓRICO CHECK</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">16 de Octubre 2025</div><div class="desc">Musical REY LEÓN!</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">30 de Octubre 2025</div><div class="desc">NUESTRO PRIMER VIAJE - LONDON!</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">15 de Noviembre 2025</div><div class="desc">TOEFL CHECK (y Crisantemos blancos)</div></div></div> 
+                </div> 
+            </div>
         </div> 
         
         <div class="section-separator">
@@ -719,6 +757,8 @@
 
 
         /* contador */ 
+        // Se cambió el año de 2025 a 2024 basándonos en la fecha actual (Nov 2025) y 6 meses.
+        // Si el usuario lo prefiere, puede cambiar la fecha: new Date('YYYY-MM-DDTHH:MM:SS+02:00')
         const startDate=new Date('2025-07-02T00:00:00+02:00'); 
         const contador=document.getElementById('contador'); 
 
