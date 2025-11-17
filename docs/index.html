@@ -1,487 +1,400 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Nuestra Historia 💚</title>
-
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Los mejores 6 meses de mi vida</title>
 <style>
-
-/* ============================
-   AJUSTES GENERALES
-============================ */
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden !important;
-  width: 100%;
+/* ---------- Variables y reset ---------- */
+:root{
+  --bg: #FFD6E0;
+  --accent: #4CAF50;
+  --text: #2b2b2b;
+  --glass: rgba(255,255,255,0.65);
+  --glass-strong: rgba(255,255,255,0.85);
+  --card-shadow: 0 10px 28px rgba(0,0,0,0.12);
+  --rounded: 14px;
+}
+*{box-sizing:border-box}
+html,body{height:100%; overflow-x:hidden;} /* evita deslizar a la derecha */
+body{
+  margin:0;
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-touch-callout:none;
 }
 
-body {
-  font-family: "Helvetica", sans-serif;
-  color: #ffffff;
-  background: #0c1f0c;
-  position: relative;
-}
+/* ---------- Fondo emojis (corazones) ---------- */
+#emoji-bg{ position:fixed; inset:0; z-index:-3; pointer-events:none; overflow:hidden; }
+.emoji{ position:absolute; opacity:0.07; font-size: calc(14px + 1.4vw); transform-origin:center; animation: float linear infinite; }
+@keyframes float{ from{ transform: translateY(110vh) rotate(0deg); } to{ transform: translateY(-10vh) rotate(360deg); } }
 
-/* ============================
-   FONDO CON EMOJIS
-============================ */
-body::before {
-  content: "💚 💚 💚 💚 💚 💚 💚 💚 💚 💚";
-  font-size: 42px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: .12;
-  pointer-events: none;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
+/* ---------- Loader ---------- */
+#loader{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; background: linear-gradient(180deg, rgba(255,214,224,0.98), var(--bg)); z-index:9999; transition: opacity .5s ease, visibility .5s; }
+#loader.hidden{ opacity:0; visibility:hidden; }
+#loader span{ font-size:3rem; margin-bottom:10px; animation:pulse 1.6s infinite; }
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 
-/* ============================
-   PANTALLA DE CARGA
-============================ */
-#loader {
-  position: fixed;
-  inset: 0;
-  background: #0c1f0c;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  color: white;
-  animation: fadeOut 2s ease forwards;
-  animation-delay: 1.8s;
-}
+/* ---------- Confirm card ---------- */
+#confirm{ position:fixed; inset:0; display:grid; place-items:center; z-index:9998; padding:20px; }
+.confirm-card{ width:100%; max-width:520px; border-radius:18px; padding:18px; background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.5)); box-shadow:var(--card-shadow); backdrop-filter: blur(6px); display:flex; flex-direction:column; gap:12px; align-items:center; }
 
-#loader .heart {
-  font-size: 60px;
-  animation: beat 0.8s infinite;
-}
+/* ---------- Compact music player (compact) ---------- */
+.compact-player{ display:flex; align-items:center; gap:12px; width:100%; justify-content:center; }
+.cover-wrap{ position:relative; width:64px; height:64px; flex:0 0 64px; border-radius:10px; overflow:hidden; box-shadow:0 8px 20px rgba(0,0,0,0.12); }
+.cover-wrap img{ width:100%; height:100%; object-fit:cover; display:block; transition: transform 0.8s linear; }
+.cover-wrap.playing img{ transform: rotate(360deg); animation: rotateCover 6s linear infinite; }
+@keyframes rotateCover{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
 
-@keyframes beat {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.3); }
-  60% { transform: scale(1); }
+/* small overlay play icon (semi-transparent ring) */
+.play-overlay{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.04));
 }
-
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
+.play-circle{
+  width:36px; height:36px; border-radius:50%; display:grid; place-items:center; background:rgba(255,255,255,0.12); color:white; border:2px solid rgba(255,255,255,0.15); cursor:pointer; transition: transform .12s;
 }
+.play-circle:active{ transform:scale(.98); }
 
-/* ============================
-   PANTALLA “Ábreme si me quieres”
-============================ */
-#gate {
-  position: fixed;
-  inset: 0;
-  background: #0c1f0c;
-  z-index: 9998;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+/* text + time */
+.player-meta{ display:flex; flex-direction:column; gap:6px; align-items:flex-start; min-width:0; }
+.player-title{ font-weight:700; font-size:0.95rem; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:160px; }
+.player-time{ font-size:0.86rem; color:rgba(0,0,0,0.55); }
+
+/* progress (tiny) */
+.small-progress{ width:150px; height:6px; background:linear-gradient(90deg, rgba(0,0,0,0.08), rgba(0,0,0,0.04)); border-radius:6px; overflow:hidden; }
+.small-progress input[type="range"]{ width:100%; -webkit-appearance:none; appearance:none; height:6px; background:linear-gradient(90deg,var(--accent), rgba(76,175,80,0.6)); }
+.small-progress input[type="range"]::-webkit-slider-thumb{ -webkit-appearance:none; width:10px; height:10px; background:white; border-radius:50%; border:2px solid var(--accent); margin-top:-2px; box-shadow:0 4px 10px rgba(0,0,0,0.18); }
+
+/* ---------- Main container & header ---------- */
+.container{ max-width:1100px; margin:0 auto; padding:28px 16px 80px; position:relative; z-index:1; }
+.header{ width:100%; max-width:820px; margin:0 auto 18px; display:flex; align-items:center; justify-content:center; }
+
+/* Keep large title size like before (big, not revealing everything) */
+.title-wrap{ text-align:center; margin:10px 0 14px; }
+h1{ font-size:3em; margin:0; line-height:1.02; } /* large as before */
+p.message{ font-size:1.1rem; color:rgba(0,0,0,0.6); margin:12px 0 22px }
+
+/* ---------- Carousel (fade, not cropped) ---------- */
+.carousel{ width:100%; max-width:820px; margin: 10px auto 28px; position:relative; padding:8px; }
+.carousel-stage{ position:relative; display:block; min-height:200px; } /* height will adapt to image */
+.slide{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; transition: opacity .6s ease; pointer-events:none; }
+.slide.active{ opacity:1; pointer-events:auto; }
+/* image uses contain so full image visible (may leave space above/below) */
+.slide img{ max-width:100%; max-height:70vh; object-fit:contain; border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,0.12); display:block; }
+
+/* arrows */
+.carousel .arrow{ position:absolute; top:50%; transform:translateY(-50%); z-index:3; }
+.carousel .arrow button{ background:var(--glass-strong); border-radius:50%; border:none; width:44px; height:44px; display:grid; place-items:center; box-shadow:var(--card-shadow); cursor:pointer; }
+.carousel .arrow-left{ left:6px } .carousel .arrow-right{ right:6px }
+
+/* make sure slides don't overflow horizontally */
+.carousel-stage, .slide img{ margin:0 auto; }
+
+/* ---------- Events / timeline UI ---------- */
+.timeline{ width:100%; max-width:820px; margin: 10px auto; display:flex; flex-direction:column; gap:12px; }
+.event{ background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.55)); border-radius:12px; padding:12px 14px; box-shadow: var(--card-shadow); border-left:4px solid var(--accent); transform:translateY(20px); opacity:0; transition: all .5s ease; display:flex; gap:12px; align-items:flex-start; }
+.event.visible{ transform:none; opacity:1; }
+.event .dot{ width:12px; height:12px; border-radius:50%; background:var(--accent); flex:0 0 12px; margin-top:6px; }
+.event .meta{ display:flex; flex-direction:column; gap:6px; }
+.event .date{ font-weight:700; font-size:0.96rem; }
+.event .desc{ color:rgba(0,0,0,0.65); font-size:0.95rem; }
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width:720px){
+  h1{ font-size:2.2rem }
+  .cover-wrap{ width:56px; height:56px }
+  .player-title{ max-width:120px }
+  .small-progress{ width:120px }
 }
-
-#gate h1 {
-  font-size: 32px;
-  color: white;
-  z-index: 2;
+@media (max-width:420px){
+  h1{ font-size:1.9rem }
+  .player-title{ font-size:0.9rem }
 }
-
-#gate button {
-  background: #1fae4f;
-  color: white;
-  padding: 14px 26px;
-  border: none;
-  border-radius: 14px;
-  font-size: 20px;
-  margin-top: 14px;
-}
-
-/* ============================
-   CONTENIDO
-============================ */
-#content {
-  padding: 20px;
-  padding-top: 40px;
-  position: relative;
-  z-index: 2;
-  display: none;
-}
-
-/* ============================
-   REPRODUCTOR COMPACTO (para ambos)
-============================ */
-.compact-player {
-  background: rgba(0,0,0,0.28);
-  padding: 14px;
-  border-radius: 16px;
-  width: 94%;
-  max-width: 360px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  box-shadow: 0 8px 22px rgba(0,0,0,.22);
-}
-
-.cover-wrap {
-  width: 70px;
-  height: 70px;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-}
-
-.cover-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.cover-wrap.playing img {
-  animation: rotateCover 4s linear infinite;
-}
-
-@keyframes rotateCover {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.play-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.play-circle {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: rgba(0,0,0,.55);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.player-title {
-  font-size: 15px;
-}
-
-.player-time {
-  font-size: 12px;
-  opacity: .8;
-}
-
-.small-progress input[type=range] {
-  width: 100px;
-}
-
-/* ============================
-   TÍTULO PRINCIPAL (GRANDE)
-============================ */
-.main-title {
-  font-size: 42px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 25px;
-  margin-bottom: 10px;
-  line-height: 1.2;
-}
-
-/* ============================
-   CARRUSEL FIX
-============================ */
-.carousel {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  margin-top: 20px;
-}
-
-.carousel-stage {
-  width: 100%;
-  min-height: 360px; /* RESERVA DE ESPACIO */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.slide {
-  display: none;
-  width: 100%;
-  height: auto;
-}
-
-.slide.active {
-  display: block;
-}
-
-.slide img {
-  width: 100%;
-  height: auto;
-  max-height: 70vh;
-  object-fit: contain;
-  border-radius: 16px;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.22);
-}
-
-/* ============================
-   TIMELINE
-============================ */
-.timeline {
-  margin-top: 40px;
-  padding: 20px;
-  border-left: 3px solid #26c55a;
-}
-
-.event {
-  margin-bottom: 25px;
-  padding-left: 14px;
-  position: relative;
-}
-
-.event::before {
-  content: "💚";
-  position: absolute;
-  left: -27px;
-  top: 0;
-  font-size: 20px;
-}
-
-.event strong {
-  font-size: 18px;
-  color: #9effa8;
-}
-
 </style>
 </head>
 <body>
 
-<!-- ============================
-     LOADER
-============================ -->
-<div id="loader">
-  <div class="heart">💚</div>
-  <p>Cargando...</p>
-</div>
+<!-- emojis fondo -->
+<div id="emoji-bg" aria-hidden="true"></div>
 
-<!-- ============================
-     GATE
-============================ -->
-<div id="gate">
-  <h1>Ábreme si me quieres 💚</h1>
-  <button id="openBtn">Abrir</button>
-</div>
+<!-- loader -->
+<div id="loader"><span>💚</span><div style="font-weight:600;color:#6b2b2b">Cargando algo hecho por el pesado de tu novio...</div></div>
 
-<!-- ============================
-     CONTENIDO REAL
-============================ -->
-<div id="content">
+<!-- confirm -->
+<div id="confirm">
+  <div class="confirm-card" role="dialog" aria-modal="true">
+    <h2>Ábreme si te gustan los takis 💚</h2>
 
-  <!-- “Escúchame primero” -->
-  <h2 style="text-align:center;margin-bottom:12px;">Escúchame primero 💚</h2>
-
-  <div class="compact-player" id="introPlayer">
-      <div class="cover-wrap" id="introCover">
-        <img src="images/portada.jpeg">
+    <!-- compact player: cover + title + time -->
+    <div class="compact-player" id="confirmCompact">
+      <div class="cover-wrap" id="coverWrapConfirm" role="button" tabindex="0" aria-label="Play/pause">
+        <img src="images/portada.JPG" alt="Portada" id="coverImgConfirm">
         <div class="play-overlay">
-          <div class="play-circle" id="introPlayBtn">
-            ▶
+          <div class="play-circle" id="playOverlayConfirm" aria-hidden="true">
+            <!-- small play triangle -->
+            <svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9L5 3z" fill="#fff"/></svg>
           </div>
         </div>
       </div>
-
-      <div>
-        <div class="player-title">Un mensaje importante…</div>
-        <div class="player-time">
-          <span id="introCur">0:00</span> / 
-          <span id="introDur">0:00</span>
-        </div>
-        <div class="small-progress">
-          <input type="range" id="introRange" min="0" max="100" value="0">
-        </div>
+      <div class="player-meta">
+        <div class="player-title">Cancion para acompañar... 🥹</div>
+        <div class="player-time"><span id="timeCurC">0:00</span> / <span id="timeDurC">0:00</span></div>
+        <div class="small-progress"><input id="progressC" type="range" min="0" max="100" value="0"></div>
       </div>
+    </div>
+
+    <button id="openBtn">Abrir</button>
   </div>
+</div>
 
-  <!-- Título principal -->
-  <div class="main-title">Nuestra Historia 💚</div>
+<!-- main content -->
+<div class="container" id="mainContent" style="display:none;">
 
-  <!-- Reproductor principal -->
-  <div class="compact-player" style="margin-top:10px;" id="mainPlayer">
-      <div class="cover-wrap" id="mainCover">
-        <img src="images/portada.jpeg">
+  <div class="header">
+    <!-- compact player (same) -->
+    <div class="compact-player" id="mainCompact">
+      <div class="cover-wrap" id="coverWrapMain" role="button" tabindex="0" aria-label="Play/pause">
+        <img src="images/portada.JPG" alt="Portada" id="coverImgMain">
         <div class="play-overlay">
-          <div class="play-circle" id="mainPlayBtn">▶</div>
+          <div class="play-circle" id="playOverlayMain" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9L5 3z" fill="#fff"/></svg>
+          </div>
         </div>
       </div>
-
-      <div>
-        <div class="player-title">Nuestra canción</div>
-        <div class="player-time">
-          <span id="mainCur">0:00</span> / 
-          <span id="mainDur">0:00</span>
-        </div>
-        <div class="small-progress">
-          <input type="range" id="mainRange" min="0" max="100" value="0">
-        </div>
+      <div class="player-meta">
+        <div class="player-title">Cancion para acompañar... 🥹</div>
+        <div class="player-time"><span id="timeCurM">0:00</span> / <span id="timeDurM">0:00</span></div>
+        <div class="small-progress"><input id="progressM" type="range" min="0" max="100" value="0"></div>
       </div>
-  </div>
-
-  <!-- Carrusel -->
-  <div class="carousel">
-    <div class="carousel-stage">
-
-      <!-- Se muestran todas tus imágenes -->
-      <div class="slide active"><img src="images/IMG_7604.jpeg"></div>
-      <div class="slide"><img src="images/IMG_1209.jpeg"></div>
-      <div class="slide"><img src="images/IMG_0991.jpeg"></div>
-      <div class="slide"><img src="images/IMG_1102.jpeg"></div>
-      <div class="slide"><img src="images/IMG_1204.jpeg"></div>
-      <div class="slide"><img src="images/IMG_0948.jpeg"></div>
-      <div class="slide"><img src="images/IMG_0595.jpeg"></div>
-      <div class="slide"><img src="images/IMG_0562.jpeg"></div>
-      <div class="slide"><img src="images/IMG_0413.jpeg"></div>
-      <div class="slide"><img src="images/IMG_4945.jpeg"></div>
-      <div class="slide"><img src="images/IMG_5003.jpeg"></div>
-      <div class="slide"><img src="images/IMG_8777.jpeg"></div>
-
     </div>
   </div>
 
-  <!-- Timeline -->
-  <div class="timeline">
-    <div class="event">
-      <strong>2 julio 2025</strong><br>
-      Empezamos a salir 💚
+  <div class="title-wrap">
+    <h1>¿Te creías que el concierto era lo único que iba a regalarte? (empecé a hacer esto antes de que comprara las entradas y no se me ha escapado 😋)</h1>
+    <p class="message">Cada momento juntos es un recuerdo que quiero guardar para siempre.</p>
+  </div>
+
+  <!-- Carousel (fade, contain) -->
+  <div class="carousel" id="carousel">
+    <div class="arrow arrow-left"><button id="prevBtn" aria-label="Anterior">‹</button></div>
+    <div class="carousel-stage" id="stage">
+      <!-- slides stacked; only one active -> fade -->
+      <!-- Usa tus rutas exactas /images/... -->
+      <div class="slide active"><img src="images/IMG_8777.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_7604.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_7567.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_7372.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_5003.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_1427.jpeg" alt=""></div>
+      <div class="slide"><img src="images/f52fc0bf-7153-43cc-abdc-201a14e7431c.jpeg" alt=""></div>
+      <div class="slide"><img src="images/f051fdc8-7e2a-46e3-a65c-d632f135f325.jpeg" alt=""></div>
+      <div class="slide"><img src="images/bc9a39ed-631b-43f8-9a86-ca373ff34698.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_1204.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_1113.jpeg" alt=""></div>
+      <div class="slide"><img src="images/a35975e2-9ba2-42fe-8fdf-ab06c0f87336.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_1097.jpeg" alt=""></div>
+      <div class="slide"><img src="images/894dc007-6d33-4bd4-bef9-0f419769eb58.jpeg" alt=""></div>
+      <div class="slide"><img src="images/7fa3e78a-31ea-4964-b4c9-bf778241b46a.jpeg" alt=""></div>
+      <div class="slide"><img src="images/3dafce51-cfde-4746-9112-f214c3e11876.jpeg" alt=""></div>
+      <div class="slide"><img src="images/31f14a18-3ecf-466d-97f6-350c24dbdbc5.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_0991.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_0951.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_0594.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_0567.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_0411.jpeg" alt=""></div>
+      <div class="slide"><img src="images/IMG_0056.jpeg" alt=""></div>
+      <div class="slide"><img src="images/2bb2426c-6cda-4f0a-adcf-d5f0ac3bfd09.jpeg" alt=""></div>
+      <div class="slide"><img src="images/24f8cb99-1774-441a-9c2a-ba494afdbec9.jpeg" alt=""></div>
     </div>
-    <div class="event">
-      <strong>15 julio 2025</strong><br>
-      Conocí a tus padres por primera vez.
-    </div>
-    <div class="event">
-      <strong>22 septiembre 2025</strong><br>
-      Nuestro viaje más especial juntos.
-    </div>
+    <div class="arrow arrow-right"><button id="nextBtn" aria-label="Siguiente">›</button></div>
+  </div>
+
+  <!-- Counter -->
+  <div style="max-width:820px;margin:18px auto 6px;text-align:center">
+    <div id="contador" style="font-weight:700;font-size:1.1rem"></div>
+  </div>
+
+  <!-- Timeline / eventos -->
+  <div class="timeline" id="timeline">
+    <div class="event"><div class="dot"></div><div class="meta"><div class="date">2 Jul 2025</div><div class="desc">Empezamos a salir — la primera cita que nunca olvidaré.</div></div></div>
+    <div class="event"><div class="dot"></div><div class="meta"><div class="date">15 Jul 2025</div><div class="desc">Conocí a tus padres — nervios y risas.</div></div></div>
+    <div class="event"><div class="dot"></div><div class="meta"><div class="date">5 Nov 2025</div><div class="desc">Primer viaje juntos — nuestro pequeño gran mundo.</div></div></div>
   </div>
 
 </div>
 
-<!-- ============================
-     SCRIPTS
-============================ -->
-
 <script>
-/* --------------------------------------
-   GATE
--------------------------------------- */
-document.getElementById("openBtn").onclick = () => {
-  document.getElementById("gate").style.display = "none";
-  document.getElementById("content").style.display = "block";
-};
-
-/* --------------------------------------
-   CARRUSEL
--------------------------------------- */
-let slides = document.querySelectorAll(".slide");
-let idx = 0;
-
-function nextSlide() {
-  slides[idx].classList.remove("active");
-  idx = (idx + 1) % slides.length;
-  slides[idx].classList.add("active");
-}
-
-setInterval(nextSlide, 2800);
-
-/* --------------------------------------
-   COMÚN PARA AMBOS REPRODUCTORES
--------------------------------------- */
-function setupPlayer(audioFile, playBtnId, coverId, curId, durId, rangeId) {
-  const audio = new Audio(audioFile);
-  audio.preload = "metadata";
-
-  const btn = document.getElementById(playBtnId);
-  const cover = document.getElementById(coverId);
-  const curT = document.getElementById(curId);
-  const durT = document.getElementById(durId);
-  const rng = document.getElementById(rangeId);
-
-  function fmt(t){
-    if(!isFinite(t)) return "0:00";
-    const m = Math.floor(t/60);
-    const s = Math.floor(t%60).toString().padStart(2,"0");
-    return `${m}:${s}`;
+/* ========== emojis ========= */
+(function createEmojis(){
+  const container = document.getElementById('emoji-bg');
+  const hearts = ['💚','💚','💚','💖'];
+  for(let i=0;i<28;i++){
+    const d = document.createElement('div');
+    d.className='emoji';
+    d.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+    d.style.left = Math.random()*100 + '%';
+    d.style.top = Math.random()*100 + '%';
+    d.style.opacity = (0.04 + Math.random()*0.08).toString();
+    d.style.fontSize = (12 + Math.random()*36) + 'px';
+    d.style.animationDuration = (18 + Math.random()*18) + 's';
+    container.appendChild(d);
   }
+})();
 
-  btn.onclick = () => {
-    if(audio.paused){
-      audio.play();
-      cover.classList.add("playing");
-      btn.innerHTML = "❚❚";
-    } else {
-      audio.pause();
-      cover.classList.remove("playing");
-      btn.innerHTML = "▶";
-    }
-  };
+/* ========== loader hide ========== */
+window.addEventListener('load', ()=> {
+  setTimeout(()=> document.getElementById('loader').classList.add('hidden'), 2000);
+});
 
-  audio.onloadedmetadata = () => {
-    durT.textContent = fmt(audio.duration);
-  };
+/* ========== confirm/open ========== */
+document.getElementById('openBtn').addEventListener('click', ()=>{
+  document.getElementById('confirm').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'block';
+});
 
-  audio.ontimeupdate = () => {
-    curT.textContent = fmt(audio.currentTime);
-    rng.value = (audio.currentTime / audio.duration) * 100;
-  };
+/* ========== audio (compact) ========= */
+const audio = new Audio("images/musica.mp3");
+audio.preload = 'metadata';
+audio.loop = false; // no autoplay
 
-  rng.oninput = () => {
-    audio.currentTime = (rng.value/100) * audio.duration;
-  };
+// confirm controls
+const coverWrapConfirm = document.getElementById('coverWrapConfirm');
+const coverImgConfirm = document.getElementById('coverImgConfirm');
+const playOverlayConfirm = document.getElementById('playOverlayConfirm');
+const progressC = document.getElementById('progressC');
+const timeCurC = document.getElementById('timeCurC');
+const timeDurC = document.getElementById('timeDurC');
 
-  audio.onended = () => {
-    cover.classList.remove("playing");
-    btn.innerHTML = "▶";
-  };
+// main controls
+const coverWrapMain = document.getElementById('coverWrapMain');
+const coverImgMain = document.getElementById('coverImgMain');
+const playOverlayMain = document.getElementById('playOverlayMain');
+const progressM = document.getElementById('progressM');
+const timeCurM = document.getElementById('timeCurM');
+const timeDurM = document.getElementById('timeDurM');
 
-  return audio;
+function fmt(s){ if(!isFinite(s)) return '0:00'; const m = Math.floor(s/60); const sec = Math.floor(s%60).toString().padStart(2,'0'); return `${m}:${sec}`; }
+function setPlayingUI(play){
+  coverWrapConfirm.classList.toggle('playing', play);
+  coverWrapMain.classList.toggle('playing', play);
+  // change overlay icon to pause or play
+  const svgPlay = '<svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9L5 3z" fill="#fff"/></svg>';
+  const svgPause = '<svg width="14" height="14" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><rect width="4" height="14" x="6" y="5" rx="1" fill="#fff"></rect><rect width="4" height="14" x="14" y="5" rx="1" fill="#fff"></rect></g></svg>';
+  playOverlayConfirm.innerHTML = play ? svgPause : svgPlay;
+  playOverlayMain.innerHTML = play ? svgPause : svgPlay;
 }
 
-/* Reproductor 1: “Escúchame primero” */
-setupPlayer(
-  "images/instrucciones.mp3",
-  "introPlayBtn",
-  "introCover",
-  "introCur",
-  "introDur",
-  "introRange"
-);
+let userInteractedPlay = false;
+function togglePlay(){
+  if(audio.paused){
+    audio.play().catch(()=>{/* play prevented if not user gesture; normally triggered by click */});
+    setPlayingUI(true);
+    userInteractedPlay = true;
+  } else {
+    audio.pause();
+    setPlayingUI(false);
+  }
+}
 
-/* Reproductor 2: Canción principal */
-setupPlayer(
-  "images/musica.mp3",
-  "mainPlayBtn",
-  "mainCover",
-  "mainCur",
-  "mainDur",
-  "mainRange"
-);
+/* clicks on cover wrap (compact) */
+coverWrapConfirm.addEventListener('click', ()=> { togglePlay(); });
+coverWrapMain.addEventListener('click', ()=> { togglePlay(); });
 
+/* keyboard accessible */
+coverWrapConfirm.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); togglePlay(); } });
+coverWrapMain.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); togglePlay(); } });
+
+/* sync metadata and progress */
+audio.addEventListener('loadedmetadata', ()=> {
+  timeDurC.textContent = fmt(audio.duration);
+  timeDurM.textContent = fmt(audio.duration);
+});
+audio.addEventListener('timeupdate', ()=> {
+  if(!audio.duration) return;
+  const pct = (audio.currentTime / audio.duration) * 100;
+  progressC.value = pct;
+  progressM.value = pct;
+  timeCurC.textContent = fmt(audio.currentTime);
+  timeCurM.textContent = fmt(audio.currentTime);
+});
+audio.addEventListener('ended', ()=> setPlayingUI(false));
+
+/* seeking */
+function seekFromRange(rangeEl){
+  if(!audio.duration) return;
+  audio.currentTime = (Number(rangeEl.value)/100) * audio.duration;
+}
+progressC.addEventListener('input', (e)=> seekFromRange(e.target));
+progressM.addEventListener('input', (e)=> seekFromRange(e.target));
+
+/* ========== carousel (fade) with touch support ========== */
+const slides = Array.from(document.querySelectorAll('.slide'));
+let current = 0;
+function showSlide(i){
+  slides.forEach((s, idx)=> s.classList.toggle('active', idx === i));
+  current = i;
+}
+document.getElementById('prevBtn').addEventListener('click', ()=> showSlide((current-1+slides.length)%slides.length));
+document.getElementById('nextBtn').addEventListener('click', ()=> showSlide((current+1)%slides.length));
+
+/* touch swipe for slides */
+let sx=0, sy=0, touching=false;
+const stage = document.getElementById('stage');
+stage.addEventListener('touchstart', (e)=>{ touching=true; sx = e.touches[0].clientX; sy = e.touches[0].clientY; });
+stage.addEventListener('touchmove', (e)=>{ if(!touching) return; /* prevent vertical? we allow vertical scroll */ });
+stage.addEventListener('touchend', (e)=>{ if(!touching) return; touching=false; const ex = e.changedTouches[0].clientX; const dx = sx - ex; if(dx > 50) showSlide(Math.min(current+1, slides.length-1)); else if(dx < -50) showSlide(Math.max(current-1,0)); });
+
+/* click slide to next */
+slides.forEach((s, i)=> s.addEventListener('click', ()=> showSlide((i+1)%slides.length)));
+
+/* ensure first slide visible and container height fits active image */
+function fitStageHeight(){
+  const active = slides[current].querySelector('img');
+  if(!active) return;
+  // let the image load if not yet
+  setTimeout(()=> {
+    const h = active.naturalHeight;
+    const w = active.naturalWidth;
+    // we keep max-height style on img (css max-height), so no need to set stage height precisely
+    // but we ensure stage has min-height to avoid jumpy layout
+    const stageEl = document.getElementById('stage');
+    const imgDisplayHeight = Math.min(window.innerHeight*0.7, active.naturalHeight * (stageEl.clientWidth / active.naturalWidth));
+    stageEl.style.minHeight = (imgDisplayHeight + 24) + 'px';
+  },50);
+}
+window.addEventListener('load', ()=> { fitStageHeight(); });
+window.addEventListener('resize', ()=> { fitStageHeight(); });
+
+/* ========== counter (Madrid timezone) ========== */
+const contador = document.getElementById('contador');
+const startDate = new Date('2025-07-02T00:00:00+02:00');
+function updateCounter(){
+  const now = new Date();
+  let diff = Math.floor((now - startDate)/1000);
+  const days = Math.floor(diff / 86400);
+  diff %= 86400;
+  const hours = Math.floor(diff / 3600);
+  diff %= 3600;
+  const minutes = Math.floor(diff / 60);
+  const seconds = diff % 60;
+  contador.textContent = `${days} días ${hours} h ${minutes} m ${seconds} s`;
+}
+setInterval(updateCounter,1000);
+updateCounter();
+
+/* ========== timeline reveal ========== */
+function checkVisibility(){
+  const trigger = window.innerHeight * 0.85;
+  document.querySelectorAll('.event').forEach(ev=>{
+    if(ev.getBoundingClientRect().top < trigger) ev.classList.add('visible');
+  });
+}
+window.addEventListener('scroll', checkVisibility);
+window.addEventListener('load', checkVisibility);
 </script>
-
 </body>
 </html>
