@@ -326,7 +326,7 @@
         }
 
         /* ---------- Contador Mejorado ---------- */
-        .counter-card-wrapper{
+        .counter-section{
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -577,13 +577,13 @@
             </div> 
         </div>
 
-        <div class="counter-card-wrapper">
+        <div class="counter-section">
             <div class="counter-card">
                 <div class="fun-fact-text">FUN FACT! Sabes que llevamos saliendo...</div> 
                 <div id="contador"></div> 
             </div>
-            <div class="message-center">
-                TEXTO para modificar aquí después del Fun Fact.
+            <div class="text-card" style="text-align: center; max-width: 500px; margin: 0;">
+                <p class="message" style="margin: 0;">TEXTO para modificar aquí después del Fun Fact.</p>
             </div>
             </div>
 
@@ -626,7 +626,7 @@
         <div class="final-message-card">
             TEXTO FINAL para modificar aquí.
         </div>
-        </div>
+    </div>
 
     <script> 
         /* emojis */ 
@@ -757,8 +757,6 @@
 
 
         /* contador */ 
-        // Se cambió el año de 2025 a 2024 basándonos en la fecha actual (Nov 2025) y 6 meses.
-        // Si el usuario lo prefiere, puede cambiar la fecha: new Date('YYYY-MM-DDTHH:MM:SS+02:00')
         const startDate=new Date('2025-07-02T00:00:00+02:00'); 
         const contador=document.getElementById('contador'); 
 
