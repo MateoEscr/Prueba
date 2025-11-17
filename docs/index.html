@@ -25,6 +25,7 @@
             -webkit-font-smoothing:antialiased; 
             -moz-osx-font-smoothing:grayscale; 
             -webkit-touch-callout:none; 
+            touch-action: pan-y; /* Permite desplazamiento vertical, ayuda con el swipe en carrusel */
         }
 
         /* ---------- Fondo emojis ---------- */
@@ -238,6 +239,7 @@
             height:360px; 
             min-height:360px; 
             overflow:hidden; 
+            touch-action: pan-y; /* Importante para el swipe */
         }
         .slide{ 
             position:absolute; 
@@ -261,6 +263,8 @@
             object-fit:contain; 
             border-radius:12px; 
             box-shadow:0 12px 30px rgba(0,0,0,.12); 
+            user-select: none; /* Previene la selección de la imagen al hacer swipe */
+            -webkit-user-drag: none;
         }
 
         /* Flechas */
@@ -273,19 +277,54 @@
             display:grid; 
             place-items:center; 
             box-shadow:var(--card-shadow); 
+            cursor:pointer;
         }
         .arrow-left{ 
             position:absolute; 
             top:50%; 
             left:6px; 
             transform:translateY(-50%); 
+            z-index: 10;
         }
         .arrow-right{ 
             position:absolute; 
             top:50%; 
             right:6px; 
             transform:translateY(-50%); 
+            z-index: 10;
         }
+
+        /* ---------- Contador Mejorado ---------- */
+        .counter-card-wrapper{
+            display: flex;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+        .counter-card{
+            width: 100%;
+            max-width: 400px;
+            text-align:center;
+            font-weight:700;
+            font-size:1.1rem;
+            padding: 20px;
+            border-radius: var(--rounded);
+            background: var(--glass-strong); /* Fondo de vidrio esmerilado */
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+        .counter-card .fun-fact-text{ 
+            font-size:1.4rem; 
+            margin-bottom:8px;
+            color: var(--text);
+        }
+        .counter-card #contador{
+            font-size: 1.8rem;
+            color: var(--accent);
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
 
         /* ---------- Timeline ---------- */
         .timeline{ 
@@ -317,7 +356,18 @@
             border-radius:50%;
             background:var(--accent);
             margin-top:6px; 
+            flex-shrink: 0; /* Previene que el punto se encoja */
         }
+        .date{
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+        .desc{
+            font-size: 0.95rem;
+            color: rgba(0,0,0,0.75);
+        }
+
 
         /* ---------- Responsive ---------- */
         @media(max-width:720px){ 
@@ -336,6 +386,13 @@
             h1{ 
                 font-size:2rem 
             } 
+            .counter-card{
+                max-width: 90%;
+            }
+            .carousel-stage{
+                height: 300px; /* Reducir altura del carrusel en móviles */
+                min-height: 300px;
+            }
         }
     </style>
 </head>
@@ -352,7 +409,7 @@
             <h2>Ábreme si te gustan los takis 💚</h2> 
             <div class="compact-player" id="confirmCompact"> 
                 <div class="cover-wrap" id="coverWrapConfirm"> 
-                    <img src="images/portada.JPG" id="coverImgConfirm"> 
+                    <img src="images/portada.JPG" id="coverImgConfirm" alt="Portada de la música"> 
                     <div class="play-overlay">
                         <div class="play-circle" id="playOverlayConfirm"></div>
                     </div>
@@ -375,7 +432,7 @@
         <div class="header"> 
             <div class="compact-player"> 
                 <div class="cover-wrap" id="coverWrapMain"> 
-                    <img src="images/portada.JPG" id="coverImgMain"> 
+                    <img src="images/portada.JPG" id="coverImgMain" alt="Portada de la música"> 
                     <div class="play-overlay">
                         <div class="play-circle" id="playOverlayMain"></div>
                     </div>
@@ -416,40 +473,42 @@
                 <button id="prevBtn">‹</button>
             </div> 
             <div class="carousel-stage" id="stage"> 
-                <div class="slide active"><img src="images/IMG_8777.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_7604.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_7567.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_7372.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_5003.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_1427.jpeg"></div> 
-                <div class="slide"><img src="images/f52fc0bf-7153-43cc-abdc-201a14e7431c.jpeg"></div> 
-                <div class="slide"><img src="images/f051fdc8-7e2a-46e3-a65c-d632f135f325.jpeg"></div> 
-                <div class="slide"><img src="images/bc9a39ed-631b-43f8-9a86-ca373ff34698.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_1204.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_1113.jpeg"></div> 
-                <div class="slide"><img src="images/a35975e2-9ba2-42fe-8fdf-ab06c0f87336.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_1097.jpeg"></div> 
-                <div class="slide"><img src="images/894dc007-6d33-4bd4-bef9-0f419769eb58.jpeg"></div> 
-                <div class="slide"><img src="images/7fa3e78a-31ea-4964-b4c9-bf778241b46a.jpeg"></div> 
-                <div class="slide"><img src="images/3dafce51-cfde-4746-9112-f214c3e11876.jpeg"></div> 
-                <div class="slide"><img src="images/31f14a18-3ecf-466d-97f6-350c24dbdbc5.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_0991.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_0951.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_0594.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_0567.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_0411.jpeg"></div> 
-                <div class="slide"><img src="images/IMG_0056.jpeg"></div> 
-                <div class="slide"><img src="images/2bb2426c-6cda-4f0a-adcf-d5f0ac3bfd09.jpeg"></div> 
-                <div class="slide"><img src="images/24f8cb99-1774-441a-9c2a-ba494afdbec9.jpeg"></div> 
+                <div class="slide active"><img src="images/IMG_8777.jpeg" alt="Imagen 1"></div> 
+                <div class="slide"><img src="images/IMG_7604.jpeg" alt="Imagen 2"></div> 
+                <div class="slide"><img src="images/IMG_7567.jpeg" alt="Imagen 3"></div> 
+                <div class="slide"><img src="images/IMG_7372.jpeg" alt="Imagen 4"></div> 
+                <div class="slide"><img src="images/IMG_5003.jpeg" alt="Imagen 5"></div> 
+                <div class="slide"><img src="images/IMG_1427.jpeg" alt="Imagen 6"></div> 
+                <div class="slide"><img src="images/f52fc0bf-7153-43cc-abdc-201a14e7431c.jpeg" alt="Imagen 7"></div> 
+                <div class="slide"><img src="images/f051fdc8-7e2a-46e3-a65c-d632f135f325.jpeg" alt="Imagen 8"></div> 
+                <div class="slide"><img src="images/bc9a39ed-631b-43f8-9a86-ca373ff34698.jpeg" alt="Imagen 9"></div> 
+                <div class="slide"><img src="images/IMG_1204.jpeg" alt="Imagen 10"></div> 
+                <div class="slide"><img src="images/IMG_1113.jpeg" alt="Imagen 11"></div> 
+                <div class="slide"><img src="images/a35975e2-9ba2-42fe-8fdf-ab06c0f87336.jpeg" alt="Imagen 12"></div> 
+                <div class="slide"><img src="images/IMG_1097.jpeg" alt="Imagen 13"></div> 
+                <div class="slide"><img src="images/894dc007-6d33-4bd4-bef9-0f419769eb58.jpeg" alt="Imagen 14"></div> 
+                <div class="slide"><img src="images/7fa3e78a-31ea-4964-b4c9-bf778241b46a.jpeg" alt="Imagen 15"></div> 
+                <div class="slide"><img src="images/3dafce51-cfde-4746-9112-f214c3e11876.jpeg" alt="Imagen 16"></div> 
+                <div class="slide"><img src="images/31f14a18-3ecf-466d-97f6-350c24dbdbc5.jpeg" alt="Imagen 17"></div> 
+                <div class="slide"><img src="images/IMG_0991.jpeg" alt="Imagen 18"></div> 
+                <div class="slide"><img src="images/IMG_0951.jpeg" alt="Imagen 19"></div> 
+                <div class="slide"><img src="images/IMG_0594.jpeg" alt="Imagen 20"></div> 
+                <div class="slide"><img src="images/IMG_0567.jpeg" alt="Imagen 21"></div> 
+                <div class="slide"><img src="images/IMG_0411.jpeg" alt="Imagen 22"></div> 
+                <div class="slide"><img src="images/IMG_0056.jpeg" alt="Imagen 23"></div> 
+                <div class="slide"><img src="images/2bb2426c-6cda-4f0a-adcf-d5f0ac3bfd09.jpeg" alt="Imagen 24"></div> 
+                <div class="slide"><img src="images/24f8cb99-1774-441a-9c2a-ba494afdbec9.jpeg" alt="Imagen 25"></div> 
             </div> 
             <div class="arrow-right">
                 <button id="nextBtn">›</button>
             </div> 
         </div>
 
-        <div style="text-align:center;font-weight:700;font-size:1.1rem;margin-top:20px;"> 
-            <div style="font-size:1.4rem; margin-bottom:6px;">FUN FACT! Sabes que llevamos saliendo...</div> 
-            <div id="contador"></div> 
+        <div class="counter-card-wrapper">
+            <div class="counter-card">
+                <div class="fun-fact-text">FUN FACT! Sabes que llevamos saliendo...</div> 
+                <div id="contador"></div> 
+            </div>
         </div>
 
         <div class="timeline" id="timeline"> 
@@ -503,6 +562,8 @@
         document.getElementById('openBtn').onclick=()=>{ 
             document.getElementById('confirm').style.display='none'; 
             document.getElementById('mainContent').style.display='block'; 
+            // Iniciar la reproducción si es un entorno que lo permite sin interacción adicional
+            // audio.play().catch(e => console.log('Autoplay blocked', e)); 
         }; 
 
         /* audio */ 
@@ -536,7 +597,7 @@
         } 
 
         function togglePlay(){ 
-            audio.paused?(audio.play(),setPlayingUI(true)):(audio.pause(),setPlayingUI(false)); 
+            audio.paused?(audio.play().catch(e => console.log('Play failed:', e)), setPlayingUI(true)):(audio.pause(),setPlayingUI(false)); 
         } 
 
         coverWrapConfirm.onclick=togglePlay; 
@@ -561,18 +622,54 @@
         progressC.oninput=e=>audio.currentTime=(e.target.value/100)*audio.duration; 
         progressM.oninput=e=>audio.currentTime=(e.target.value/100)*audio.duration; 
 
-        /* carousel */ 
+        /* carousel con swipe */ 
         const slides=[...document.querySelectorAll('.slide')]; 
+        const stage = document.getElementById('stage');
         let current=0; 
+        let touchstartX = 0;
+        let touchendX = 0;
 
         function show(i){ 
-            slides.forEach((s,x)=>s.classList.toggle('active',x===i)); 
-            current=i; 
+            const length = slides.length;
+            current = (i + length) % length; // Asegura que el índice esté dentro del rango
+            slides.forEach((s,x)=>s.classList.toggle('active',x===current)); 
         } 
+        
+        // Manejadores de botones existentes
+        document.getElementById('prevBtn').onclick=()=>show(current - 1); 
+        document.getElementById('nextBtn').onclick=()=>show(current + 1); 
+        
+        // Deslizamiento (Swipe)
+        stage.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+        }, false);
 
-        document.getElementById('prevBtn').onclick=()=>show((current-1+slides.length)%slides.length); 
-        document.getElementById('nextBtn').onclick=()=>show((current+1)%slides.length); 
-        slides.forEach((s,i)=>s.onclick=()=>show((i+1)%slides.length)); 
+        stage.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            handleGesture();
+        }, false);
+
+        function handleGesture() {
+            const threshold = 50; // Mínimo de píxeles para considerar un swipe
+            const difference = touchendX - touchstartX;
+            
+            if (Math.abs(difference) < threshold) {
+                // No fue un swipe significativo, no hacer nada.
+                return;
+            }
+
+            if (difference > 0) {
+                // Swipe a la derecha (anterior)
+                show(current - 1);
+            } else {
+                // Swipe a la izquierda (siguiente)
+                show(current + 1);
+            }
+        }
+
+        // Inicializar el carrusel en el primer slide
+        show(0);
+
 
         /* contador */ 
         const startDate=new Date('2025-07-02T00:00:00+02:00'); 
@@ -587,7 +684,9 @@
             diff%=3600; 
             const m=Math.floor(diff/60); 
             const s=diff%60; 
-            contador.textContent=`${d} días — ${h} h ${m} m ${s} s`; 
+            
+            // Texto mejorado para el contador
+            contador.innerHTML=`${d} Días — ${h} h ${m} m ${s} s`; 
         } 
         update(); 
         setInterval(update,1000); 
