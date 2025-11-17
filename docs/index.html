@@ -304,10 +304,49 @@ No me ayuda ni me tranquiliza como haces tú.</p>
   </div>
 
   <!-- CONTADOR -->
-  <div style="text-align:center;font-weight:700;font-size:1.1rem;margin-top:20px;">
-    <div style="font-size:1.4rem; margin-bottom:6px;">FUN FACT! Sabes que llevamos saliendo...</div>
-    <div id="contador"></div>
-  </div>
+<div style="text-align:center; margin-top:20px;">
+  <div style="font-size:1.4rem; margin-bottom:10px; font-weight:700;">FUN FACT! Sabes que llevamos saliendo...</div>
+  <div id="contador" class="contador-card"></div>
+</div>
+
+<style>
+/* Contador bonito */
+.contador-card{
+  display: inline-block;
+  padding: 16px 28px;
+  background: linear-gradient(135deg, #FFDEE9, #B5FFFC);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2b2b2b;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+/* Animación sutil */
+@keyframes pulse{
+  0%, 100% { transform: scale(1); box-shadow: 0 8px 24px rgba(0,0,0,0.18);}
+  50% { transform: scale(1.03); box-shadow: 0 12px 28px rgba(0,0,0,0.22);}
+}
+</style>
+
+<script>
+const startDate = new Date('2025-07-02T00:00:00+02:00');
+const contador = document.getElementById('contador');
+
+function updateContador() {
+  const now = new Date();
+  let diff = Math.floor((now - startDate)/1000);
+  const d = Math.floor(diff/86400); diff %= 86400;
+  const h = Math.floor(diff/3600); diff %= 3600;
+  const m = Math.floor(diff/60); const s = diff%60;
+  contador.textContent = `${d} días — ${h} h ${m} m ${s} s`;
+}
+
+updateContador();
+setInterval(updateContador, 1000);
+</script>
 
   <!-- EVENTOS -->
   <div class="timeline" id="timeline">
