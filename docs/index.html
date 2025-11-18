@@ -28,6 +28,22 @@
             touch-action: pan-y; 
         }
 
+        /* ----- SCROLLBAR PERSONALIZADA (Mejora Visual) ----- */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 5px;
+            border: 2px solid var(--bg);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #388e3c; 
+        }
+
         /* ---------- Fondo emojis ---------- */
         #emoji-bg{ 
             position:fixed; 
@@ -77,7 +93,7 @@
             50%{transform:scale(1.12)}
         }
 
-        /* ---------- Confirm ---------- */
+        /* ---------- Confirm (Pantalla de Bloqueo) ---------- */
         #confirm{ 
             position:fixed; 
             inset:0; 
@@ -98,11 +114,16 @@
             flex-direction:column; 
             gap:12px; 
             align-items:center; 
-            /* Se mantiene centrado para el título de la bienvenida */
             text-align: center; 
         }
+        #openBtn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: #ccc;
+        }
 
-        /* ---------- Music player compacto ---------- */
+
+        /* ---------- Music player compacto (Música de fondo) ---------- */
         .player-wrapper{
             display:flex;
             justify-content:center;
@@ -226,8 +247,11 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1); 
         }
         
-        /* Tarjeta general para bloques de texto */
-        .text-card {
+        /* Tarjeta general para bloques de texto y animación */
+        .text-card, .carousel, .counter-section, .timeline-wrapper, .final-message-card, .favorites-grid-wrapper {
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
             max-width: 820px;
             margin: 20px auto 30px;
             padding: 20px;
@@ -235,15 +259,20 @@
             background: var(--glass-strong);
             box-shadow: var(--card-shadow);
             backdrop-filter: blur(6px);
-            /* *** CAMBIO SOLICITADO: Justifica el contenido dentro de las tarjetas de contenido *** */
+            /* Justificado */
             text-align: justify; 
         }
         
+        /* Clase para revelar el elemento */
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         p.message{ 
             font-size:1.1rem; 
             color:rgba(0,0,0,0.7); 
             margin:14px 0; 
-            /* Esto es importante para que la justificación funcione bien en todos los párrafos */
             text-align: inherit; 
         }
         p.message:first-child {
@@ -252,132 +281,51 @@
         p.message:last-child {
             margin-bottom: 0;
         }
-        .message-center{
-            text-align: center;
-            font-size:1.1rem; 
-            color:rgba(0,0,0,0.75); 
-            margin:14px auto 22px;
-            max-width: 820px;
-        }
 
-        /* ---------- Carousel ---------- */
-        .carousel{ 
-            width:100%; 
-            max-width:820px; 
-            margin:10px auto 28px; 
-            position:relative; 
-            padding:8px; 
-        }
-        .carousel-stage{ 
-            position:relative; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            height:360px; 
-            min-height:360px; 
-            overflow:hidden; 
-            touch-action: pan-y; 
-        }
-        .slide{ 
-            position:absolute; 
-            inset:0; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            opacity:0; 
-            transition: opacity .8s ease; 
-        }
-        .slide.active{ 
-            opacity:1; 
-        }
-
-        .slide img{ 
-            width:auto; 
-            height:auto; 
-            max-width:100%; 
-            max-height:100%; 
-            object-fit:contain; 
-            border-radius:12px; 
-            box-shadow:0 12px 30px rgba(0,0,0,.12); 
-            user-select: none; 
-            -webkit-user-drag: none;
-        }
-
-        /* Flechas */
-        .arrow button{ 
-            background:var(--glass-strong); 
-            border-radius:50%; 
-            border:none; 
-            width:44px; 
-            height:44px; 
-            display:grid; 
-            place-items:center; 
-            box-shadow:var(--card-shadow); 
-            cursor:pointer;
-        }
-        .arrow-left{ 
-            position:absolute; 
-            top:50%; 
-            left:6px; 
-            transform:translateY(-50%); 
-            z-index: 10;
-        }
-        .arrow-right{ 
-            position:absolute; 
-            top:50%; 
-            right:6px; 
-            transform:translateY(-50%); 
-            z-index: 10;
-        }
-
-        /* ---------- Contador Mejorado ---------- */
-        .counter-section{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px; 
-            margin-bottom: 28px; 
-        }
-        .counter-card{
-            width: 100%;
-            max-width: 400px;
-            text-align:center;
-            font-weight:700;
-            font-size:1.1rem;
+        /* ---------- Favoritos (NUEVO) ---------- */
+        .favorites-grid-wrapper {
             padding: 20px;
-            border-radius: var(--rounded);
-            background: var(--glass-strong); 
-            box-shadow: var(--card-shadow);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255,255,255,0.4);
+            max-width: 820px;
+            margin: 40px auto;
         }
-        .counter-card .fun-fact-text{ 
-            font-size:1.4rem; 
-            margin-bottom:8px;
-            color: var(--text);
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
         }
-        .counter-card #contador{
+        .favorite-item {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .favorite-item span {
+            display: block;
             font-size: 1.8rem;
-            color: var(--accent);
-            font-weight: 900;
-            letter-spacing: -0.5px;
+            margin-bottom: 8px;
         }
-
 
         /* ---------- Timeline ---------- */
         .timeline-wrapper {
-            max-width:820px; 
             margin:10px auto 30px;
+            opacity: 1; /* El timeline ya tiene su propia lógica de revelado */
+            transform: none;
         }
         .timeline-wrapper .text-card {
-            margin: 0 0 30px 0; /* Ajuste para que la tarjeta de texto dentro no tenga doble margen */
+            margin: 0 0 30px 0; 
+            opacity: 1; 
+            transform: none;
         }
 
+        /* El resto del CSS del Timeline permanece igual */
         .timeline{ 
             display:flex; 
             flex-direction:column; 
             gap:12px; 
-            /* Mantener la alineación a la izquierda para los eventos del timeline */
             text-align: left; 
         }
         .event{ 
@@ -413,39 +361,9 @@
             font-size: 0.95rem;
             color: rgba(0,0,0,0.75);
         }
-        
-        /* Separador temático */
-        .section-separator {
-            text-align: center;
-            margin: 40px auto;
-            max-width: 500px;
-        }
-        .section-separator hr {
-            border: none;
-            border-top: 1px solid rgba(0,0,0,0.1);
-            margin: 10px 0;
-        }
-        .section-separator span {
-            font-size: 2rem;
-            color: var(--accent);
-        }
-
-        /* Texto final */
-        .final-message-card {
-            max-width: 700px;
-            margin: 40px auto 0;
-            padding: 25px;
-            border-radius: var(--rounded);
-            background: linear-gradient(180deg, var(--glass-strong), var(--glass));
-            box-shadow: var(--card-shadow);
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 500;
-            line-height: 1.5;
-        }
 
 
-        /* ---------- Responsive ---------- */
+        /* ---------- Responsive (Ajustado) ---------- */
         @media(max-width:720px){ 
             h1{ 
                 font-size:2.4rem 
@@ -483,24 +401,28 @@
     <div id="confirm"> 
         <div class="confirm-card"> 
             <h2>Ábreme si te gustan los takis y eres la niña mas guapa del mundo (CARLOTA DURÁN GARCÍA) 💚</h2> 
-            <div class="compact-player" id="confirmCompact"> 
-                <div class="cover-wrap" id="coverWrapConfirm"> 
-                    <img src="images/portada.JPG" id="coverImgConfirm" alt="Portada de la música"> 
+            
+            <div class="compact-player" id="voicePlayerConfirm"> 
+                <div class="cover-wrap" id="voiceCoverWrapConfirm"> 
+                    <img src="images/portada.JPG" id="voiceCoverImgConfirm" alt="Mensaje de Voz"> 
                     <div class="play-overlay">
-                        <div class="play-circle" id="playOverlayConfirm"></div>
+                        <div class="play-circle" id="voicePlayOverlayConfirm">
+                             <svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9z" fill="#fff"/></svg>
+                        </div>
                     </div>
                 </div> 
                 <div class="player-meta"> 
-                    <div class="player-title">Enjoy 🥹</div> 
+                    <div class="player-title">¡Tienes un mensaje de voz! 🔊</div> 
                     <div class="player-time">
-                        <span id="timeCurC">0:00</span> / <span id="timeDurC">0:00</span>
+                        <span id="voiceTimeCurC">0:00</span> / <span id="voiceTimeDurC">0:00</span>
                     </div> 
                     <div class="small-progress">
-                        <input id="progressC" type="range" min="0" max="100">
+                        <input id="voiceProgressC" type="range" min="0" max="100" value="0">
                     </div> 
                 </div> 
             </div> 
-            <button id="openBtn">Abrir</button> 
+
+            <button id="openBtn" disabled>Abrir (Escucha el mensaje primero)</button> 
         </div> 
     </div>
 
@@ -524,12 +446,12 @@
                 </div> 
             </div> 
         </div>
-
+        
         <div class="title-wrap"> 
             <h1>¿Te creías que el concierto era lo único que iba a regalarte? Seguro que no jeje porque sabes lo tonto que soy... </h1> 
         </div>
 
-        <div class="text-card"> 
+        <div class="text-card" id="reasonsCard">
             <p class="message"></p> 
             <p class="message">1. Porque contigo puedo ser realmente yo, y me sacas una sonrisa hasta cuando nadie puede hacerme sonreír</p> 
             <p class="message">2. Porque tienes el alma más pura que he visto nunca, y todo lo haces con una sonrisa que alegra hasta el peor de los días</p> 
@@ -548,7 +470,7 @@
             <p class="message">14. No empiezo por porque pero si que explico. Si he empezado estos mensajes así al principio pensaba que era para decirte luego en plan porque te quiero. Pero muy basic no? Ahora creo que pueden haber sido razones (sencillas) que explican porque admiro y quiero, y agradezco a Carlota. <br> Es importante recordar lo que me dijo tu abuelo también al conocerle, y toda la razón que tenía.<br> Agradezco que me hagas una persona mejor cada día que pasa, agradezco que te preocupes, que seas atenta, que te esfuerzas por expresarte. En fin, todo esto te lo he dicho ya en alguno de los 14 mensajes previos. <br> Con motivo de ayer y algo que he pensado bastante inconscientemente, uso este mensaje para explicar otra vez porque estoy contigo y no con "otra" como me preguntabas ayer. <br> Otra, no me hace feliz. Otra, no me importa como haces tú. Otra no tiene la sonrisa bonita que tienes tú, ni los ojos oscuros pero en los que me veo reflejado cuando me miras, o tú pelo marrón/negro (depende de la luz) que siempre está perfecto y onduladito que tanto me gusta, ni tu habilidad para hacer una foto patata. Tampoco tiene los valores ni la educación que tienes tú. Ni tu forma de ser que TANTO me gusta y TANTO disfruto todos los días y que agradezco. <br> Tampoco tienen tu fe, ni la transmiten, ni vive orgullosa de ella como haces tú y algo de lo que estoy muy orgulloso y feliz. <br> No tiene esa atención al detalle que me has demostrado tener pese a decir que no te acuerdas de las cosas y eres "menos atenta". <br> No canta ni tanto ni tan bien. No me atrae como haces tú. No me importa como me importas tú. No me trata como me tratas tú. <br> No me ayuda ni me tranquiliza como haces tú.</p> 
         </div>
 
-        <div class="carousel"> 
+        <div class="carousel" id="photoCarousel"> 
             <div class="arrow-left">
                 <button id="prevBtn">‹</button>
             </div> 
@@ -585,15 +507,45 @@
         </div>
 
         <div class="counter-section">
-            <div class="counter-card">
+            <div class="counter-card" id="counterCard">
                 <div class="fun-fact-text">Parezca más o menos tiempo, llevamos saliendo: </div> 
                 <div id="contador"></div> 
             </div>
             <div class="text-card" style="max-width: 500px; margin: 0;">
-                <p class="message" style="margin: 0;">TEXTO para modificar aquí después del Fun Fact.</p>
+                <p class="message" style="margin: 0; text-align: center;">TEXTO para modificar aquí después del Fun Fact.</p>
             </div>
         </div>
 
+        <div class="favorites-grid-wrapper" id="favoritesCard">
+            <h2 style="text-align: center; color: var(--accent); margin-top: 0;">Mis 6 Cosas Favoritas de Nosotros</h2>
+            <div class="favorites-grid">
+                <div class="favorite-item">
+                    <span>🎬</span>
+                    Nuestras noches de cine con palomitas.
+                </div>
+                <div class="favorite-item">
+                    <span>🗺️</span>
+                    Las ganas de planear nuestro próximo viaje.
+                </div>
+                <div class="favorite-item">
+                    <span>🫂</span>
+                    La comodidad de hacer *nada* juntos.
+                </div>
+                <div class="favorite-item">
+                    <span>🎧</span>
+                    Cuando te sabes la letra de una canción y cantamos a gritos.
+                </div>
+                <div class="favorite-item">
+                    <span>😂</span>
+                    La capacidad de reírnos de las mismas tonterías.
+                </div>
+                <div class="favorite-item">
+                    <span>✨</span>
+                    Tu habilidad de hacer mágico el día más normal.
+                </div>
+            </div>
+        </div>
+        
         <div class="timeline-wrapper"> 
             <div class="text-card">
                 <p class="message" style="font-weight: 700;">
@@ -631,8 +583,8 @@
             <hr>
         </div>
 
-        <div class="final-message-card">
-            Sabeees que! Toda la idea viene de una web brasileña parecida donde yo hice como un "mensaje de amor" / "carta" así que se supone que tendría que funcionar pues pague (1.37€, tranqui). Al final ni funcionó ni me hicieron mucho caso, así queeee empecé a hacerla yo por mi cuenta incluso ANTES de comprar las entradas al concierto de Louis Tomilson. Sorprendentemente no se me escapó la sorpresa (ESPERO, estoy escribiendo esto a 18/11 y lo empecé el 10/11 😀)
+        <div class="final-message-card" id="finalCard">
+            <p>Sabeees que! Toda la idea viene de una web brasileña parecida donde yo hice como un "mensaje de amor" / "carta" así que se supone que tendría que funcionar pues pague (1.37€, tranqui). Al final ni funcionó ni me hicieron mucho caso, así queeee empecé a hacerla yo por mi cuenta incluso ANTES de comprar las entradas al concierto de Louis Tomilson. Sorprendentemente no se me escapó la sorpresa (ESPERO, estoy escribiendo esto a 18/11 y lo empecé el 10/11 😀)</p>
         </div>
     </div>
 
@@ -659,69 +611,165 @@
             setTimeout(()=>document.getElementById('loader').classList.add('hidden'),2000); 
         }); 
 
-        /* confirm */ 
-        document.getElementById('openBtn').onclick=()=>{ 
-            document.getElementById('confirm').style.display='none'; 
-            document.getElementById('mainContent').style.display='block'; 
-        }; 
-
-        /* audio */ 
-        const audio=new Audio("images/musica.mp3"); 
-        audio.preload='metadata'; 
-        const playOverlayConfirm=document.getElementById('playOverlayConfirm'); 
-        const playOverlayMain=document.getElementById('playOverlayMain'); 
-        const coverWrapConfirm=document.getElementById('coverWrapConfirm'); 
-        const coverWrapMain=document.getElementById('coverWrapMain'); 
-        const progressC=document.getElementById('progressC'); 
-        const progressM=document.getElementById('progressM'); 
-        const timeCurC=document.getElementById('timeCurC'); 
-        const timeCurM=document.getElementById('timeCurM'); 
-        const timeDurC=document.getElementById('timeDurC'); 
-        const timeDurM=document.getElementById('timeDurM'); 
-
+        /* audio utils */ 
         function fmt(s){ 
             if(!isFinite(s)) return '0:00'; 
             const m=Math.floor(s/60); 
             const sec=Math.floor(s%60).toString().padStart(2,'0'); 
             return `${m}:${sec}`;
-        } 
+        }
+        const svgPlay='<svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9z" fill="#fff"/></svg>'; 
+        const svgPause='<svg width="14" height="14" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" fill="#fff"/><rect x="14" y="5" width="4" height="14" fill="#fff"/></svg>'; 
+        
+        /* ---------------------------------------------------- */
+        /* ---------- LOGICA DE AUDIO DE INTRO (VOZ) ---------- */
+        /* ---------------------------------------------------- */
+        const voiceAudio = new Audio("images/audio_personal.mp3"); // <--- AQUI DEBES PONER TU MP3 PERSONAL
+        voiceAudio.preload = 'metadata';
+
+        const openBtn = document.getElementById('openBtn');
+        const voiceCoverWrapConfirm = document.getElementById('voiceCoverWrapConfirm');
+        const voicePlayOverlayConfirm = document.getElementById('voicePlayOverlayConfirm');
+        const voiceProgressC = document.getElementById('voiceProgressC');
+        const voiceTimeCurC = document.getElementById('voiceTimeCurC');
+        const voiceTimeDurC = document.getElementById('voiceTimeDurC');
+
+
+        function toggleVoicePlay() {
+            if (voiceAudio.paused) {
+                voiceAudio.play().catch(e => console.error('Voice play failed:', e));
+                voiceCoverWrapConfirm.classList.add('playing');
+                voicePlayOverlayConfirm.innerHTML = svgPause;
+            } else {
+                voiceAudio.pause();
+                voiceCoverWrapConfirm.classList.remove('playing');
+                voicePlayOverlayConfirm.innerHTML = svgPlay;
+            }
+        }
+
+        voiceCoverWrapConfirm.onclick = toggleVoicePlay;
+
+        voiceAudio.onloadedmetadata = () => {
+            voiceTimeDurC.textContent = fmt(voiceAudio.duration);
+        };
+
+        voiceAudio.ontimeupdate = () => {
+            if (!voiceAudio.duration) return;
+            const pct = (voiceAudio.currentTime / voiceAudio.duration) * 100;
+            voiceProgressC.value = pct;
+            voiceTimeCurC.textContent = fmt(voiceAudio.currentTime);
+        };
+
+        // CUANDO TERMINA EL AUDIO, SE ACTIVA EL BOTÓN
+        voiceAudio.onended = () => {
+            voiceCoverWrapConfirm.classList.remove('playing');
+            voicePlayOverlayConfirm.innerHTML = svgPlay;
+            
+            openBtn.disabled = false;
+            openBtn.textContent = '¡Abrir!';
+            openBtn.style.background = 'var(--accent)';
+        };
+
+        voiceProgressC.oninput = (e) => {
+            if (voiceAudio.duration) {
+                voiceAudio.currentTime = (e.target.value / 100) * voiceAudio.duration;
+            }
+        };
+
+
+        /* ---------------------------------------------------- */
+        /* -------- LOGICA DE APERTURA DEL CONTENIDO ---------- */
+        /* ---------------------------------------------------- */
+        document.getElementById('openBtn').onclick=()=>{ 
+            document.getElementById('confirm').style.display='none'; 
+            document.getElementById('mainContent').style.display='block'; 
+            // Iniciar la verificación de scroll para animaciones al entrar
+            checkReveal();
+        }; 
+
+        /* ---------------------------------------------------- */
+        /* ------- LOGICA DE MUSICA DE FONDO (PRINCIPAL) ------ */
+        /* ---------------------------------------------------- */
+        const audio=new Audio("images/musica.mp3"); 
+        audio.preload='metadata'; 
+        const coverWrapMain=document.getElementById('coverWrapMain'); 
+        const playOverlayMain=document.getElementById('playOverlayMain'); 
+        const progressM=document.getElementById('progressM'); 
+        const timeCurM=document.getElementById('timeCurM'); 
+        const timeDurM=document.getElementById('timeDurM'); 
 
         function setPlayingUI(play){ 
-            coverWrapConfirm.classList.toggle('playing',play); 
             coverWrapMain.classList.toggle('playing',play); 
-            const svgPlay='<svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9z" fill="#fff"/></svg>'; 
-            const svgPause='<svg width="14" height="14" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" fill="#fff"/><rect x="14" y="5" width="4" height="14" fill="#fff"/></svg>'; 
-            playOverlayConfirm.innerHTML=play?svgPause:svgPlay; 
             playOverlayMain.innerHTML=play?svgPause:svgPlay; 
         } 
 
         function togglePlay(){ 
+            // Pausar el mensaje de voz si se está reproduciendo
+            if (!voiceAudio.paused) {
+                voiceAudio.pause();
+                voiceCoverWrapConfirm.classList.remove('playing');
+                voicePlayOverlayConfirm.innerHTML = svgPlay;
+            }
+
             audio.paused?(audio.play().catch(e => console.log('Play failed:', e)), setPlayingUI(true)):(audio.pause(),setPlayingUI(false)); 
         } 
 
-        coverWrapConfirm.onclick=togglePlay; 
         coverWrapMain.onclick=togglePlay; 
 
         audio.onloadedmetadata=()=>{ 
-            timeDurC.textContent=fmt(audio.duration); 
             timeDurM.textContent=fmt(audio.duration); 
         }; 
 
         audio.ontimeupdate=()=>{ 
             if(!audio.duration)return; 
             const pct=(audio.currentTime/audio.duration)*100; 
-            progressC.value=pct; 
             progressM.value=pct; 
-            timeCurC.textContent=fmt(audio.currentTime); 
             timeCurM.textContent=fmt(audio.currentTime); 
         }; 
 
         audio.onended=()=>setPlayingUI(false); 
 
-        progressC.oninput=e=>audio.currentTime=(e.target.value/100)*audio.duration; 
         progressM.oninput=e=>audio.currentTime=(e.target.value/100)*audio.duration; 
+        
+        
+        /* ---------------------------------------------------- */
+        /* ------ LOGICA DE ANIMACIÓN AL SCROLL (REVEAL) ------ */
+        /* ---------------------------------------------------- */
+        const revealElements = [
+            document.getElementById('reasonsCard'),
+            document.getElementById('photoCarousel'),
+            document.getElementById('counterCard'),
+            document.getElementById('favoritesCard'),
+            document.getElementById('finalCard')
+        ].filter(e => e !== null); // Filtra los elementos que no existan
 
-        /* carousel con swipe */ 
+        function checkReveal(){ 
+            const t=window.innerHeight*0.85; // Se revela cuando el 85% de la ventana lo ha alcanzado
+            
+            // 1. Animación de Secciones (Text Cards, Carousel, etc.)
+            revealElements.forEach(e=>{ 
+                if(!e.classList.contains('reveal-visible') && e.getBoundingClientRect().top<t){
+                    e.classList.add('reveal-visible');
+                }
+            }); 
+            
+            // 2. Animación del Timeline (mantiene la lógica original)
+            document.querySelectorAll('.event').forEach(e=>{ 
+                if(e.getBoundingClientRect().top<t)e.classList.add('visible'); 
+            }); 
+        } 
+        
+        window.addEventListener('scroll',checkReveal); 
+        // Llama a checkReveal una vez al cargar por si los elementos ya están en pantalla
+        window.addEventListener('load',()=>{ 
+            checkReveal(); 
+            // Inicia el audio de voz inmediatamente si el navegador lo permite
+            voiceAudio.load();
+        });
+        
+        /* ---------------------------------------------------- */
+        /* ------------------ LOGICA CAROUSEL ----------------- */
+        /* ---------------------------------------------------- */
         const slides=[...document.querySelectorAll('.slide')]; 
         const stage = document.getElementById('stage');
         let current=0; 
@@ -764,8 +812,9 @@
         show(0);
 
 
-        /* contador */ 
-        // Fecha de inicio: 2 de Julio de 2025 a las 19:30:00 (7:30 PM) en la zona horaria de España (+02:00)
+        /* ---------------------------------------------------- */
+        /* ------------------ LOGICA CONTADOR ----------------- */
+        /* ---------------------------------------------------- */
         const startDate=new Date('2025-07-02T19:30:00+02:00'); 
         const contador=document.getElementById('contador'); 
 
@@ -773,7 +822,6 @@
             const now=new Date(); 
             let diff=Math.floor((now-startDate)/1000); 
             
-            // Asegurarse de que el contador no sea negativo si la fecha aún no ha llegado
             if (diff < 0) {
                 diff = 0;
             }
@@ -789,16 +837,6 @@
         } 
         update(); 
         setInterval(update,1000); 
-
-        /* timeline reveal */ 
-        function check(){ 
-            const t=window.innerHeight*0.85; 
-            document.querySelectorAll('.event').forEach(e=>{ 
-                if(e.getBoundingClientRect().top<t)e.classList.add('visible'); 
-            }); 
-        } 
-        window.addEventListener('scroll',check); 
-        window.addEventListener('load',check); 
     </script>
 </body>
 </html>
