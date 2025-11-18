@@ -98,7 +98,7 @@
             flex-direction:column; 
             gap:12px; 
             align-items:center; 
-            /* *** CAMBIO 1: Centra el texto dentro de la tarjeta de confirmación *** */
+            /* Se mantiene centrado para el título de la bienvenida */
             text-align: center; 
         }
 
@@ -235,14 +235,16 @@
             background: var(--glass-strong);
             box-shadow: var(--card-shadow);
             backdrop-filter: blur(6px);
-            /* *** CAMBIO 2: Centra el contenido dentro de las tarjetas de contenido *** */
-            text-align: center; 
+            /* *** CAMBIO SOLICITADO: Justifica el contenido dentro de las tarjetas de contenido *** */
+            text-align: justify; 
         }
         
         p.message{ 
             font-size:1.1rem; 
             color:rgba(0,0,0,0.7); 
             margin:14px 0; 
+            /* Esto es importante para que la justificación funcione bien en todos los párrafos */
+            text-align: inherit; 
         }
         p.message:first-child {
             margin-top: 0;
@@ -375,7 +377,7 @@
             display:flex; 
             flex-direction:column; 
             gap:12px; 
-            /* Se mantiene el texto de los eventos alineado a la izquierda para mejor lectura */
+            /* Mantener la alineación a la izquierda para los eventos del timeline */
             text-align: left; 
         }
         .event{ 
@@ -763,16 +765,19 @@
 
 
         /* contador */ 
-        const startDate=new Date('2025-07-02T00:00:00+02:00'); 
+        // Fecha de inicio: 2 de Julio de 2025 a las 19:30:00 (7:30 PM) en la zona horaria de España (+02:00)
+        const startDate=new Date('2025-07-02T19:30:00+02:00'); 
         const contador=document.getElementById('contador'); 
 
         function update(){ 
             const now=new Date(); 
             let diff=Math.floor((now-startDate)/1000); 
-            // Esto se asegura de que el contador no sea negativo si la fecha aún no ha llegado
-            if (diff < 0) { 
-                diff = 0; 
+            
+            // Asegurarse de que el contador no sea negativo si la fecha aún no ha llegado
+            if (diff < 0) {
+                diff = 0;
             }
+
             const d=Math.floor(diff/86400); 
             diff%=86400; 
             const h=Math.floor(diff/3600); 
