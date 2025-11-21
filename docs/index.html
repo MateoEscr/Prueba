@@ -25,7 +25,7 @@
             -webkit-font-smoothing:antialiased; 
             -moz-osx-font-smoothing:grayscale; 
             -webkit-touch-callout:none; 
-            touch-action: pan-y; 
+            /* Se mantiene touch-action: pan-y; */ 
         }
 
         /* ---------- Fondo emojis ---------- */
@@ -398,6 +398,7 @@
             flex-direction:column; 
             gap:12px; 
         }
+        /* La animación de los eventos se gestiona ahora por JS, la clase 'event' solo da estilo base */
         .event{ 
             background:linear-gradient(180deg,rgba(255,255,255,0.7),rgba(255,255,255,0.55)); 
             border-radius:12px; 
@@ -460,6 +461,24 @@
             font-size: 1.2rem;
             font-weight: 500;
             line-height: 1.5;
+        }
+        
+        /* -------------------------------------- */
+        /* --- NUEVO: Clases para Scroll Reveal --- */
+        /* -------------------------------------- */
+        .hidden-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        
+        .hidden-section.visible {
+            opacity: 1;
+            transform: none;
+        }
+        /* Delay para el mensaje final para que no aparezca a la vez que el separador */
+        .final-message-card.hidden-section {
+             transition-delay: 0.3s;
         }
 
 
@@ -526,7 +545,7 @@
                     </div>
                 </div> 
                 <div class="player-meta"> 
-                    <div class="player-title">¡Tienes un mensaje! 💌</div> 
+                    <div class="player-title">¡Tienes un mensaje de Mateo! 💌</div> 
                     <div class="player-time">
                         <span id="messageTimeCurC">0:00</span> / <span id="messageTimeDurC">0:00</span>
                     </div> 
@@ -561,11 +580,11 @@
             </div> 
         </div>
 
-        <div class="title-wrap"> 
-            <h1>¿Te creías que el concierto era lo único que iba a regalarte? Seguro que no jeje porque sabes lo tonto que soy... </h1> 
+        <div class="title-wrap hidden-section" id="titleSection"> 
+            <h1>¿Te creías que el concierto era lo único que iba a regalarte? <span> Seguro que no jeje porque sabes lo tonto que soy...</span> </h1> 
         </div>
 
-        <div class="text-card" style="text-align: center;"> 
+        <div class="text-card" id="reasonsCard" style="text-align: center;"> 
             <p class="message" style="text-align: left;"></p> 
             <p class="message" style="text-align: left;">1. Porque contigo puedo ser realmente yo, y me sacas una sonrisa hasta cuando nadie puede hacerme sonreír</p> 
             <p class="message" style="text-align: left;">2. Porque tienes el alma más pura que he visto nunca, y todo lo haces con una sonrisa que alegra hasta el peor de los días</p> 
@@ -584,7 +603,7 @@
             <p class="message" style="text-align: left;">14. No empiezo por porque pero si que explico. Si he empezado estos mensajes así al principio pensaba que era para decirte luego en plan porque te quiero. Pero muy basic no? Ahora creo que pueden haber sido razones (sencillas) que explican porque admiro y quiero, y agradezco a Carlota. <br> Es importante recordar lo que me dijo tu abuelo también al conocerle, y toda la razón que tenía.<br> Agradezco que me hagas una persona mejor cada día que pasa, agradezco que te preocupes, que seas atenta, que te esfuerzas por expresarte. En fin, todo esto te lo he dicho ya en alguno de los 14 mensajes previos. <br> Con motivo de ayer y algo que he pensado bastante inconscientemente, uso este mensaje para explicar otra vez porque estoy contigo y no con "otra" como me preguntabas ayer. <br> Otra, no me hace feliz. Otra, no me importa como haces tú. Otra no tiene la sonrisa bonita que tienes tú, ni los ojos oscuros pero en los que me veo reflejado cuando me miras, o tú pelo marrón/negro (depende de la luz) que siempre está perfecto y onduladito que tanto me gusta, ni tu habilidad para hacer una foto patata. Tampoco tiene los valores ni la educación que tienes tú. Ni tu forma de ser que TANTO me gusta y TANTO disfruto todos los días y que agradezco. <br> Tampoco tienen tu fe, ni la transmiten, ni vive orgullosa de ella como haces tú y algo de lo que estoy muy orgulloso y feliz. <br> No tiene esa atención al detalle que me has demostrado tener pese a decir que no te acuerdas de las cosas y eres "menos atenta". <br> No canta ni tanto ni tan bien. No me atrae como haces tú. No me importa como me importas tú. No me trata como me tratas tú. <br> No me ayuda ni me tranquiliza como haces tú.</p> 
         </div>
 
-        <div class="carousel"> 
+        <div class="carousel hidden-section"> 
             <div class="arrow-left">
                 <button id="prevBtn">‹</button>
             </div> 
@@ -620,7 +639,7 @@
             </div> 
         </div>
 
-        <div class="counter-section">
+        <div class="counter-section hidden-section" id="counterSection">
             <div class="counter-card">
                 <div class="fun-fact-text">Parezca más o menos tiempo, llevamos saliendo: </div> 
                 <div id="contador"></div> 
@@ -630,7 +649,7 @@
             </div>
         </div>
 
-        <div class="timeline-wrapper"> 
+        <div class="timeline-wrapper hidden-section" id="timelineWrapper"> 
             <div class="text-card">
                 <p class="message" style="font-weight: 700;">
                     También he querido incluir algunos momentos memorables o por lo menos que puedan ser importantes / fun recordar (no se ya que poner y que no poner :( ) . <br> No se me ha dado muy allá pero he hecho lo que he podido. Acepto quejas y recomendaciones:
@@ -663,13 +682,13 @@
             </div>
         </div> 
         
-        <div class="section-separator">
+        <div class="section-separator hidden-section">
             <hr>
             <span>🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶</span>
             <hr>
         </div>
 
-        <div class="final-message-card">
+        <div class="final-message-card hidden-section">
             Sabeees que! Toda la idea viene de una web brasileña parecida donde yo hice como un "mensaje de amor" / "carta" así que se supone que tendría que funcionar pues pague (1.37€, tranqui). Al final ni funcionó ni me hicieron mucho caso, así queeee empecé a hacerla yo por mi cuenta incluso ANTES de comprar las entradas al concierto de Louis Tomilson. Sorprendentemente no se me escapó la sorpresa (ESPERO, estoy escribiendo esto a 18/11 y lo empecé el 10/11 😀) <br> Posdata, el separador de corazones de arriba tiene efectivamente 14 en total, por si no te habías fijado 😉
         </div>
     </div>
@@ -677,7 +696,7 @@
     <script> 
         /* iconos */ 
         const svgPlay='<svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9z" fill="#fff"/></svg>'; 
-        const svgPause='<svg width="14" height="14" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" fill="#fff"/><rect x="14" y="5" width="4" height="14" fill="#fff"/></svg>'; 
+        const svgPause='<svg width="14" height="14" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" fill="#fff"/><rect x="14" y="5" width="4" height="14" fill="#fff"/></rect></svg>'; 
         
         /* emojis */ 
         (function(){ 
@@ -817,6 +836,9 @@
             setMessagePlayingUI(false); // Asegura que la UI de confirm se actualice
             document.getElementById('confirm').style.display='none'; 
             document.getElementById('mainContent').style.display='block'; 
+            
+            // Inicia la observación de las secciones para el scroll reveal
+            observeSections();
         }; 
 
         /* carousel con swipe */ 
@@ -881,15 +903,73 @@
         update(); 
         setInterval(update,1000); 
 
-        /* timeline reveal */ 
-        function check(){ 
-            const t=window.innerHeight*0.85; 
-            document.querySelectorAll('.event').forEach(e=>{ 
-                if(e.getBoundingClientRect().top<t)e.classList.add('visible'); 
-            }); 
-        } 
-        window.addEventListener('scroll',check); 
-        window.addEventListener('load',check); 
+        /* ---------------------------------------------------- */
+        /* --------- NUEVO: Lógica de Scroll Reveal General ----- */
+        /* ---------------------------------------------------- */
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.15 // 15% del elemento visible
+        };
+
+        const generalObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        function observeSections() {
+            // Aplicar el observer a todas las secciones marcadas como hidden-section
+            document.querySelectorAll('.hidden-section').forEach(section => {
+                generalObserver.observe(section);
+            });
+            
+            // Inicia la observación de los eventos del timeline de forma escalonada
+            observeTimelineEvents();
+        }
+
+        /* ---------------------------------------------------- */
+        /* -------- Lógica de Scroll Reveal para Timeline ------- */
+        /* ---------------------------------------------------- */
+        const timelineObserverOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.8 // Que casi todo el elemento esté visible
+        };
+        
+        const timelineObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Si el evento está visible, lo revela y lo deja de observar
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, timelineObserverOptions);
+
+        function observeTimelineEvents() {
+            // Usa setTimeout para crear un efecto de "cascada" en la aparición de los eventos
+            document.querySelectorAll('.event').forEach((event, index) => {
+                // Modificamos el estilo de transición para que el delay funcione
+                event.style.transition = `all .5s ease ${index * 0.15}s`;
+                // Observamos el evento para que se revele al hacer scroll
+                timelineObserver.observe(event);
+            });
+        }
+        
+        // El observer del timeline ya no necesita el listener de scroll.
+        // Lo que estaba en window.addEventListener('scroll', check) ahora está
+        // integrado en IntersectionObserver.
+        window.addEventListener('load', () => {
+            // Asegurarse de que el timeline se muestre si la página carga directamente en él
+            // (aunque se oculta con display:none)
+            // Esto solo es para asegurar el estado inicial en caso de cambiar el flujo.
+            // Para el flujo actual, la llamada a observeSections() se hace en document.getElementById('openBtn').onclick
+        });
+        
     </script>
 </body>
 </html>
