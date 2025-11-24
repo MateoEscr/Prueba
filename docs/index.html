@@ -954,6 +954,8 @@
                 <div class="collage-item"><img src="images/collage26.jpg" alt="Foto collage 26"></div>
                 <div class="collage-item"><img src="images/collage27.JPG" alt="Foto collage 27"></div>
                 <div class="collage-item"><img src="images/collage28.jpg" alt="Foto collage 28"></div>
+                <div class="collage-item"><img src="images/collage29.jpg" alt="Foto collage 29"></div>
+                <div class="collage-item"><img src="images/collage30.jpg" alt="Foto collage 30"></div>
                 
             </div>
             <div class="message-center" style="margin-top: 25px;">
@@ -1011,7 +1013,7 @@
             <div class="carousel-stage" id="perspectiveStage"> 
                 <div class="slide active">
                     <div onclick="openCurrentPerspectiveLightbox()">
-                        <img src="images/AB1-1.jpg" alt="Perspectiva 1 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);" data-img-a="images/AB1-1.jpg" data-img-b="images/AB1-2.jpg">
+                        <img src="images/AB1-1.jpg" alt="Perspectiva 1 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB1-2.jpg" alt="Perspectiva 1 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
@@ -1130,7 +1132,7 @@
             // 1. Buscamos el slide activo actualmente en el escenario de perspectivas
             const activeSlide = document.querySelector('#perspectiveStage .slide.active');
             
-            // 2. Buscamos las dos imágenes DENTRO de ese slide activo
+            // 2. Buscamos las dos imágenes dentro de ese slide activo
             const images = activeSlide ? activeSlide.querySelectorAll('img') : null;
             
             if (images && images.length === 2) {
@@ -1145,14 +1147,16 @@
         (function(){ 
             const container = document.getElementById('emoji-bg'); 
             const hearts=['💚','💖']; 
-            for(let i=0;i<25;i++){ 
+            for(let i=0;i<35;i++){ 
                 const e=document.createElement('div'); 
                 e.className='emoji'; 
                 e.textContent=hearts[Math.floor(Math.random()*hearts.length)]; 
                 e.style.left=Math.random()*100+'%'; 
-                e.style.top=Math.random()*100+'%'; 
                 e.style.opacity=(0.04+Math.random()*0.08); 
                 e.style.fontSize=(12+Math.random()*36)+'px'; 
+                // Nuevas propiedades CSS personalizadas para duración y retraso
+                e.style.setProperty('--random-duration', `${Math.random() * 10}s`); 
+                e.style.setProperty('--random-delay', `${Math.random() * 10}s`);     
                 container.appendChild(e); 
             } 
         })(); 
