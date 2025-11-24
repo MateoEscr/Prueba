@@ -1010,31 +1010,31 @@
             </div> 
             <div class="carousel-stage" id="perspectiveStage"> 
                 <div class="slide active">
-                    <div onclick="openCurrentPerspectiveLightbox(this)">
-                        <img src="images/AB1-1.jpg" alt="Perspectiva 1 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <div onclick="openCurrentPerspectiveLightbox()">
+                        <img src="images/AB1-1.jpg" alt="Perspectiva 1 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);" data-img-a="images/AB1-1.jpg" data-img-b="images/AB1-2.jpg">
                         <img src="images/AB1-2.jpg" alt="Perspectiva 1 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
                 <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox(this)">
+                    <div onclick="openCurrentPerspectiveLightbox()">
                         <img src="images/AB2-1.jpg" alt="Perspectiva 2 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB2-2.jpg" alt="Perspectiva 2 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
                 <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox(this)">
+                    <div onclick="openCurrentPerspectiveLightbox()">
                         <img src="images/AB3-1.jpg" alt="Perspectiva 3 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB3-2.jpg" alt="Perspectiva 3 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
                 <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox(this)">
+                    <div onclick="openCurrentPerspectiveLightbox()">
                         <img src="images/AB4-1.jpg" alt="Perspectiva 4 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB4-2.jpg" alt="Perspectiva 4 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
                 <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox(this)">
+                    <div onclick="openCurrentPerspectiveLightbox()">
                         <img src="images/AB5-1.jpg" alt="Perspectiva 5 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB5-2.jpg" alt="Perspectiva 5 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
@@ -1124,12 +1124,16 @@
         }
         
         /* Lógica para ABRIR el lightbox DUAL (Ahora lee las rutas del elemento clicado) */
-        function openCurrentPerspectiveLightbox(element) {
+        function openCurrentPerspectiveLightbox() {
             hapticFeedback(100);
-            // Busca las dos imágenes dentro del div que fue clicado
-            const images = element.querySelectorAll('img');
             
-            if (images.length === 2) {
+            // 1. Buscamos el slide activo actualmente en el escenario de perspectivas
+            const activeSlide = document.querySelector('#perspectiveStage .slide.active');
+            
+            // 2. Buscamos las dos imágenes DENTRO de ese slide activo
+            const images = activeSlide ? activeSlide.querySelectorAll('img') : null;
+            
+            if (images && images.length === 2) {
                 document.getElementById('dualImageA').src = images[0].src;
                 document.getElementById('dualImageB').src = images[1].src;
                 document.getElementById('dualLightbox').style.display = 'flex';
