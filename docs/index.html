@@ -682,7 +682,7 @@
             border-top: 1px solid rgba(0,0,0,0.1);
             margin: 10px 0;
         }
-        .section-separator span {
+        .section-separator separator span {
             font-size: 2rem;
             color: var(--accent);
         }
@@ -779,27 +779,6 @@
             <button id="openBtn">Abrir</button> 
         </div> 
         
-        <div id="flowerContainer">
-            <div class="flower-wrapper">
-                <div class="flower">
-                    <div class="petal"></div>
-                    <div class="petal"></div>
-                    <div class="petal"></div>
-                    <div class="petal"></div>
-                    <div class="center"></div>
-                </div>
-            </div>
-            <div class="flower-wrapper">
-                <div class="flower">
-                    <div class="petal"></div>
-                    <div class="petal"></div>
-                    <div class="petal"></div>
-                    <div class="petal"></div>
-                    <div class="center"></div>
-                </div>
-            </div>
-        </div>
-        
     </div>
 
     <div class="container" id="mainContent" style="display:none;"> 
@@ -886,6 +865,7 @@
         <div class="collage-section hidden-section" id="collageSection">
             <h2 style="text-align: center; margin-bottom: 25px;">Appreciation "post" con fotos que adoro (mostly tuyas 😀😋🫶)</h2>
             <div class="collage-grid" id="photoCollage">
+                <!-- ARCHIVOS CORREGIDOS CON EXTENSIONES ORIGINALES/VÁLIDAS -->
                 <div class="collage-item"><img src="images/collage1.jpg" alt="Foto collage 1"></div>
                 <div class="collage-item"><img src="images/collage2.jpg" alt="Foto collage 2"></div>
                 <div class="collage-item"><img src="images/collage3.jpg" alt="Foto collage 3"></div>
@@ -914,8 +894,6 @@
                 <div class="collage-item"><img src="images/collage26.jpg" alt="Foto collage 26"></div>
                 <div class="collage-item"><img src="images/collage27.JPG" alt="Foto collage 27"></div>
                 <div class="collage-item"><img src="images/collage28.jpg" alt="Foto collage 28"></div>
-                <div class="collage-item"><img src="images/collage29.jpg" alt="Foto collage 29"></div>
-                <div class="collage-item"><img src="images/collage30.jpg" alt="Foto collage 30"></div>
                 
             </div>
             <div class="message-center" style="margin-top: 25px;">
@@ -965,79 +943,91 @@
             </div>
         </div> 
         
+        <!-- INICIO NUEVO SLIDER DE PERSPECTIVAS (VERTICAL) -->
         <div class="carousel hidden-section" id="perspectiveSlider">
             <h2 style="text-align: center; margin-bottom: 25px;">Nuestras Perspectivas 📸</h2>
             <div class="arrow-left">
                 <button id="prevPerspectiveBtn">‹</button>
             </div> 
             <div class="carousel-stage" id="perspectiveStage"> 
-                <div class="carousel-stage" id="perspectiveStage">
-    <div class="slide active">
-        <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
-            <img src="images/AB1-1.jpg" alt="Perspectiva 1 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-            <img src="images/AB1-2.jpg" alt="Perspectiva 1 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-        </div>
-    </div>
-    <div class="slide">
-        <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
-            <img src="images/AB2-1.jpg" alt="Perspectiva 2 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-            <img src="images/AB2-2.jpg" alt="Perspectiva 2 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-        </div>
-    </div>
-    <div class="slide">
-        <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
-            <img src="images/AB3-1.jpg" alt="Perspectiva 3 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-            <img src="images/AB3-2.jpg" alt="Perspectiva 3 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-        </div>
-    </div>
-    <div class="slide">
-        <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
-            <img src="images/AB4-1.jpg" alt="Perspectiva 4 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-            <img src="images/AB4-2.jpg" alt="Perspectiva 4 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-        </div>
-    </div>
-    <div class="slide">
-        <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
-            <img src="images/AB5-1.jpg" alt="Perspectiva 5 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-            <img src="images/AB5-2.jpg" alt="Perspectiva 5 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-        </div>
-    </div>
-    <div class="slide">
-        <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
-            <img src="images/AB6-1.jpg" alt="Perspectiva 6 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-            <img src="images/AB6-2.jpg" alt="Perspectiva 6 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-        </div>
-    </div>
-    <div class="slide">
-        <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
-            <img src="images/AB7-1.jpg" alt="Perspectiva 7 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-            <img src="images/AB7-2.jpg" alt="Perspectiva 7 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-        </div>
-    </div>
-    <div class="slide">
-        <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
-            <img src="images/AB8-1.jpg" alt="Perspectiva 8 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-            <img src="images/AB8-2.jpg" alt="Perspectiva 8 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-        </div>
-    </div>
-    <div class="slide">
-        <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
-            <img src="images/AB9-1.jpg" alt="Perspectiva 9 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-            <img src="images/AB9-2.jpg" alt="Perspectiva 9 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-        </div>
-    </div>
-    <div class="slide">
-        <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
-            <img src="images/AB10-1.jpg" alt="Perspectiva 10 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-            <img src="images/AB10-2.jpg" alt="Perspectiva 10 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-        </div>
-    </div>
-</div>
+                <!-- PAIR 1 -->
+                <div class="slide active">
+                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/AB1-1.jpg" alt="Perspectiva 1 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/AB1-2.jpg" alt="Perspectiva 1 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <!-- PAIR 2 -->
+                <div class="slide">
+                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/AB2-1.jpg" alt="Perspectiva 2 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/AB2-2.jpg" alt="Perspectiva 2 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <!-- PAIR 3 -->
+                <div class="slide">
+                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/AB3-1.jpg" alt="Perspectiva 3 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/AB3-2.jpg" alt="Perspectiva 3 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <!-- PAIR 4 -->
+                <div class="slide">
+                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/AB4-1.jpg" alt="Perspectiva 4 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/AB4-2.jpg" alt="Perspectiva 4 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <!-- PAIR 5 -->
+                <div class="slide">
+                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/AB5-1.jpg" alt="Perspectiva 5 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/AB5-2.jpg" alt="Perspectiva 5 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <!-- PAIR 6 -->
+                <div class="slide">
+                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/AB6-1.jpg" alt="Perspectiva 6 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/AB6-2.jpg" alt="Perspectiva 6 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <!-- PAIR 7 -->
+                <div class="slide">
+                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/AB7-1.jpg" alt="Perspectiva 7 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/AB7-2.jpg" alt="Perspectiva 7 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <!-- PAIR 8 -->
+                <div class="slide">
+                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/AB8-1.jpg" alt="Perspectiva 8 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/AB8-2.jpg" alt="Perspectiva 8 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <!-- PAIR 9 -->
+                <div class="slide">
+                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/AB9-1.jpg" alt="Perspectiva 9 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/AB9-2.jpg" alt="Perspectiva 9 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <!-- PAIR 10 -->
+                <div class="slide">
+                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/AB10-1.jpg" alt="Perspectiva 10 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/AB10-2.jpg" alt="Perspectiva 10 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
             </div> 
             <div class="arrow-right">
                 <button id="nextPerspectiveBtn">›</button>
             </div> 
         </div>
+        <!-- FIN NUEVO SLIDER DE PERSPECTIVAS -->
+
+        
         <div class="section-separator hidden-section">
             <hr>
             <span>🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶</span>
@@ -1045,7 +1035,7 @@
         </div>
 
         <div class="final-message-card hidden-section">
-            Sabeees que! Toda la idea viene de una web brasileña parecida donde yo hice como un "mensaje de amor" / "carta" así que se supone que tendría que funcionar pues pague (1.37€, tranqui). <br> Al final ni funcionó ni me hicieron mucho caso, así queeee empecé a hacerla yo por mi cuenta incluso ANTES de comprar las entradas al concierto de Louis Tomilson, y la verdad que me ha quedado por lo menos x10 veces mejor y con mil cosas mas que las que ofrecían ellos, así que en parte les agradezco jejeje.  <br> Sorprendentemente no se me escapó la sorpresa (ESPERO, estoy escribiendo esto a 18/11 y lo empecé el 10/11 😀) <br> Posdata, el separador de corazones de arriba tiene efectivamente 14 en total, por si no te habías fijado 😉
+            Sabeees que! Toda la idea viene de una web brasileña parecida donde yo hice como un "mensaje de amor" / "carta" así que se supone que tendría que funcionar pues pague (1.37€, tranqui). Al final ni funcionó ni me hicieron mucho caso, así queeee empecé a hacerla yo por mi cuenta incluso ANTES de comprar las entradas al concierto de Louis Tomilson. Sorprendentemente no se me escapó la sorpresa (ESPERO, estoy escribiendo esto a 18/11 y lo empecé el 10/11 😀) <br> Posdata, el separador de corazones de arriba tiene efectivamente 14 en total, por si no te habías fijado 😉
         </div>
     </div>
     
