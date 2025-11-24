@@ -429,10 +429,9 @@
         }
         .collage-item {
             overflow: hidden;
-            break-inside: avoid; 
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            /* Usamos transform: scale/rotate en el img para no distorsionar el grid */
             position: relative;
+            z-index: 1; /* Asegura que la sombra se muestre sobre el fondo */
         }
         .collage-item img {
             width: 100%;
@@ -440,12 +439,56 @@
             display: block;
             object-fit: cover;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            /* Transiciones para los efectos de hover */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform-origin: center center; /* Importante para las rotaciones */
+            border-radius: var(--rounded); /* Borde por defecto */
         }
         .collage-item img:hover {
-            transform: scale(1.03);
+            transform: scale(1.05) !important; /* Scale fuerte en hover */
         }
+        
+        /* --- APLICACIÓN DE ESTILOS DIVERTIDOS CON nth-child --- */
 
+        /* 1. Rotaciones y Escala (Efecto "pegado a mano") */
+        .collage-item:nth-child(3n+1) img {
+            transform: rotate(-1.5deg) scale(1.01);
+        }
+        .collage-item:nth-child(3n+2) img {
+            transform: rotate(2deg) scale(1.01);
+        }
+        .collage-item:nth-child(5n) img {
+            transform: rotate(-0.5deg);
+        }
+        .collage-item:nth-child(7n+4) img {
+            transform: rotate(3deg) scale(0.98);
+        }
+        .collage-item:nth-child(11n) img {
+            transform: rotate(-4deg) scale(1.02);
+        }
+        
+        /* 2. Bordes Irregulares (Figuras) */
+        .collage-item:nth-child(4n) img {
+            border-radius: 20px 8px 20px 8px; /* Irregular 1 */
+        }
+        .collage-item:nth-child(6n+1) img {
+            border-radius: 50% 50% 12px 12px; /* Irregular 2 (mitad curva) */
+        }
+        .collage-item:nth-child(8n+5) img {
+            border-radius: 12px 40px 12px 40px; /* Irregular 3 */
+        }
+        
+        /* 3. Sombras de Color para "Pop" */
+        .collage-item:nth-child(5n) img {
+            box-shadow: 4px 4px 0 var(--pink-shadow);
+        }
+        .collage-item:nth-child(7n) img {
+            box-shadow: -4px -4px 0 var(--green-shadow);
+        }
+        .collage-item:nth-child(10n+3) img {
+            box-shadow: 0 0 15px rgba(0,0,0,0.3); /* Sombra intensa */
+        }
+        
         /* Estilos Lightbox (Modal para la foto grande) */
         .lightbox {
             display: none; 
@@ -798,7 +841,7 @@
                 <div class="slide"><img src="images/IMG_0567.jpeg" alt="Imagen 21"></div> 
                 <div class="slide"><img src="images/IMG_0411.jpeg" alt="Imagen 22"></div> 
                 <div class="slide"><img src="images/IMG_0056.jpeg" alt="Imagen 23"></div> 
-                <div class="slide"><img src="images/2bb2426c-6cda-4f0a-adcf-d5f0ac3bfd09.jpeg" alt="Imagen 24"></div> 
+                <div class="slide"><img src="images/IMG_24_FIX.jpeg" alt="Imagen 24"></div> 
                 <div class="slide"><img src="images/24f8cb99-1774-441a-9c2a-ba494afdbec9.jpeg" alt="Imagen 25"></div> 
             </div> 
             <div class="arrow-right">
@@ -810,34 +853,34 @@
         <div class="collage-section hidden-section" id="collageSection">
             <h2 style="text-align: center; margin-bottom: 25px;">Appreciation "post" con fotos que adoro (mostly tuyas 😀😋🫶)</h2>
             <div class="collage-grid" id="photoCollage">
-                <div class="collage-item"><img src="images/collage1.jpg" alt="Foto collage 1"></div>
-                <div class="collage-item"><img src="images/collage2.jpg" alt="Foto collage 2"></div>
-                <div class="collage-item"><img src="images/collage3.jpg" alt="Foto collage 3"></div>
-                <div class="collage-item"><img src="images/collage4.jpg" alt="Foto collage 4"></div>
-                <div class="collage-item"><img src="images/collage5.jpg" alt="Foto collage 5"></div>
-                <div class="collage-item"><img src="images/collage6.jpg" alt="Foto collage 6"></div>
-                <div class="collage-item"><img src="images/collage7.jpg" alt="Foto collage 7"></div>
-                <div class="collage-item"><img src="images/collage8.jpg" alt="Foto collage 8"></div>
-                <div class="collage-item"><img src="images/collage9.jpg" alt="Foto collage 9"></div>
-                <div class="collage-item"><img src="images/collage10.jpg" alt="Foto collage 10"></div>
-                <div class="collage-item"><img src="images/collage11.jpg" alt="Foto collage 11"></div>
-                <div class="collage-item"><img src="images/collage12.jpg" alt="Foto collage 12"></div>
-                <div class="collage-item"><img src="images/collage13.jpg" alt="Foto collage 13"></div>
-                <div class="collage-item"><img src="images/collage14.jpg" alt="Foto collage 14"></div>
-                <div class="collage-item"><img src="images/collage15.jpg" alt="Foto collage 15"></div>
-                <div class="collage-item"><img src="images/collage16.jpg" alt="Foto collage 16"></div>
-                <div class="collage-item"><img src="images/collage17.jpg" alt="Foto collage 17"></div>
-                <div class="collage-item"><img src="images/collage18.jpg" alt="Foto collage 18"></div>
-                <div class="collage-item"><img src="images/collage19.jpg" alt="Foto collage 19"></div>
-                <div class="collage-item"><img src="images/collage20.jpg" alt="Foto collage 20"></div>
-                <div class="collage-item"><img src="images/collage21.jpg" alt="Foto collage 21"></div>
-                <div class="collage-item"><img src="images/collage22.JPG" alt="Foto collage 22"></div>
-                <div class="collage-item"><img src="images/collage23.jpg" alt="Foto collage 23"></div>
-                <div class="collage-item"><img src="images/collage24.jpg" alt="Foto collage 24"></div>
-                <div class="collage-item"><img src="images/collage25.PNG" alt="Foto collage 25"></div>
-                <div class="collage-item"><img src="images/collage26.jpg" alt="Foto collage 26"></div>
-                <div class="collage-item"><img src="images/collage27.JPG" alt="Foto collage 27"></div>
-                <div class="collage-item"><img src="images/collage28.jpg" alt="Foto collage 28"></div>
+                <div class="collage-item"><img src="images/collage1.jpeg" alt="Foto collage 1"></div>
+                <div class="collage-item"><img src="images/collage2.jpeg" alt="Foto collage 2"></div>
+                <div class="collage-item"><img src="images/collage3.jpeg" alt="Foto collage 3"></div>
+                <div class="collage-item"><img src="images/collage4.jpeg" alt="Foto collage 4"></div>
+                <div class="collage-item"><img src="images/collage5.jpeg" alt="Foto collage 5"></div>
+                <div class="collage-item"><img src="images/collage6.jpeg" alt="Foto collage 6"></div>
+                <div class="collage-item"><img src="images/collage7.jpeg" alt="Foto collage 7"></div>
+                <div class="collage-item"><img src="images/collage8.jpeg" alt="Foto collage 8"></div>
+                <div class="collage-item"><img src="images/collage9.jpeg" alt="Foto collage 9"></div>
+                <div class="collage-item"><img src="images/collage10.jpeg" alt="Foto collage 10"></div>
+                <div class="collage-item"><img src="images/collage11.jpeg" alt="Foto collage 11"></div>
+                <div class="collage-item"><img src="images/collage12.jpeg" alt="Foto collage 12"></div>
+                <div class="collage-item"><img src="images/collage13.jpeg" alt="Foto collage 13"></div>
+                <div class="collage-item"><img src="images/collage14.jpeg" alt="Foto collage 14"></div>
+                <div class="collage-item"><img src="images/collage15.jpeg" alt="Foto collage 15"></div>
+                <div class="collage-item"><img src="images/collage16.jpeg" alt="Foto collage 16"></div>
+                <div class="collage-item"><img src="images/collage17.jpeg" alt="Foto collage 17"></div>
+                <div class="collage-item"><img src="images/collage18.jpeg" alt="Foto collage 18"></div>
+                <div class="collage-item"><img src="images/collage19.jpeg" alt="Foto collage 19"></div>
+                <div class="collage-item"><img src="images/collage20.jpeg" alt="Foto collage 20"></div>
+                <div class="collage-item"><img src="images/collage21.jpeg" alt="Foto collage 21"></div>
+                <div class="collage-item"><img src="images/collage22.jpeg" alt="Foto collage 22"></div>
+                <div class="collage-item"><img src="images/collage23.jpeg" alt="Foto collage 23"></div>
+                <div class="collage-item"><img src="images/collage24.jpeg" alt="Foto collage 24"></div>
+                <div class="collage-item"><img src="images/collage25.jpeg" alt="Foto collage 25"></div>
+                <div class="collage-item"><img src="images/collage26.jpeg" alt="Foto collage 26"></div>
+                <div class="collage-item"><img src="images/collage27.jpeg" alt="Foto collage 27"></div>
+                <div class="collage-item"><img src="images/collage28.jpeg" alt="Foto collage 28"></div>
                 
             </div>
             <div class="message-center" style="margin-top: 25px;">
@@ -1009,7 +1052,8 @@
         /* ---------------------------------------------------- */
         const audio=new Audio("images/musica.mp3"); 
         audio.preload='metadata'; 
-        
+        // audio.loop = true; <--- Si quisieras añadir el loop
+
         const playOverlayMain=document.getElementById('playOverlayMain'); 
         const coverWrapMain=document.getElementById('coverWrapMain'); 
         const progressM=document.getElementById('progressM'); 
@@ -1218,7 +1262,7 @@
         /* ---------------------------------------------------- */
         /* ---------- 7. BARRA DE PROGRESO DE LECTURA (FIXED) ---------- */
         /* ---------------------------------------------------- */
-        // progressBar ya está declarado arriba
+        // La variable progressBar ya está declarada arriba
 
         function updateProgressBar() {
             // Solo actualizamos si el contenido principal es visible
@@ -1232,6 +1276,7 @@
                     const scrolled = (winScroll / height) * 100;
                     progressBar.style.width = scrolled + "%";
                 } else {
+                    // Contenido muy corto
                     progressBar.style.width = "100%";
                 }
             }
