@@ -30,7 +30,7 @@
             -webkit-touch-callout:none; 
         }
         
-        /* ---------- BARRA DE PROGRESO DE LECTURA (NUEVO) ---------- */
+        /* ---------- BARRA DE PROGRESO DE LECTURA (FIXED) ---------- */
         #progressBar {
             position: fixed;
             top: 0;
@@ -45,7 +45,7 @@
         
         /* ---------- Fondo emojis (Parallax ya aplicado con position: fixed) ---------- */
         #emoji-bg{ 
-            position:fixed; /* Esto hace que el fondo se quede quieto y el contenido scrollee sobre él (Parallax) */
+            position:fixed; 
             inset:0; 
             z-index:-3; 
             pointer-events:none; 
@@ -115,6 +115,11 @@
             align-items:center; 
         }
         
+        /* Centrado del título de confirmación */
+        .confirm-card h2 {
+            text-align: center;
+        }
+
         /* Botón de apertura */
         #openBtn {
             padding: 10px 30px;
@@ -687,7 +692,8 @@
     </style>
 </head>
 <body>
-    <div id="progressBar"></div> <div id="emoji-bg"></div>
+    <div id="progressBar"></div> 
+    <div id="emoji-bg"></div>
 
     <div id="loader"> 
         <span>💚</span> 
@@ -802,7 +808,7 @@
         </div>
 
         <div class="collage-section hidden-section" id="collageSection">
-            <h2 style="text-align: center; margin-bottom: 25px;">Momentos Inolvidables ✨</h2>
+            <h2 style="text-align: center; margin-bottom: 25px;">Appreciation "post" con fotos que adoro (mostly tuyas 😀😋🫶)</h2>
             <div class="collage-grid" id="photoCollage">
                 <div class="collage-item"><img src="images/collage1.jpeg" alt="Foto collage 1"></div>
                 <div class="collage-item"><img src="images/collage2.jpeg" alt="Foto collage 2"></div>
@@ -816,6 +822,18 @@
                 <div class="collage-item"><img src="images/collage10.jpeg" alt="Foto collage 10"></div>
                 <div class="collage-item"><img src="images/collage11.jpeg" alt="Foto collage 11"></div>
                 <div class="collage-item"><img src="images/collage12.jpeg" alt="Foto collage 12"></div>
+                <div class="collage-item"><img src="images/collage13.jpeg" alt="Foto collage 13"></div>
+                <div class="collage-item"><img src="images/collage14.jpeg" alt="Foto collage 14"></div>
+                <div class="collage-item"><img src="images/collage15.jpeg" alt="Foto collage 15"></div>
+                <div class="collage-item"><img src="images/collage16.jpeg" alt="Foto collage 16"></div>
+                <div class="collage-item"><img src="images/collage17.jpeg" alt="Foto collage 17"></div>
+                <div class="collage-item"><img src="images/collage18.jpeg" alt="Foto collage 18"></div>
+                <div class="collage-item"><img src="images/collage18.jpeg" alt="Foto collage 19"></div>
+                <div class="collage-item"><img src="images/collage18.jpeg" alt="Foto collage 20"></div>
+                <div class="collage-item"><img src="images/collage18.jpeg" alt="Foto collage 21"></div>
+                <div class="collage-item"><img src="images/collage18.jpeg" alt="Foto collage 22"></div>
+                <div class="collage-item"><img src="images/collage18.jpeg" alt="Foto collage 23"></div>
+                
             </div>
             <div class="message-center" style="margin-top: 25px;">
                 <p>¡Toca una foto para verla en grande! Las de más calidad las hemos hecho nosotros, las otras... son más espontáneas 😉</p>
@@ -1193,25 +1211,22 @@
         
         
         /* ---------------------------------------------------- */
-        /* ---------- 7. BARRA DE PROGRESO DE LECTURA (NUEVO) ---------- */
+        /* ---------- 7. BARRA DE PROGRESO DE LECTURA (FIXED) ---------- */
         /* ---------------------------------------------------- */
-        const progressBar = document.getElementById('progressBar');
-        // mainContent ya está declarado arriba
+        // progressBar ya está declarado arriba
 
         function updateProgressBar() {
             // Solo actualizamos si el contenido principal es visible
             if (document.getElementById('mainContent').style.display === 'block') {
+                // Cálculo de scroll más robusto (FIXED)
                 const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-                // document.documentElement.scrollHeight es la altura total del contenido
-                // document.documentElement.clientHeight es la altura visible de la ventana
                 const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
                 
-                // Si la altura del contenido es mayor que la ventana (es decir, hay scroll)
+                // Aseguramos que la división no sea por cero y que el valor sea entre 0 y 100
                 if (height > 0) {
                     const scrolled = (winScroll / height) * 100;
                     progressBar.style.width = scrolled + "%";
                 } else {
-                    // Si no hay scroll (contenido muy corto), la barra se pone al 100%
                     progressBar.style.width = "100%";
                 }
             }
