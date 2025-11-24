@@ -83,10 +83,6 @@
             opacity:0; 
             visibility:hidden; 
         }
-        #loader span{ 
-            font-size:3rem; 
-            animation:pulse 1.6s infinite; 
-        }
         @keyframes pulse{
             0%,100%{transform:scale(1)}
             50%{transform:scale(1.12)}
@@ -173,9 +169,6 @@
             object-fit:cover; 
             display:block; 
             transition: transform 0.8s linear; 
-        }
-        .cover-wrap.playing img{ 
-            animation: rotateCover 6s linear infinite; 
         }
         @keyframes rotateCover{ 
             from{transform:rotate(0)} 
@@ -364,11 +357,17 @@
             gap: 8px;
             max-width: 100%;
             height: 100%;
+            cursor: pointer; /* Indicamos que el área entera es clicable */
         }
         #perspectiveStage .slide img {
             width: 100% !important; /* Cada imagen toma el ancho completo del contenedor del slide */
             height: 50% !important; /* Cada imagen toma la mitad de la altura disponible */
             object-fit: cover;
+            transition: transform 0.3s ease; /* Transición suave al hacer hover */
+        }
+        /* Efecto sutil de zoom en el contenedor interno */
+        #perspectiveStage .slide > div:hover {
+            transform: scale(1.02);
         }
 
 
@@ -1010,62 +1009,62 @@
                 <button id="prevPerspectiveBtn">‹</button>
             </div> 
             <div class="carousel-stage" id="perspectiveStage"> 
-                <div class="slide active" onclick="openPerspectiveLightbox('images/AB1-1.jpg', 'images/AB1-2.jpg')">
-                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                <div class="slide active">
+                    <div onclick="openCurrentPerspectiveLightbox(this)">
                         <img src="images/AB1-1.jpg" alt="Perspectiva 1 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB1-2.jpg" alt="Perspectiva 1 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <div class="slide" onclick="openPerspectiveLightbox('images/AB2-1.jpg', 'images/AB2-2.jpg')">
-                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                <div class="slide">
+                    <div onclick="openCurrentPerspectiveLightbox(this)">
                         <img src="images/AB2-1.jpg" alt="Perspectiva 2 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB2-2.jpg" alt="Perspectiva 2 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <div class="slide" onclick="openPerspectiveLightbox('images/AB3-1.jpg', 'images/AB3-2.jpg')">
-                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                <div class="slide">
+                    <div onclick="openCurrentPerspectiveLightbox(this)">
                         <img src="images/AB3-1.jpg" alt="Perspectiva 3 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB3-2.jpg" alt="Perspectiva 3 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <div class="slide" onclick="openPerspectiveLightbox('images/AB4-1.jpg', 'images/AB4-2.jpg')">
-                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                <div class="slide">
+                    <div onclick="openCurrentPerspectiveLightbox(this)">
                         <img src="images/AB4-1.jpg" alt="Perspectiva 4 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB4-2.jpg" alt="Perspectiva 4 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <div class="slide" onclick="openPerspectiveLightbox('images/AB5-1.jpg', 'images/AB5-2.jpg')">
-                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                <div class="slide">
+                    <div onclick="openCurrentPerspectiveLightbox(this)">
                         <img src="images/AB5-1.jpg" alt="Perspectiva 5 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB5-2.jpg" alt="Perspectiva 5 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <div class="slide" onclick="openPerspectiveLightbox('images/AB6-1.jpg', 'images/AB6-2.jpg')">
-                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                <div class="slide">
+                    <div onclick="openCurrentPerspectiveLightbox(this)">
                         <img src="images/AB6-1.jpg" alt="Perspectiva 6 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB6-2.jpg" alt="Perspectiva 6 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <div class="slide" onclick="openPerspectiveLightbox('images/AB7-1.jpg', 'images/AB7-2.jpg')">
-                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                <div class="slide">
+                    <div onclick="openCurrentPerspectiveLightbox(this)">
                         <img src="images/AB7-1.jpg" alt="Perspectiva 7 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB7-2.jpg" alt="Perspectiva 7 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <div class="slide" onclick="openPerspectiveLightbox('images/AB8-1.jpg', 'images/AB8-2.jpg')">
-                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                <div class="slide">
+                    <div onclick="openCurrentPerspectiveLightbox(this)">
                         <img src="images/AB8-1.jpg" alt="Perspectiva 8 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB8-2.jpg" alt="Perspectiva 8 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <div class="slide" onclick="openPerspectiveLightbox('images/AB9-1.jpg', 'images/AB9-2.jpg')">
-                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                <div class="slide">
+                    <div onclick="openCurrentPerspectiveLightbox(this)">
                         <img src="images/AB9-1.jpg" alt="Perspectiva 9 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB9-2.jpg" alt="Perspectiva 9 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <div class="slide" onclick="openPerspectiveLightbox('images/AB10-1.jpg', 'images/AB10-2.jpg')">
-                    <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
+                <div class="slide">
+                    <div onclick="openCurrentPerspectiveLightbox(this)">
                         <img src="images/AB10-1.jpg" alt="Perspectiva 10 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB10-2.jpg" alt="Perspectiva 10 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
@@ -1123,12 +1122,16 @@
             document.getElementById('dualLightbox').style.display = 'none';
         }
         
-        /* Lógica para ABRIR el lightbox DUAL */
-        function openPerspectiveLightbox(srcA, srcB) {
+        /* Lógica para ABRIR el lightbox DUAL (Ahora toma el elemento que fue clicado) */
+        function openCurrentPerspectiveLightbox(element) {
             hapticFeedback(100);
-            document.getElementById('dualImageA').src = srcA;
-            document.getElementById('dualImageB').src = srcB;
-            document.getElementById('dualLightbox').style.display = 'flex';
+            const images = element.querySelectorAll('img');
+            
+            if (images.length === 2) {
+                document.getElementById('dualImageA').src = images[0].src;
+                document.getElementById('dualImageB').src = images[1].src;
+                document.getElementById('dualLightbox').style.display = 'flex';
+            }
         }
 
 
@@ -1281,6 +1284,7 @@
         const slides=[...document.querySelectorAll('#stage .slide')]; 
         const stage = document.getElementById('stage');
         const dotsContainer = document.getElementById('carouselDots');
+        
         let current=0; 
         let touchstartX = 0;
         let touchendX = 0;
@@ -1347,7 +1351,7 @@
 
 
         /* ---------------------------------------------------- */
-        /* ---------- 4B. LÓGICA DEL SLIDER DE PERSPECTIVAS (NUEVO) --------- */
+        /* ---------- 4B. LÓGICA DEL SLIDER DE PERSPECTIVAS (ACTUALIZADA) --------- */
         /* ---------------------------------------------------- */
         const perspectiveSlides = [...document.querySelectorAll('#perspectiveStage .slide')];
         const perspectiveStage = document.getElementById('perspectiveStage');
