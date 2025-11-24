@@ -593,7 +593,7 @@
             width: 100%;
             height: auto;
             max-height: calc(45vh - 5px); /* Divide el espacio vertical */
-            object-fit: contain;
+            object-fit: contain; /* Muestra la imagen entera */
             border-radius: 12px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
@@ -1074,6 +1074,7 @@
                 <button id="nextPerspectiveBtn">›</button>
             </div> 
         </div>
+        
         <div class="section-separator hidden-section">
             <hr>
             <span>🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶</span>
@@ -1239,7 +1240,7 @@
         function toggleMainPlay(){ 
             hapticFeedback(80); 
             if (!messageAudio.paused) {
-                 messageAudio.pause();
+                 audio.pause();
                  setMessagePlayingUI(false); 
             }
             
