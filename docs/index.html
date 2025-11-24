@@ -356,6 +356,21 @@
             user-select: none; 
             -webkit-user-drag: none;
         }
+        
+        /* Contenedor interno del Slider de Perspectivas - CLAVE para la disposición vertical */
+        #perspectiveStage .slide > div {
+            display: flex;
+            flex-direction: column; /* Coloca las imágenes una encima de la otra */
+            gap: 8px;
+            max-width: 100%;
+            height: 100%;
+        }
+        #perspectiveStage .slide img {
+            width: 100% !important; /* Cada imagen toma el ancho completo del contenedor del slide */
+            height: 50% !important; /* Cada imagen toma la mitad de la altura disponible */
+            object-fit: cover;
+        }
+
 
         /* Flechas */
         .arrow button{ 
@@ -550,6 +565,53 @@
             }
         }
         
+        /* ---------- DUAL LIGHTBOX (NUEVO) ---------- */
+        #dualLightbox {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
+            overflow: auto;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .dual-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            margin: auto;
+        }
+        .dual-content-wrapper img {
+            width: 100%;
+            height: auto;
+            max-height: calc(45vh - 5px); /* Divide el espacio vertical */
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .lightbox-close-dual {
+            position: fixed;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .lightbox-close-dual:hover {
+            color: #bbb;
+        }
+
         /* ---------- Contador Mejorado ---------- */
         .counter-section{
             display: flex;
@@ -865,7 +927,6 @@
         <div class="collage-section hidden-section" id="collageSection">
             <h2 style="text-align: center; margin-bottom: 25px;">Appreciation "post" con fotos que adoro (mostly tuyas 😀😋🫶)</h2>
             <div class="collage-grid" id="photoCollage">
-                <!-- ARCHIVOS CORREGIDOS CON EXTENSIONES ORIGINALES/VÁLIDAS -->
                 <div class="collage-item"><img src="images/collage1.jpg" alt="Foto collage 1"></div>
                 <div class="collage-item"><img src="images/collage2.jpg" alt="Foto collage 2"></div>
                 <div class="collage-item"><img src="images/collage3.jpg" alt="Foto collage 3"></div>
@@ -943,78 +1004,67 @@
             </div>
         </div> 
         
-        <!-- INICIO NUEVO SLIDER DE PERSPECTIVAS (VERTICAL) -->
         <div class="carousel hidden-section" id="perspectiveSlider">
             <h2 style="text-align: center; margin-bottom: 25px;">Nuestras Perspectivas 📸</h2>
             <div class="arrow-left">
                 <button id="prevPerspectiveBtn">‹</button>
             </div> 
             <div class="carousel-stage" id="perspectiveStage"> 
-                <!-- PAIR 1 -->
-                <div class="slide active">
+                <div class="slide active" onclick="openPerspectiveLightbox('images/AB1-1.jpg', 'images/AB1-2.jpg')">
                     <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
                         <img src="images/AB1-1.jpg" alt="Perspectiva 1 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB1-2.jpg" alt="Perspectiva 1 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <!-- PAIR 2 -->
-                <div class="slide">
+                <div class="slide" onclick="openPerspectiveLightbox('images/AB2-1.jpg', 'images/AB2-2.jpg')">
                     <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
                         <img src="images/AB2-1.jpg" alt="Perspectiva 2 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB2-2.jpg" alt="Perspectiva 2 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <!-- PAIR 3 -->
-                <div class="slide">
+                <div class="slide" onclick="openPerspectiveLightbox('images/AB3-1.jpg', 'images/AB3-2.jpg')">
                     <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
                         <img src="images/AB3-1.jpg" alt="Perspectiva 3 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB3-2.jpg" alt="Perspectiva 3 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <!-- PAIR 4 -->
-                <div class="slide">
+                <div class="slide" onclick="openPerspectiveLightbox('images/AB4-1.jpg', 'images/AB4-2.jpg')">
                     <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
                         <img src="images/AB4-1.jpg" alt="Perspectiva 4 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB4-2.jpg" alt="Perspectiva 4 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <!-- PAIR 5 -->
-                <div class="slide">
+                <div class="slide" onclick="openPerspectiveLightbox('images/AB5-1.jpg', 'images/AB5-2.jpg')">
                     <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
                         <img src="images/AB5-1.jpg" alt="Perspectiva 5 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB5-2.jpg" alt="Perspectiva 5 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <!-- PAIR 6 -->
-                <div class="slide">
+                <div class="slide" onclick="openPerspectiveLightbox('images/AB6-1.jpg', 'images/AB6-2.jpg')">
                     <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
                         <img src="images/AB6-1.jpg" alt="Perspectiva 6 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB6-2.jpg" alt="Perspectiva 6 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <!-- PAIR 7 -->
-                <div class="slide">
+                <div class="slide" onclick="openPerspectiveLightbox('images/AB7-1.jpg', 'images/AB7-2.jpg')">
                     <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
                         <img src="images/AB7-1.jpg" alt="Perspectiva 7 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB7-2.jpg" alt="Perspectiva 7 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <!-- PAIR 8 -->
-                <div class="slide">
+                <div class="slide" onclick="openPerspectiveLightbox('images/AB8-1.jpg', 'images/AB8-2.jpg')">
                     <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
                         <img src="images/AB8-1.jpg" alt="Perspectiva 8 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB8-2.jpg" alt="Perspectiva 8 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <!-- PAIR 9 -->
-                <div class="slide">
+                <div class="slide" onclick="openPerspectiveLightbox('images/AB9-1.jpg', 'images/AB9-2.jpg')">
                     <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
                         <img src="images/AB9-1.jpg" alt="Perspectiva 9 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB9-2.jpg" alt="Perspectiva 9 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     </div>
                 </div>
-                <!-- PAIR 10 -->
-                <div class="slide">
+                <div class="slide" onclick="openPerspectiveLightbox('images/AB10-1.jpg', 'images/AB10-2.jpg')">
                     <div style="display:flex; flex-direction: column; gap: 8px; max-width: 100%; height: 100%;">
                         <img src="images/AB10-1.jpg" alt="Perspectiva 10 - Foto A" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                         <img src="images/AB10-2.jpg" alt="Perspectiva 10 - Foto B" style="width: 100%; height: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
@@ -1025,9 +1075,6 @@
                 <button id="nextPerspectiveBtn">›</button>
             </div> 
         </div>
-        <!-- FIN NUEVO SLIDER DE PERSPECTIVAS -->
-
-        
         <div class="section-separator hidden-section">
             <hr>
             <span>🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶</span>
@@ -1044,6 +1091,14 @@
         <img class="lightbox-content" id="lightboxImage">
     </div>
 
+    <div id="dualLightbox" onclick="closeDualLightbox()">
+        <span class="lightbox-close-dual">&times;</span>
+        <div class="dual-content-wrapper">
+            <img id="dualImageA" alt="Perspectiva A">
+            <img id="dualImageB" alt="Perspectiva B">
+        </div>
+    </div>
+
     <script> 
         /* iconos */ 
         const svgPlay='<svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9z" fill="#fff"/></svg>'; 
@@ -1056,11 +1111,26 @@
             }
         }
         
-        /* Lógica para cerrar el lightbox */
+        /* Lógica para cerrar el lightbox del collage */
         function closeLightbox() {
             hapticFeedback(50);
             document.getElementById('lightbox').style.display = 'none';
         }
+        
+        /* Lógica para cerrar el lightbox DUAL */
+        function closeDualLightbox() {
+            hapticFeedback(50);
+            document.getElementById('dualLightbox').style.display = 'none';
+        }
+        
+        /* Lógica para ABRIR el lightbox DUAL */
+        function openPerspectiveLightbox(srcA, srcB) {
+            hapticFeedback(100);
+            document.getElementById('dualImageA').src = srcA;
+            document.getElementById('dualImageB').src = srcB;
+            document.getElementById('dualLightbox').style.display = 'flex';
+        }
+
 
         /* emojis */ 
         (function(){ 
@@ -1166,7 +1236,7 @@
         function toggleMainPlay(){ 
             hapticFeedback(80); 
             if (!messageAudio.paused) {
-                 audio.pause();
+                 messageAudio.pause();
                  setMessagePlayingUI(false); 
             }
             
