@@ -99,7 +99,7 @@
         #confirm{ 
             position:fixed; 
             inset:0; 
-            display:flex; /* Cambiamos a flex para manejar la disposición vertical */
+            display:flex; 
             flex-direction: column;
             align-items: center;
             justify-content: flex-start; /* Alineamos arriba */
@@ -119,9 +119,9 @@
             flex-direction:column; 
             gap:12px; 
             align-items:center; 
-            position: relative; /* Para la posición de la flor */
-            z-index: 2; /* Para asegurar que la tarjeta esté encima de la flor */
-            margin-bottom: 20px; /* Espacio entre la tarjeta y la flor */
+            position: relative; 
+            z-index: 2; 
+            margin-bottom: 30px; /* Espacio ampliado entre la tarjeta y la flor */
         }
         
         /* Centrado del título de confirmación */
@@ -252,35 +252,33 @@
         }
 
         /* ---------------------------------------------------- */
-        /* ---------- ESTILOS DE LA FLOR (NUEVO) ---------- */
+        /* ---------- ESTILOS DE LA FLOR (FIXED Y OPTIMIZADO) ---------- */
         /* ---------------------------------------------------- */
         #flowerContainer {
-            position: absolute;
-            top: 50%; /* Intentamos centrar debajo de la tarjeta */
-            left: 50%;
-            transform: translate(-50%, 0);
             width: 100%;
-            max-width: 400px; /* Tamaño máximo para que no sea gigante */
+            max-width: 500px; 
             display: flex;
             justify-content: space-around;
-            pointer-events: none; /* Ignorar clics para que no tapen la tarjeta */
+            align-items: flex-start;
+            pointer-events: none; 
             padding: 0 10px;
+            /* Se separa más del confirm card en móvil si es necesario */
         }
-
+        
         .flower-wrapper {
-            width: 100px; /* Tamaño del contenedor de cada flor */
-            height: 100px;
+            width: 80px; 
+            height: 80px;
             position: relative;
             /* La animación original del CodePen */
             animation: bounce 3s ease-in-out infinite; 
-            /* Posiciones específicas para que no se superpongan */
         }
         
+        /* Ajustes de posición para las dos flores */
         .flower-wrapper:nth-child(1) {
-            transform: translateY(20px);
+            transform: translateX(-10px) translateY(10px) rotate(-10deg);
         }
         .flower-wrapper:nth-child(2) {
-            transform: translateY(-10px) rotate(15deg);
+            transform: translateX(10px) translateY(0px) rotate(15deg);
         }
 
         .flower {
@@ -297,7 +295,7 @@
             border-radius: 50%;
             opacity: 0.8;
             filter: brightness(1.1);
-            animation: pulse 4s infinite;
+            animation: petal-pulse 4s infinite; /* Renombrado para evitar conflicto con @keyframes pulse global */
         }
 
         /* Posiciones y Rotaciones de Pétalos */
@@ -319,18 +317,17 @@
             z-index: 10;
         }
 
-        /* Keyframes originales del CodePen */
+        /* Keyframes originales */
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
         }
-        @keyframes pulse {
+        @keyframes petal-pulse { /* Keyframe renombrado */
             0%, 100% { transform: scale(1); }
             50% { transform: scale(0.95); }
         }
-
-
-        /* ---------- Main (Igual que antes) ---------- */
+        
+        /* ---------- Main ---------- */
         .container{ 
             max-width:1100px; 
             margin:0 auto; 
@@ -362,8 +359,6 @@
             transition: transform 1s ease-out, text-shadow 1s ease-out 1s; 
         }
         
-        /* [El resto del CSS de Main, Carousel, Collage, Contador, Timeline, etc., se mantiene igual] */
-
         /* Tarjeta general para bloques de texto */
         .text-card {
             max-width: 820px;
