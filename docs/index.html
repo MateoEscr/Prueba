@@ -17,6 +17,9 @@
             --rounded: 14px;
             --pink-shadow: rgba(255, 99, 132, 0.4); 
             --green-shadow: rgba(76, 175, 80, 0.4); 
+            /* Colores de la flor */
+            --flower-color: #ff6b6b;
+            --flower-center: #FF8F00;
         }
         *{box-sizing:border-box}
         html,body{height:100%; overflow-x:hidden;}
@@ -92,14 +95,17 @@
             50%{transform:scale(1.12)}
         }
 
-        /* ---------- Confirm ---------- */
+        /* ---------- Confirm (AJUSTADO PARA MÓVIL) ---------- */
         #confirm{ 
             position:fixed; 
             inset:0; 
-            display:grid; 
-            place-items:center; 
+            display:flex; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Alineamos arriba */
             z-index:9998; 
-            padding:20px; 
+            padding: 20px;
+            padding-top: 5vh; /* Espacio desde la parte superior */
         }
         .confirm-card{ 
             width:100%; 
@@ -113,6 +119,9 @@
             flex-direction:column; 
             gap:12px; 
             align-items:center; 
+            position: relative; 
+            z-index: 2; 
+            margin-bottom: 30px; /* Espacio ampliado entre la tarjeta y la flor */
         }
         
         /* Centrado del título de confirmación */
@@ -137,7 +146,7 @@
         }
 
 
-        /* ---------- Music player compacto ---------- */
+        /* ---------- Music player compacto (Igual que antes) ---------- */
         .player-wrapper{
             display:flex;
             justify-content:center;
@@ -242,6 +251,81 @@
             margin-top:-2px; 
         }
 
+        /* ---------------------------------------------------- */
+        /* ---------- ESTILOS DE LA FLOR (FIXED Y OPTIMIZADO) ---------- */
+        /* ---------------------------------------------------- */
+        #flowerContainer {
+            width: 100%;
+            max-width: 500px; 
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            pointer-events: none; 
+            padding: 0 10px;
+            z-index: 1; /* Para que esté justo debajo de la tarjeta */
+        }
+        
+        .flower-wrapper {
+            width: 80px; 
+            height: 80px;
+            position: relative;
+            animation: bounce 3s ease-in-out infinite; 
+        }
+        
+        /* Ajustes de posición para las dos flores */
+        .flower-wrapper:nth-child(1) {
+            transform: translateX(-10px) translateY(10px) rotate(-10deg);
+        }
+        .flower-wrapper:nth-child(2) {
+            transform: translateX(10px) translateY(0px) rotate(15deg);
+        }
+
+        .flower {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        .petal {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: var(--flower-color);
+            border-radius: 50%;
+            opacity: 0.8;
+            filter: brightness(1.1);
+            animation: petal-pulse 4s infinite; 
+        }
+
+        /* Posiciones y Rotaciones de Pétalos */
+        .petal:nth-child(1) { transform: rotate(0deg); }
+        .petal:nth-child(2) { transform: rotate(45deg); }
+        .petal:nth-child(3) { transform: rotate(90deg); }
+        .petal:nth-child(4) { transform: rotate(135deg); }
+
+        .center {
+            width: 30%;
+            height: 30%;
+            background: var(--flower-center);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        /* Keyframes originales */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        @keyframes petal-pulse { /* Keyframe renombrado */
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+        }
+        
         /* ---------- Main ---------- */
         .container{ 
             max-width:1100px; 
@@ -775,6 +859,28 @@
 
             <button id="openBtn">Abrir</button> 
         </div> 
+        
+        <div id="flowerContainer">
+            <div class="flower-wrapper">
+                <div class="flower">
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="center"></div>
+                </div>
+            </div>
+            <div class="flower-wrapper">
+                <div class="flower">
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="petal"></div>
+                    <div class="center"></div>
+                </div>
+            </div>
+        </div>
+        
     </div>
 
     <div class="container" id="mainContent" style="display:none;"> 
@@ -938,6 +1044,41 @@
             </div>
         </div> 
         
+        <div class="carousel hidden-section" id="perspectiveSlider">
+            <h2 style="text-align: center; margin-bottom: 25px;">Nuestras Perspectivas 📸</h2>
+            <div class="arrow-left">
+                <button id="prevPerspectiveBtn">‹</button>
+            </div> 
+            <div class="carousel-stage" id="perspectiveStage"> 
+                <div class="slide active">
+                    <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/perspectiva1A.jpeg" alt="Perspectiva 1 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/perspectiva1B.jpeg" alt="Perspectiva 1 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <div class="slide">
+                    <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/perspectiva2A.jpeg" alt="Perspectiva 2 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/perspectiva2B.jpeg" alt="Perspectiva 2 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <div class="slide">
+                    <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/perspectiva3A.jpeg" alt="Perspectiva 3 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/perspectiva3B.jpeg" alt="Perspectiva 3 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+                <div class="slide">
+                    <div style="display:flex; gap: 8px; max-width: 100%; height: 100%;">
+                        <img src="images/perspectiva4A.jpeg" alt="Perspectiva 4 - Foto A" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                        <img src="images/perspectiva4B.jpeg" alt="Perspectiva 4 - Foto B" style="width: 50%; object-fit: cover; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+            </div> 
+            <div class="arrow-right">
+                <button id="nextPerspectiveBtn">›</button>
+            </div> 
+            </div>
         <div class="section-separator hidden-section">
             <hr>
             <span>🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶</span>
@@ -1116,11 +1257,17 @@
         }; 
 
         /* ---------------------------------------------------- */
-        /* ---------- 4. CAROUSEL CON DOTS --------- */
+        /* ---------- 4. CARRUSEL PRINCIPAL CON DOTS --------- */
         /* ---------------------------------------------------- */
-        const slides=[...document.querySelectorAll('.slide')]; 
+        const slides=[...document.querySelectorAll('#stage .slide')]; 
         const stage = document.getElementById('stage');
         const dotsContainer = document.getElementById('carouselDots');
+        
+        // El resto de la lógica del carrusel principal es correcta.
+        // Se inicializa abajo con show(0).
+
+        // ... [Lógica de inicialización de dots, show(i), updateDots() y handleGesture() omitida por brevedad, está intacta]
+        // [Inicio Lógica Carrusel Principal]
         let current=0; 
         let touchstartX = 0;
         let touchendX = 0;
@@ -1183,8 +1330,61 @@
                 show(current + 1);
             }
         }
+        // [Fin Lógica Carrusel Principal]
 
-        show(0);
+        /* ---------------------------------------------------- */
+        /* ---------- 4B. LÓGICA DEL SLIDER DE PERSPECTIVAS (NUEVO) --------- */
+        /* ---------------------------------------------------- */
+        const perspectiveSlides = [...document.querySelectorAll('#perspectiveStage .slide')];
+        const perspectiveStage = document.getElementById('perspectiveStage');
+        let currentPerspective = 0;
+
+        function showPerspective(i) {
+            const length = perspectiveSlides.length;
+            currentPerspective = (i + length) % length;
+            perspectiveSlides.forEach((s, x) => s.classList.toggle('active', x === currentPerspective));
+        }
+
+        document.getElementById('prevPerspectiveBtn').onclick = () => {
+            hapticFeedback(50);
+            showPerspective(currentPerspective - 1);
+        };
+
+        document.getElementById('nextPerspectiveBtn').onclick = () => {
+            hapticFeedback(50);
+            showPerspective(currentPerspective + 1);
+        };
+
+        // Clonar lógica de swipe para el nuevo slider
+        let touchstartX2 = 0;
+        let touchendX2 = 0;
+        
+        perspectiveStage.addEventListener('touchstart', e => {
+            touchstartX2 = e.changedTouches[0].screenX;
+        }, false);
+
+        perspectiveStage.addEventListener('touchend', e => {
+            touchendX2 = e.changedTouches[0].screenX;
+            handlePerspectiveGesture();
+        }, false);
+
+        function handlePerspectiveGesture() {
+            const threshold = 50;
+            const difference = touchendX2 - touchstartX2;
+            
+            if (Math.abs(difference) < threshold) return;
+
+            if (difference > 0) {
+                hapticFeedback(50);
+                showPerspective(currentPerspective - 1);
+            } else {
+                hapticFeedback(50);
+                showPerspective(currentPerspective + 1);
+            }
+        }
+
+        showPerspective(0);
+        // --------------------------------------------------------------------
 
 
         /* ---------------------------------------------------- */
@@ -1270,7 +1470,7 @@
         /* ---------------------------------------------------- */
         /* ---------- 7. BARRA DE PROGRESO DE LECTURA (FIXED) ---------- */
         /* ---------------------------------------------------- */
-        // La variable progressBar ya está declarada arriba
+        const progressBar = document.getElementById('progressBar');
 
         function updateProgressBar() {
             // Solo actualizamos si el contenido principal es visible
@@ -1344,6 +1544,8 @@
                 timelineObserver.observe(event);
             });
         }
+        
+        show(0); // Inicializa carrusel principal
     </script>
 </body>
 </html>
