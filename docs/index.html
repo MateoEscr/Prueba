@@ -17,9 +17,6 @@
             --rounded: 14px;
             --pink-shadow: rgba(255, 99, 132, 0.4); 
             --green-shadow: rgba(76, 175, 80, 0.4); 
-            /* Colores de la flor */
-            --flower-color: #ff6b6b;
-            --flower-center: #FF8F00;
         }
         *{box-sizing:border-box}
         html,body{height:100%; overflow-x:hidden;}
@@ -95,17 +92,14 @@
             50%{transform:scale(1.12)}
         }
 
-        /* ---------- Confirm (AJUSTADO PARA MÓVIL) ---------- */
+        /* ---------- Confirm (RESTAURADO A POSICIÓN CENTRAL) ---------- */
         #confirm{ 
             position:fixed; 
             inset:0; 
-            display:flex; 
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start; /* Alineamos arriba */
+            display:grid; /* Vuelve a usar grid para centrar */
+            place-items:center; /* Centrado vertical y horizontal */
             z-index:9998; 
             padding: 20px;
-            padding-top: 5vh; /* Espacio desde la parte superior */
         }
         .confirm-card{ 
             width:100%; 
@@ -121,7 +115,7 @@
             align-items:center; 
             position: relative; 
             z-index: 2; 
-            margin-bottom: 30px; /* Espacio ampliado entre la tarjeta y la flor */
+            margin-bottom: 0; /* Elimina margen extra */
         }
         
         /* Centrado del título de confirmación */
@@ -146,7 +140,7 @@
         }
 
 
-        /* ---------- Music player compacto (Igual que antes) ---------- */
+        /* ---------- Music player compacto ---------- */
         .player-wrapper{
             display:flex;
             justify-content:center;
@@ -251,81 +245,6 @@
             margin-top:-2px; 
         }
 
-        /* ---------------------------------------------------- */
-        /* ---------- ESTILOS DE LA FLOR (FIXED Y OPTIMIZADO) ---------- */
-        /* ---------------------------------------------------- */
-        #flowerContainer {
-            width: 100%;
-            max-width: 500px; 
-            display: flex;
-            justify-content: space-around;
-            align-items: flex-start;
-            pointer-events: none; 
-            padding: 0 10px;
-            z-index: 1; /* Para que esté justo debajo de la tarjeta */
-        }
-        
-        .flower-wrapper {
-            width: 80px; 
-            height: 80px;
-            position: relative;
-            animation: bounce 3s ease-in-out infinite; 
-        }
-        
-        /* Ajustes de posición para las dos flores */
-        .flower-wrapper:nth-child(1) {
-            transform: translateX(-10px) translateY(10px) rotate(-10deg);
-        }
-        .flower-wrapper:nth-child(2) {
-            transform: translateX(10px) translateY(0px) rotate(15deg);
-        }
-
-        .flower {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-        }
-
-        .petal {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            background: var(--flower-color);
-            border-radius: 50%;
-            opacity: 0.8;
-            filter: brightness(1.1);
-            animation: petal-pulse 4s infinite; 
-        }
-
-        /* Posiciones y Rotaciones de Pétalos */
-        .petal:nth-child(1) { transform: rotate(0deg); }
-        .petal:nth-child(2) { transform: rotate(45deg); }
-        .petal:nth-child(3) { transform: rotate(90deg); }
-        .petal:nth-child(4) { transform: rotate(135deg); }
-
-        .center {
-            width: 30%;
-            height: 30%;
-            background: var(--flower-center);
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            z-index: 10;
-        }
-
-        /* Keyframes originales */
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-        }
-        @keyframes petal-pulse { /* Keyframe renombrado */
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(0.95); }
-        }
-        
         /* ---------- Main ---------- */
         .container{ 
             max-width:1100px; 
@@ -1078,7 +997,7 @@
             <div class="arrow-right">
                 <button id="nextPerspectiveBtn">›</button>
             </div> 
-            </div>
+        </div>
         <div class="section-separator hidden-section">
             <hr>
             <span>🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶</span>
@@ -1217,7 +1136,7 @@
         function toggleMainPlay(){ 
             hapticFeedback(80); 
             if (!messageAudio.paused) {
-                 messageAudio.pause();
+                 audio.pause();
                  setMessagePlayingUI(false); 
             }
             
@@ -1262,12 +1181,6 @@
         const slides=[...document.querySelectorAll('#stage .slide')]; 
         const stage = document.getElementById('stage');
         const dotsContainer = document.getElementById('carouselDots');
-        
-        // El resto de la lógica del carrusel principal es correcta.
-        // Se inicializa abajo con show(0).
-
-        // ... [Lógica de inicialización de dots, show(i), updateDots() y handleGesture() omitida por brevedad, está intacta]
-        // [Inicio Lógica Carrusel Principal]
         let current=0; 
         let touchstartX = 0;
         let touchendX = 0;
@@ -1330,7 +1243,8 @@
                 show(current + 1);
             }
         }
-        // [Fin Lógica Carrusel Principal]
+        show(0);
+
 
         /* ---------------------------------------------------- */
         /* ---------- 4B. LÓGICA DEL SLIDER DE PERSPECTIVAS (NUEVO) --------- */
@@ -1544,8 +1458,6 @@
                 timelineObserver.observe(event);
             });
         }
-        
-        show(0); // Inicializa carrusel principal
     </script>
 </body>
 </html>
