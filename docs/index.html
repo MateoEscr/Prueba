@@ -57,6 +57,9 @@
             font-size: calc(14px + 1.4vw); 
             transform-origin:center; 
             animation: float linear infinite; 
+            /* Se usan propiedades CSS personalizadas (variables) para la aleatoriedad */
+            animation-duration: calc(10s + var(--random-duration)); 
+            animation-delay: calc(var(--random-delay) * -1s); 
         }
         @keyframes float{ 
             from{ 
