@@ -15,8 +15,8 @@
             --glass-strong: rgba(255,255,255,0.85);
             --card-shadow: 0 10px 28px rgba(0,0,0,0.12);
             --rounded: 14px;
-            --pink-shadow: rgba(255, 99, 132, 0.4); /* Nuevo color de sombra */
-            --green-shadow: rgba(76, 175, 80, 0.4); /* Nuevo color de sombra */
+            --pink-shadow: rgba(255, 99, 132, 0.4); 
+            --green-shadow: rgba(76, 175, 80, 0.4); 
         }
         *{box-sizing:border-box}
         html,body{height:100%; overflow-x:hidden;}
@@ -29,10 +29,23 @@
             -moz-osx-font-smoothing:grayscale; 
             -webkit-touch-callout:none; 
         }
-
-        /* ---------- Fondo emojis ---------- */
+        
+        /* ---------- BARRA DE PROGRESO DE LECTURA (NUEVO) ---------- */
+        #progressBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px; 
+            background: linear-gradient(90deg, #ff6b6b, var(--accent)); 
+            width: 0%;
+            z-index: 10000; 
+            transition: width 0.1s linear; 
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        
+        /* ---------- Fondo emojis (Parallax ya aplicado con position: fixed) ---------- */
         #emoji-bg{ 
-            position:fixed; 
+            position:fixed; /* Esto hace que el fondo se quede quieto y el contenido scrollee sobre él (Parallax) */
             inset:0; 
             z-index:-3; 
             pointer-events:none; 
@@ -119,7 +132,7 @@
         }
 
 
-        /* ---------- Music player compacto (Igual que antes) ---------- */
+        /* ---------- Music player compacto ---------- */
         .player-wrapper{
             display:flex;
             justify-content:center;
@@ -239,29 +252,24 @@
         h1, h2{ 
             word-wrap: break-word;
             overflow-wrap: break-word;
-            /* La fuente Quicksand se importa arriba y se usa aquí */
             font-family: 'Quicksand', sans-serif;
         }
         h1{ 
             font-size:3em; 
             margin:0; 
             line-height:1.05; 
-            /* Sombra inicial suave */
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1); 
         }
         
-        /* 3a) EFECTO EN EL TÍTULO AL REVELARSE */
+        /* EFECTO EN EL TÍTULO AL REVELARSE */
         .title-wrap.visible h1 {
-            /* Sombra de color doble para un efecto de "glitch" suave */
             text-shadow: 2px 2px 4px var(--pink-shadow), 
                          -2px -2px 4px var(--green-shadow);
-            /* Ligero pop */
             transform: scale(1.02);
-            /* Transición para el pop y la sombra */
             transition: transform 1s ease-out, text-shadow 1s ease-out 1s; 
         }
         
-        /* Tarjeta general para bloques de texto (Igual que antes) */
+        /* Tarjeta general para bloques de texto */
         .text-card {
             max-width: 820px;
             margin: 20px auto 30px;
@@ -294,7 +302,7 @@
             max-width: 820px;
         }
 
-        /* ---------- Carousel (Igual que antes, excepto dots) ---------- */
+        /* ---------- Carousel ---------- */
         .carousel{ 
             width:100%; 
             max-width:820px; 
@@ -341,7 +349,7 @@
             -webkit-user-drag: none;
         }
 
-        /* Flechas (Igual que antes) */
+        /* Flechas */
         .arrow button{ 
             background:var(--glass-strong); 
             border-radius:50%; 
@@ -372,7 +380,7 @@
             z-index: 10;
         }
         
-        /* Puntos de navegación (Dots) - (Igual que antes) */
+        /* Puntos de navegación (Dots) */
         .carousel-dots {
             display: flex;
             justify-content: center;
@@ -397,8 +405,93 @@
             background: var(--accent);
             transform: scale(1.2);
         }
+        
+        /* ---------- Collage y Lightbox ---------- */
+        .collage-section {
+            max-width: 900px; 
+            margin: 40px auto 30px;
+        }
+        .collage-grid {
+            /* Implementación de Masonry con CSS Grid */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            grid-gap: 8px;
+            padding: 10px;
+            background: var(--glass);
+            border-radius: var(--rounded);
+            box-shadow: var(--card-shadow);
+            max-width: 100%;
+        }
+        .collage-item {
+            overflow: hidden;
+            break-inside: avoid; 
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            position: relative;
+        }
+        .collage-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .collage-item img:hover {
+            transform: scale(1.03);
+        }
 
-        /* ---------- Contador Mejorado (MODIFICADO) ---------- */
+        /* Estilos Lightbox (Modal para la foto grande) */
+        .lightbox {
+            display: none; 
+            position: fixed; 
+            z-index: 10000; 
+            padding-top: 10vh; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.9); 
+            backdrop-filter: blur(5px);
+        }
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh; 
+            object-fit: contain;
+            border-radius: 12px;
+            animation: zoom 0.6s;
+        }
+        @keyframes zoom {
+            from {transform:scale(0)} 
+            to {transform:scale(1)}
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .lightbox-close:hover,
+        .lightbox-close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        @media only screen and (max-width: 700px){
+            .lightbox-content {
+                width: 100%;
+            }
+        }
+        
+        /* ---------- Contador Mejorado ---------- */
         .counter-section{
             display: flex;
             flex-direction: column;
@@ -412,7 +505,7 @@
             text-align:center;
             font-weight:700;
             font-size:1.1rem;
-            padding: 20px 10px; /* Reducido padding horizontal */
+            padding: 20px 10px; 
             border-radius: var(--rounded);
             background: var(--glass-strong); 
             box-shadow: var(--card-shadow);
@@ -425,23 +518,23 @@
             color: var(--text);
         }
         
-        /* 4) NUEVOS ESTILOS PARA EL CONTADOR ANIMADO */
+        /* ESTILOS PARA EL CONTADOR ANIMADO */
         .counter-wrap {
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Alinea los labels abajo */
+            align-items: flex-start; 
             gap: 5px;
             padding: 5px 0;
         }
         .counter-segment {
             display: inline-block;
-            min-width: 50px; /* Ancho suficiente para evitar el cambio de posición */
+            min-width: 50px; 
             text-align: center;
             padding: 0 4px;
         }
 
         .counter-digit-group {
-            display: block; /* Ocupa todo el ancho del segmento */
+            display: block; 
             font-size: 1.8rem;
             color: var(--accent);
             font-weight: 900;
@@ -450,7 +543,6 @@
         }
         
         .counter-digit-group.change-animation {
-            /* Animación de "pop" al cambiar el valor */
             transform: scale(1.2); 
             opacity: 0.8;
         }
@@ -471,10 +563,8 @@
             font-weight: 900;
             padding: 0 5px;
         }
-        /* Fin de estilos del contador */
 
-
-        /* ---------- Timeline (Igual que antes) ---------- */
+        /* ---------- Timeline ---------- */
         .timeline-wrapper {
             max-width:820px; 
             margin:10px auto 30px;
@@ -522,7 +612,7 @@
             color: rgba(0,0,0,0.75);
         }
         
-        /* Separador temático (Igual que antes) */
+        /* Separador temático */
         .section-separator {
             text-align: center;
             margin: 40px auto;
@@ -538,7 +628,7 @@
             color: var(--accent);
         }
 
-        /* Texto final (Igual que antes) */
+        /* Texto final */
         .final-message-card {
             max-width: 700px;
             margin: 40px auto 0;
@@ -552,7 +642,7 @@
             line-height: 1.5;
         }
         
-        /* Clases para Scroll Reveal (Igual que antes) */
+        /* Clases para Scroll Reveal */
         .hidden-section {
             opacity: 0;
             transform: translateY(30px);
@@ -568,7 +658,7 @@
         }
 
 
-        /* ---------- Responsive (Igual que antes) ---------- */
+        /* ---------- Responsive ---------- */
         @media(max-width:720px){ 
             h1{ 
                 font-size:2.4rem 
@@ -576,22 +666,28 @@
             .counter-segment {
                 min-width: 50px; 
             }
+            .collage-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
         }
         @media(max-width:420px){ 
             h1{ 
                 font-size:2rem 
             } 
             .counter-segment {
-                min-width: 40px; /* Reducción adicional para pantallas pequeñas */
+                min-width: 40px; 
             }
             .counter-digit-group, .separator {
                 font-size: 1.6rem;
+            }
+            .collage-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             }
         }
     </style>
 </head>
 <body>
-    <div id="emoji-bg"></div>
+    <div id="progressBar"></div> <div id="emoji-bg"></div>
 
     <div id="loader"> 
         <span>💚</span> 
@@ -705,6 +801,26 @@
             <div class="carousel-dots" id="carouselDots"></div>
         </div>
 
+        <div class="collage-section hidden-section" id="collageSection">
+            <h2 style="text-align: center; margin-bottom: 25px;">Momentos Inolvidables ✨</h2>
+            <div class="collage-grid" id="photoCollage">
+                <div class="collage-item"><img src="images/collage1.jpeg" alt="Foto collage 1"></div>
+                <div class="collage-item"><img src="images/collage2.jpeg" alt="Foto collage 2"></div>
+                <div class="collage-item"><img src="images/collage3.jpeg" alt="Foto collage 3"></div>
+                <div class="collage-item"><img src="images/collage4.jpeg" alt="Foto collage 4"></div>
+                <div class="collage-item"><img src="images/collage5.jpeg" alt="Foto collage 5"></div>
+                <div class="collage-item"><img src="images/collage6.jpeg" alt="Foto collage 6"></div>
+                <div class="collage-item"><img src="images/collage7.jpeg" alt="Foto collage 7"></div>
+                <div class="collage-item"><img src="images/collage8.jpeg" alt="Foto collage 8"></div>
+                <div class="collage-item"><img src="images/collage9.jpeg" alt="Foto collage 9"></div>
+                <div class="collage-item"><img src="images/collage10.jpeg" alt="Foto collage 10"></div>
+                <div class="collage-item"><img src="images/collage11.jpeg" alt="Foto collage 11"></div>
+                <div class="collage-item"><img src="images/collage12.jpeg" alt="Foto collage 12"></div>
+            </div>
+            <div class="message-center" style="margin-top: 25px;">
+                <p>¡Toca una foto para verla en grande! Las de más calidad las hemos hecho nosotros, las otras... son más espontáneas 😉</p>
+            </div>
+        </div>
         <div class="counter-section hidden-section" id="counterSection">
             <div class="counter-card">
                 <div class="fun-fact-text">Parezca más o menos tiempo, llevamos saliendo: </div> 
@@ -758,6 +874,11 @@
             Sabeees que! Toda la idea viene de una web brasileña parecida donde yo hice como un "mensaje de amor" / "carta" así que se supone que tendría que funcionar pues pague (1.37€, tranqui). Al final ni funcionó ni me hicieron mucho caso, así queeee empecé a hacerla yo por mi cuenta incluso ANTES de comprar las entradas al concierto de Louis Tomilson. Sorprendentemente no se me escapó la sorpresa (ESPERO, estoy escribiendo esto a 18/11 y lo empecé el 10/11 😀) <br> Posdata, el separador de corazones de arriba tiene efectivamente 14 en total, por si no te habías fijado 😉
         </div>
     </div>
+    
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightboxImage">
+    </div>
 
     <script> 
         /* iconos */ 
@@ -771,6 +892,12 @@
             }
         }
         
+        /* Lógica para cerrar el lightbox */
+        function closeLightbox() {
+            hapticFeedback(50);
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
         /* emojis */ 
         (function(){ 
             const container = document.getElementById('emoji-bg'); 
@@ -909,11 +1036,12 @@
             document.getElementById('confirm').style.display='none'; 
             document.getElementById('mainContent').style.display='block'; 
             
+            updateProgressBar(); // ¡Llamada inicial para la barra de progreso!
             observeSections();
         }; 
 
         /* ---------------------------------------------------- */
-        /* ---------- 4. CAROUSEL CON DOTS (Igual que antes) --------- */
+        /* ---------- 4. CAROUSEL CON DOTS --------- */
         /* ---------------------------------------------------- */
         const slides=[...document.querySelectorAll('.slide')]; 
         const stage = document.getElementById('stage');
@@ -985,7 +1113,7 @@
 
 
         /* ---------------------------------------------------- */
-        /* ---------- 5. CONTADOR ANIMADO (MODIFICADO) ---------- */
+        /* ---------- 5. CONTADOR ANIMADO ---------- */
         /* ---------------------------------------------------- */
         const startDate=new Date('2025-07-02T00:00:00+02:00'); 
         const contador=document.getElementById('contador'); 
@@ -993,7 +1121,6 @@
         let daysSpan, hoursSpan, minutesSpan, secondsSpan;
 
         function initializeCounter() {
-            // Estructura de HTML con spans para poder aplicar la animación individual
             const html = `
                 <div class="counter-wrap">
                     <span class="counter-segment"><span class="counter-digit-group" id="daysVal">0</span><span class="label">Días</span></span>
@@ -1007,7 +1134,6 @@
             `;
             contador.innerHTML = html;
             
-            // Asignación de variables globales
             daysSpan = document.getElementById('daysVal');
             hoursSpan = document.getElementById('hoursVal');
             minutesSpan = document.getElementById('minutesVal');
@@ -1016,13 +1142,10 @@
         
         function updateDigit(element, newValue) {
             const newValueStr = newValue.toString();
-            // Solo actualiza si el valor ha cambiado
             if (element.textContent !== newValueStr) {
-                // Aplica una clase temporal para disparar la animación CSS
                 element.classList.add('change-animation');
                 element.textContent = newValueStr;
                 
-                // Quita la clase después de la duración de la animación (200ms)
                 setTimeout(() => {
                     element.classList.remove('change-animation');
                 }, 200); 
@@ -1040,7 +1163,6 @@
             const m=Math.floor(diff/60); 
             const s=diff%60; 
             
-            // Los días no tienen relleno de cero, horas, minutos y segundos sí
             updateDigit(daysSpan, d);
             updateDigit(hoursSpan, h.toString().padStart(2, '0'));
             updateDigit(minutesSpan, m.toString().padStart(2, '0'));
@@ -1052,7 +1174,55 @@
         setInterval(update,1000); 
 
         /* ---------------------------------------------------- */
-        /* --------- Lógica de Scroll Reveal General (Igual que antes) ----- */
+        /* ---------- 6. LÓGICA DEL COLLAGE Y LIGHTBOX ---------- */
+        /* ---------------------------------------------------- */
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        // Seleccionamos todas las imágenes dentro de la rejilla de collage
+        const collageItems = document.querySelectorAll('#photoCollage img');
+
+        collageItems.forEach(img => {
+            img.onclick = function() {
+                hapticFeedback(50);
+                lightbox.style.display = 'block';
+                lightboxImage.src = this.src;
+                lightboxImage.alt = this.alt;
+            }
+        });
+        // La función 'closeLightbox' se encarga de ocultar el modal.
+        
+        
+        /* ---------------------------------------------------- */
+        /* ---------- 7. BARRA DE PROGRESO DE LECTURA (NUEVO) ---------- */
+        /* ---------------------------------------------------- */
+        const progressBar = document.getElementById('progressBar');
+        // mainContent ya está declarado arriba
+
+        function updateProgressBar() {
+            // Solo actualizamos si el contenido principal es visible
+            if (document.getElementById('mainContent').style.display === 'block') {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                // document.documentElement.scrollHeight es la altura total del contenido
+                // document.documentElement.clientHeight es la altura visible de la ventana
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                
+                // Si la altura del contenido es mayor que la ventana (es decir, hay scroll)
+                if (height > 0) {
+                    const scrolled = (winScroll / height) * 100;
+                    progressBar.style.width = scrolled + "%";
+                } else {
+                    // Si no hay scroll (contenido muy corto), la barra se pone al 100%
+                    progressBar.style.width = "100%";
+                }
+            }
+        }
+        
+        // Escucha el scroll global para actualizar la barra
+        window.onscroll = updateProgressBar;
+
+
+        /* ---------------------------------------------------- */
+        /* --------- Lógica de Scroll Reveal General ----- */
         /* ---------------------------------------------------- */
         const observerOptions = {
             root: null, 
@@ -1078,7 +1248,7 @@
         }
 
         /* ---------------------------------------------------- */
-        /* -------- Lógica de Scroll Reveal para Timeline (Igual que antes) ------- */
+        /* -------- Lógica de Scroll Reveal para Timeline ------- */
         /* ---------------------------------------------------- */
         const timelineObserverOptions = {
             root: null, 
