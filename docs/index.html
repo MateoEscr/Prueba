@@ -351,7 +351,6 @@
             box-shadow:0 12px 30px rgba(0,0,0,.12); 
             user-select: none; 
             -webkit-user-drag: none;
-            /* **¡NUEVO!** Cursor para indicar que es clicable y Lightbox */
             cursor: pointer; 
         }
         
@@ -893,7 +892,7 @@
             <div class="arrow-left">
                 <button id="prevBtn">‹</button>
             </div> 
-            <div class="carousel-stage" id="stage"> 
+            <div class="carousel-stage" id="stage" onclick="openMainCarouselLightbox()">
                 <div class="slide active"><img src="images/IMG_8777.jpeg" alt="Imagen 1"></div> 
                 <div class="slide"><img src="images/IMG_7604.jpeg" alt="Imagen 2"></div> 
                 <div class="slide"><img src="images/IMG_7567.jpeg" alt="Imagen 3"></div> 
@@ -1092,12 +1091,12 @@
     </div>
     
     <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-        <span class="lightbox-close">&times;</span>
+        <span class="lightbox-close">×</span>
         <img class="lightbox-content" id="lightboxImage">
     </div>
 
     <div id="dualLightbox" onclick="closeDualLightbox()">
-        <span class="lightbox-close-dual">&times;</span>
+        <span class="lightbox-close-dual">×</span>
         <div class="dual-content-wrapper">
             <img id="dualImageA" alt="Perspectiva A">
             <img id="dualImageB" alt="Perspectiva B">
@@ -1128,14 +1127,11 @@
             document.getElementById('dualLightbox').style.display = 'none';
         }
         
-        /* Lógica para ABRIR el lightbox DUAL (Ahora lee las rutas del elemento clicado) */
+        /* Lógica para ABRIR el lightbox DUAL (Perspectivas) */
         function openCurrentPerspectiveLightbox() {
             hapticFeedback(100);
             
-            // 1. Buscamos el slide activo actualmente en el escenario de perspectivas
             const activeSlide = document.querySelector('#perspectiveStage .slide.active');
-            
-            // 2. Buscamos las dos imágenes dentro de ese slide activo
             const images = activeSlide ? activeSlide.querySelectorAll('img') : null;
             
             if (images && images.length === 2) {
@@ -1144,6 +1140,24 @@
                 document.getElementById('dualLightbox').style.display = 'flex';
             }
         }
+
+        // ** INICIO: FUNCIÓN CORREGIDA PARA EL LIGHTBOX DEL CARRUSEL PRINCIPAL **
+        function openMainCarouselLightbox() {
+            hapticFeedback(100);
+            // 1. Encontramos la diapositiva activa
+            const activeSlide = document.querySelector('#stage .slide.active');
+            
+            // 2. Encontramos la imagen DENTRO de esa diapositiva
+            const image = activeSlide ? activeSlide.querySelector('img') : null;
+            
+            if (image) {
+                // 3. Abrimos el lightbox con la fuente de la imagen activa
+                document.getElementById('lightboxImage').src = image.src;
+                document.getElementById('lightboxImage').alt = image.alt;
+                document.getElementById('lightbox').style.display = 'block';
+            }
+        }
+        // ** FIN: FUNCIÓN CORREGIDA **
 
 
         /* emojis */ 
@@ -1286,11 +1300,10 @@
             document.getElementById('confirm').style.display='none'; 
             document.getElementById('mainContent').style.display='block'; 
             
-            // ** INICIO DE LA MEJORA DEL TÍTULO PRINCIPAL **
+            // Disparador de la animación del título al entrar
             document.getElementById('titleSection').classList.add('visible'); 
-            // ** FIN DE LA MEJORA DEL TÍTULO PRINCIPAL **
             
-            updateProgressBar(); // ¡Llamada inicial para la barra de progreso!
+            updateProgressBar(); 
             observeSections();
         }; 
 
@@ -1298,6 +1311,7 @@
         /* ---------- 4. CARRUSEL PRINCIPAL CON DOTS --------- */
         /* ---------------------------------------------------- */
         const slides=[...document.querySelectorAll('#stage .slide')]; 
+        // Importante: El evento de clic para lightbox se ha movido al padre 'stage'
         const stage = document.getElementById('stage');
         const dotsContainer = document.getElementById('carouselDots');
         
@@ -1498,20 +1512,6 @@
                 lightboxImage.alt = this.alt;
             }
         });
-        
-        // ** INICIO DE LA INTEGRACIÓN DE LIGHTBOX EN CARRUSEL PRINCIPAL **
-        const mainCarouselImages = document.querySelectorAll('#stage .slide img');
-
-        mainCarouselImages.forEach(img => {
-            img.onclick = function() {
-                hapticFeedback(50);
-                lightbox.style.display = 'block';
-                lightboxImage.src = this.src;
-                lightboxImage.alt = this.alt;
-            }
-        });
-        // ** FIN DE LA INTEGRACIÓN DE LIGHTBOX EN CARRUSEL PRINCIPAL **
-
         
         /* ---------------------------------------------------- */
         /* ---------- 7. BARRA DE PROGRESO DE LECTURA (FIXED) ---------- */
