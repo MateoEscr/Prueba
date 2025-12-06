@@ -268,7 +268,7 @@
         /* EFECTO EN EL TÍTULO AL REVELARSE */
         .title-wrap.visible h1 {
             text-shadow: 2px 2px 4px var(--pink-shadow), 
-                         -2px -2px 4px var(--green-shadow);
+                        -2px -2px 4px var(--green-shadow);
             transform: scale(1.02);
             transition: transform 1s ease-out, text-shadow 1s ease-out 1s; 
         }
@@ -351,6 +351,8 @@
             box-shadow:0 12px 30px rgba(0,0,0,.12); 
             user-select: none; 
             -webkit-user-drag: none;
+            /* **¡NUEVO!** Cursor para indicar que es clicable y Lightbox */
+            cursor: pointer; 
         }
         
         /* Contenedor interno del Slider de Perspectivas - CLAVE para la disposición vertical */
@@ -443,8 +445,6 @@
             
             /* --- AJUSTE CLAVE 1: REDUCCIÓN DE ESPACIO (grid-gap) --- */
             grid-gap: 4px; /* Reducido para mayor integración */
-            
-            padding: 0; 
             
             /* --- AJUSTE CLAVE 2: ELIMINAMOS EL FONDO DEL GRID --- */
             background: none; 
@@ -1159,7 +1159,7 @@
                 e.style.fontSize=(12+Math.random()*36)+'px'; 
                 // Nuevas propiedades CSS personalizadas para duración y retraso
                 e.style.setProperty('--random-duration', `${Math.random() * 10}s`); 
-                e.style.setProperty('--random-delay', `${Math.random() * 10}s`);     
+                e.style.setProperty('--random-delay', `${Math.random() * 10}s`);       
                 container.appendChild(e); 
             } 
         })(); 
@@ -1235,7 +1235,7 @@
         /* ---------------------------------------------------- */
         const audio=new Audio("images/musica.mp3"); 
         audio.preload='metadata'; 
-        // audio.loop = true; <--- Si quisieras añadir el loop (Mantenido desactivado)
+        // audio.loop = true; 
 
         const playOverlayMain=document.getElementById('playOverlayMain'); 
         const coverWrapMain=document.getElementById('coverWrapMain'); 
@@ -1285,6 +1285,10 @@
             setMessagePlayingUI(false); 
             document.getElementById('confirm').style.display='none'; 
             document.getElementById('mainContent').style.display='block'; 
+            
+            // ** INICIO DE LA MEJORA DEL TÍTULO PRINCIPAL **
+            document.getElementById('titleSection').classList.add('visible'); 
+            // ** FIN DE LA MEJORA DEL TÍTULO PRINCIPAL **
             
             updateProgressBar(); // ¡Llamada inicial para la barra de progreso!
             observeSections();
@@ -1484,9 +1488,9 @@
         const lightbox = document.getElementById('lightbox');
         const lightboxImage = document.getElementById('lightboxImage');
         // Seleccionamos todas las imágenes dentro de la rejilla de collage
-        const collageItems = document.querySelectorAll('#photoCollage img');
+        const collageImages = document.querySelectorAll('#photoCollage img');
 
-        collageItems.forEach(img => {
+        collageImages.forEach(img => {
             img.onclick = function() {
                 hapticFeedback(50);
                 lightbox.style.display = 'block';
@@ -1494,8 +1498,20 @@
                 lightboxImage.alt = this.alt;
             }
         });
-        // La función 'closeLightbox' se encarga de ocultar el modal.
         
+        // ** INICIO DE LA INTEGRACIÓN DE LIGHTBOX EN CARRUSEL PRINCIPAL **
+        const mainCarouselImages = document.querySelectorAll('#stage .slide img');
+
+        mainCarouselImages.forEach(img => {
+            img.onclick = function() {
+                hapticFeedback(50);
+                lightbox.style.display = 'block';
+                lightboxImage.src = this.src;
+                lightboxImage.alt = this.alt;
+            }
+        });
+        // ** FIN DE LA INTEGRACIÓN DE LIGHTBOX EN CARRUSEL PRINCIPAL **
+
         
         /* ---------------------------------------------------- */
         /* ---------- 7. BARRA DE PROGRESO DE LECTURA (FIXED) ---------- */
