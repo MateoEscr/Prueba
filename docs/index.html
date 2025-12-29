@@ -811,7 +811,7 @@
 
 .scratch-section { margin: 40px auto; max-width: 400px; text-align: center; }
 #scratch-container { position: relative; width: 300px; height: 150px; margin: 0 auto; border-radius: 15px; overflow: hidden; background: #fff; box-shadow: var(--card-shadow); border: 2px solid var(--accent); }
-#scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; z-index: 2; }
+#scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; z-index: 10; }
 .scratch-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; text-align: center; position: relative; z-index: 1; }
         
     </style>
@@ -1142,6 +1142,8 @@
         </div>
     </div>
 
+        <button id="loveButton">💚</button>
+
     <script> 
 /* --- RECURSOS --- */
 const svgPlay='<svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9z" fill="#fff"/></svg>'; 
@@ -1207,8 +1209,9 @@ const genObs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersect
 window.addEventListener('load', () => {
     setTimeout(() => document.getElementById('loader').classList.add('hidden'), 1500);
     setInterval(updateCounter, 1000);
-    setupAudio(messageAudio, document.getElementById('messagePlayOverlayConfirm'), document.getElementById('messageProgressC'), document.getElementById('messageTimeCurC'), document.getElementById('messageTimeDurC'), true);
-    setupAudio(audio, document.getElementById('playOverlayMain'), document.getElementById('progressM'), document.getElementById('timeCurM'), document.getElementById('timeDurM'), false);
+    // Cambia las líneas de setupAudio por estas:
+    setupAudio(messageAudio, document.getElementById('msgPlay'), document.getElementById('mProg'), document.getElementById('mCur'), document.getElementById('mDur'), true);
+    setupAudio(audio, document.getElementById('mainPlay'), document.getElementById('tProg'), document.getElementById('tCur'), document.getElementById('tDur'), false);
 });
 
 /* --- LÓGICA DE CARRUSELES (Tuya original) --- */
@@ -1231,25 +1234,38 @@ function openMainCarouselLightbox() { const img = document.querySelector('#stage
 function openCurrentPerspectiveLightbox() { const imgs = document.querySelector('#perspectiveStage .slide.active').querySelectorAll('img'); document.getElementById('dualImageA').src = imgs[0].src; document.getElementById('dualImageB').src = imgs[1].src; document.getElementById('dualLightbox').style.display='flex'; }
 document.querySelectorAll('#photoCollage img').forEach(img => img.onclick = () => { document.getElementById('lightboxImage').src = img.src; document.getElementById('lightbox').style.display='flex'; });
 
-/* --- LLUVIA DE CORAZONES --- */
-document.getElementById('loveButton').onclick = (ev) => {
-    hapticFeedback(100);
-    for (let i = 0; i < 15; i++) {
-        const heart = document.createElement('div'); heart.className = 'floating-heart'; heart.innerHTML = '💚';
-        const x = ev.clientX || window.innerWidth - 50; const y = ev.clientY || window.innerHeight - 50;
-        heart.style.left = x + 'px'; heart.style.top = y + 'px';
-        heart.style.setProperty('--random-x', (Math.random() * 200 - 100) + 'px');
-        heart.style.setProperty('--random-deg', (Math.random() * 360) + 'deg');
-        document.body.appendChild(heart); setTimeout(() => heart.remove(), 2000);
-    }
-};
+/* --- LLUVIA DE CORAZONES (CORREGIDO) --- */
+const heartBtn = document.getElementById('loveButton');
+if (heartBtn) {
+    heartBtn.onclick = (ev) => {
+        hapticFeedback(100);
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '💚';
+            // Posicionamos donde se hizo clic o toque
+            const x = ev.clientX || window.innerWidth - 50;
+            const y = ev.clientY || window.innerHeight - 50;
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            heart.style.setProperty('--random-x', (Math.random() * 200 - 100) + 'px');
+            heart.style.setProperty('--random-deg', (Math.random() * 360) + 'deg');
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 2000);
+        }
+    };
+}
 
+/* --- BARRA DE PROGRESO --- */
 window.onscroll = () => {
-    const s = document.documentElement.scrollTop, h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    document.getElementById('progressBar').style.width = (s/h)*100 + "%";
+    const winScroll = document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    if (height > 0) {
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+    }
 };
     </script>
 
-    <button id="loveButton">💚</button>
 </body>
 </html>
