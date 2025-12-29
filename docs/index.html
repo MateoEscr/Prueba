@@ -6,17 +6,17 @@
     <title>Los mejores 6 meses de mi vida</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* ---------- Variables y reset ---------- */
+        /* ---------- Variables y reset (DISEÑO VERDE) ---------- */
         :root{
-            --bg: #F1F8E9; /* Verde muy clarito, casi blanco */
+            --bg: #F1F8E9; /* Verde Matcha clarito */
             --accent: #66BB6A; /* Verde principal */
             --accent-dark: #388E3C;
-            --text: #1B5E20; /* Texto en verde muy oscuro para contraste */
+            --text: #1B5E20; 
             --glass: rgba(255, 255, 255, 0.7);
             --glass-strong: rgba(255, 255, 255, 0.9);
-            --card-shadow: 0 8px 32px rgba(102, 187, 106, 0.15); /* Sombra con tinte verde */
+            --card-shadow: 0 8px 32px rgba(102, 187, 106, 0.15);
             --rounded: 20px;
-            --pink-shadow: rgba(129, 199, 132, 0.4); /* Cambiado de rosa a verde claro */
+            --pink-shadow: rgba(129, 199, 132, 0.4); 
             --green-shadow: rgba(76, 175, 80, 0.3);
         }
         *{box-sizing:border-box}
@@ -31,950 +31,159 @@
             -webkit-touch-callout:none; 
         }
         
-        /* ---------- BARRA DE PROGRESO DE LECTURA (FIXED) ---------- */
+        /* ---------- BARRA DE PROGRESO DE LECTURA ---------- */
         #progressBar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px; 
+            position: fixed; top: 0; left: 0; height: 4px; 
             background: linear-gradient(90deg, #ff6b6b, var(--accent)); 
-            width: 0%;
-            z-index: 10000; 
-            transition: width 0.1s linear; 
+            width: 0%; z-index: 10000; transition: width 0.1s linear; 
             box-shadow: 0 0 5px rgba(0,0,0,0.2);
         }
         
-        /* ---------- Fondo emojis (Parallax ya aplicado con position: fixed) ---------- */
-        #emoji-bg{ 
-            position:fixed; 
-            inset:0; 
-            z-index:-3; 
-            pointer-events:none; 
-            overflow:hidden; 
-        }
-        .emoji{ 
-            position:absolute; 
-            opacity:0.07; 
-            font-size: calc(14px + 1.4vw); 
-            transform-origin:center; 
-            animation: float linear infinite; 
-            /* Se usan propiedades CSS personalizadas (variables) para la aleatoriedad */
-            animation-duration: calc(10s + var(--random-duration)); 
-            animation-delay: calc(var(--random-delay) * -1s); 
-        }
-        @keyframes float{ 
-            from{ 
-                transform: translateY(110vh) rotate(0deg); 
-            } 
-            to{ 
-                transform: translateY(-10vh) rotate(360deg); 
-            } 
-        }
-
-        /* ---------- Loader ---------- */
-        #loader{ 
-            position:fixed; 
-            inset:0; 
-            display:flex; 
-            flex-direction:column; 
-            align-items:center; 
-            justify-content:center; 
-            background: var(--bg);
-            z-index:9999; 
-            transition: opacity .5s ease, visibility .5s; 
-        }
-        #loader.hidden{ 
-            opacity:0; 
-            visibility:hidden; 
-        }
-        @keyframes pulse{
-            0%,100%{transform:scale(1)}
-            50%{transform:scale(1.12)}
-        }
-
-        /* ---------- Confirm (RESTAURADO A POSICIÓN CENTRAL) ---------- */
-        #confirm{ 
-            position:fixed; 
-            inset:0; 
-            display:grid; /* Vuelve a usar grid para centrar */
-            place-items:center; /* Centrado vertical y horizontal */
-            z-index:9998; 
-            padding: 20px;
-        }
-        .confirm-card{ 
-            width:100%; 
-            max-width:520px; 
-            border-radius:18px; 
-            padding:18px; 
-            background:linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0.5)); 
-            box-shadow:var(--card-shadow); 
-            backdrop-filter:blur(6px); 
-            display:flex; 
-            flex-direction:column; 
-            gap:12px; 
-            align-items:center; 
-            position: relative; 
-            z-index: 2; 
-            margin-bottom: 0; /* Elimina margen extra */
-        }
-        
-        /* Centrado del título de confirmación */
-        .confirm-card h2 {
-            text-align: center;
-        }
-
-        /* Botón de apertura */
-        #openBtn {
-            padding: 10px 30px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-radius: 8px;
-            border: none;
-            background: var(--accent); 
-            color: white;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        #openBtn:hover {
-            background: #388e3c; 
-        }
-
-
-        /* ---------- Music player compacto ---------- */
-        /* --- REPRODUCTOR FIJO Y TAMAÑO CORREGIDO --- */
-.player-wrapper {
-    display: flex;
-    justify-content: center;
-    position: sticky; 
-    top: 10px; /* Se queda a 10px del borde superior */
-    z-index: 1000; 
-    margin-bottom: 20px;
-    pointer-events: none; /* Deja pasar clicks al fondo */
-    width: 100%;
-}
-
-.compact-player {
-    display: flex; /* Restaurado para que los elementos se pongan en fila */
-    align-items: center;
-    gap: 12px;
-    width: auto;
-    max-width: fit-content; /* Restaurado para que no ocupe toda la pantalla */
-    padding: 8px 15px;
-    border-radius: var(--rounded);
-    background: rgba(255, 255, 255, 0.85); /* Glassmorphism */
-    backdrop-filter: blur(10px);
-    box-shadow: var(--card-shadow);
-    border: 1px solid rgba(102, 187, 106, 0.2);
-    pointer-events: auto; /* Permite clicks en los botones */
-}
-
-/* Ajuste para que la foto no crezca */
-.cover-wrap {
-    width: 50px; /* Un poco más pequeño para que no estorbe arriba */
-    height: 50px;
-    flex: 0 0 50px;
-    border-radius: 8px;
-    overflow: hidden;
-}
-        .cover-wrap img{ 
-            width:100%; 
-            height:100%; 
-            object-fit:cover; 
-            display:block; 
-            transition: transform 0.8s linear; 
-        }
-        @keyframes rotateCover{ 
-            from{transform:rotate(0)} 
-            to{transform:rotate(360deg)} 
-        }
-        .play-overlay{ 
-            position:absolute; 
-            inset:0; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            background:rgba(0,0,0,0.04); 
-        }
-        .play-circle{ 
-            width:36px; 
-            height:36px; 
-            border-radius:50%; 
-            display:grid; 
-            place-items:center; 
-            background:rgba(255,255,255,0.12); 
-            border:2px solid rgba(255,255,255,0.15); 
-            cursor:pointer; 
-            transition:transform .12s; 
-        }
-        .play-circle:active{ 
-            transform:scale(.95); 
-        }
-        .player-meta{ 
-            display:flex; 
-            flex-direction:column; 
-            gap:6px; 
-        }
-        .player-title{ 
-            font-size:0.95rem; 
-            font-weight:700; 
-            margin:0; 
-            white-space:nowrap; 
-            max-width:160px; 
-            overflow:hidden; 
-            text-overflow:ellipsis; 
-        }
-        .player-time{ 
-            font-size:0.86rem; 
-            color:rgba(0,0,0,0.55); 
-        }
-        .small-progress{ 
-            width:150px; 
-            height:6px; 
-            background:linear-gradient(90deg,rgba(0,0,0,0.08),rgba(0,0,0,0.04)); 
-            border-radius:6px; 
-            overflow:hidden; 
-        }
-        .small-progress input[type="range"]{ 
-            width:100%; 
-            -webkit-appearance:none; 
-            appearance:none; 
-            height:6px; 
-            background:linear-gradient(90deg,var(--accent),rgba(76,175,80,.6)); 
-        }
-        .small-progress input[type="range"]::-webkit-slider-thumb{ 
-            -webkit-appearance:none; 
-            width:10px;
-            height:10px;
-            border-radius:50%; 
-            background:white;
-            border:2px solid var(--accent); 
-            margin-top:-2px; 
-        }
-
-        /* ---------- Main ---------- */
-        .container{ 
-            max-width:1100px; 
-            margin:0 auto; 
-            padding:28px 16px 80px; 
-            position:relative; 
-            z-index:1; 
-        }
-        .title-wrap{ 
-            text-align:center; 
-            margin:10px 0 28px; 
-        }
-        h1, h2{ 
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            font-family: 'Quicksand', sans-serif;
-        }
-        h1{ 
-            font-size:3em; 
-            margin:0; 
-            line-height:1.05; 
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1); 
-        }
-        
-        /* EFECTO EN EL TÍTULO AL REVELARSE */
-        .title-wrap.visible h1 {
-            text-shadow: 2px 2px 4px var(--pink-shadow), 
-                        -2px -2px 4px var(--green-shadow);
-            transform: scale(1.02);
-            transition: transform 1s ease-out, text-shadow 1s ease-out 1s; 
-        }
-        
-        /* Tarjeta general para bloques de texto */
-        .text-card {
-            max-width: 820px;
-            margin: 20px auto 30px;
-            padding: 20px;
-            border-radius: var(--rounded);
-            background: var(--glass-strong);
-            box-shadow: var(--card-shadow);
-            backdrop-filter: blur(6px);
-            text-align: left; 
-        }
-        
-        p.message{ 
-            font-size:1.1rem; 
-            color:rgba(0,0,0,0.7); 
-            margin:14px 0; 
-            word-wrap: break-word; 
-            overflow-wrap: break-word;
-        }
-        p.message:first-child {
-            margin-top: 0;
-        }
-        p.message:last-child {
-            margin-bottom: 0;
-        }
-        .message-center{
-            text-align: center;
-            font-size:1.1rem; 
-            color:rgba(0,0,0,0.75); 
-            margin:14px auto 22px;
-            max-width: 820px;
-        }
-
-        /* ---------- Carousel ---------- */
-        .carousel{ 
-            width:100%; 
-            max-width:820px; 
-            margin:10px auto 28px; 
-            position:relative; 
-            padding:8px; 
-            display: flex;
-            flex-direction: column; 
-            align-items: center;
-        }
-        .carousel-stage{ 
-            position:relative; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            width: 100%; 
-            height:360px; 
-            min-height:360px; 
-            overflow:hidden; 
-            touch-action: pan-y; 
-        }
-        .slide{ 
-            position:absolute; 
-            inset:0; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            opacity:0; 
-            transition: opacity .8s ease; 
-        }
-        .slide.active{ 
-            opacity:1; 
-        }
-
-        .slide img{ 
-            width:auto; 
-            height:auto; 
-            max-width:100%; 
-            max-height:100%; 
-            object-fit:contain; 
-            border-radius:12px; 
-            box-shadow:0 12px 30px rgba(0,0,0,.12); 
-            user-select: none; 
-            -webkit-user-drag: none;
-            cursor: pointer; 
-        }
-        
-        /* Contenedor interno del Slider de Perspectivas - CLAVE para la disposición vertical */
-        #perspectiveStage .slide > div {
-            display: flex;
-            flex-direction: column; /* Coloca las imágenes una encima de la otra */
-            gap: 8px;
-            max-width: 100%;
-            height: 100%;
-            cursor: pointer; /* Indicamos que el área entera es clicable */
-            transition: transform 0.3s ease;
-        }
-        #perspectiveStage .slide img {
-            width: 100% !important; 
-            height: 50% !important; 
-            object-fit: contain; /* CLAVE: Muestra la foto entera sin recortar */
-        }
-        /* Efecto sutil de zoom en el contenedor interno */
-        #perspectiveStage .slide > div:hover {
-            transform: scale(1.02);
-        }
-
-
-        /* Flechas */
-        .arrow button{ 
-            background:var(--glass-strong); 
-            border-radius:50%; 
-            border:none; 
-            width:44px; 
-            height:44px; 
-            display:grid; 
-            place-items:center; 
-            box-shadow:var(--card-shadow); 
-            cursor:pointer;
-            transition: transform .15s ease;
-        }
-        .arrow button:active {
-            transform: scale(0.95);
-        }
-        .arrow-left{ 
-            position:absolute; 
-            top:50%; 
-            left:6px; 
-            transform:translateY(-50%); 
-            z-index: 10;
-        }
-        .arrow-right{ 
-            position:absolute; 
-            top:50%; 
-            right:6px; 
-            transform:translateY(-50%); 
-            z-index: 10;
-        }
-        
-        /* Puntos de navegación (Dots) */
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 15px;
-            padding: 5px 0;
-            max-width: 100%;
-            overflow-x: auto; 
-            padding-bottom: 5px; 
-            -webkit-overflow-scrolling: touch; 
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.2);
-            transition: background 0.3s, transform 0.3s;
-            cursor: pointer;
-            flex-shrink: 0; 
-        }
-        .dot.active {
-            background: var(--accent);
-            transform: scale(1.2);
-        }
-        
-        /* ---------- Collage y Lightbox (REVISADO) ---------- */
-        .collage-section {
-            max-width: 900px; 
-            margin: 40px auto 30px;
-        }
-        .collage-grid {
-            /* Implementación de Masonry con CSS Grid */
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
-            
-            /* --- AJUSTE CLAVE 1: REDUCCIÓN DE ESPACIO (grid-gap) --- */
-            grid-gap: 4px; /* Reducido para mayor integración */
-            
-            /* --- AJUSTE CLAVE 2: ELIMINAMOS EL FONDO DEL GRID --- */
-            background: none; 
-            
-            box-shadow: none; 
-            max-width: 100%;
-        }
-        .collage-item {
-            overflow: hidden;
-            position: relative;
-            z-index: 1; 
-            box-shadow: none; 
-            padding: 4px; /* Añadimos un pequeño padding al item para crear el espacio visible */
-        }
-        .collage-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-            cursor: pointer;
-            /* Transiciones para los efectos de hover */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            transform-origin: center center; 
-            border-radius: var(--rounded); 
-            /* Sombra por defecto para que las imágenes tengan relieve */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-        }
-        .collage-item img:hover {
-            transform: scale(1.05) !important; /* Scale fuerte en hover */
-        }
-        
-        /* --- APLICACIÓN DE ESTILOS DIVERTIDOS CON nth-child --- */
-
-        /* 1. Rotaciones y Escala (Efecto "pegado a mano") */
-        .collage-item:nth-child(3n+1) img {
-            transform: rotate(-1.5deg) scale(1.01);
-        }
-        .collage-item:nth-child(3n+2) img {
-            transform: rotate(2deg) scale(1.01);
-        }
-        .collage-item:nth-child(5n) img {
-            transform: rotate(-0.5deg);
-        }
-        .collage-item:nth-child(7n+4) img {
-            transform: rotate(3deg) scale(0.98);
-        }
-        .collage-item:nth-child(11n) img {
-            transform: rotate(-4deg) scale(1.02);
-        }
-        
-        /* 2. Bordes Irregulares (Figuras) */
-        .collage-item:nth-child(4n) img {
-            border-radius: 20px 8px 20px 8px; /* Irregular 1 */
-        }
-        .collage-item:nth-child(6n+1) img {
-            border-radius: 50% 50% 12px 12px; /* Irregular 2 (mitad curva) */
-        }
-        .collage-item:nth-child(8n+5) img {
-            border-radius: 12px 40px 12px 40px; /* Irregular 3 */
-        }
-        
-        /* 3. Sombras de Color para "Pop" */
-        .collage-item:nth-child(5n) img {
-            box-shadow: 4px 4px 0 var(--pink-shadow);
-        }
-        .collage-item:nth-child(7n) img {
-            box-shadow: -4px -4px 0 var(--green-shadow);
-        }
-        .collage-item:nth-child(10n+3) img {
-            box-shadow: 0 0 15px rgba(0,0,0,0.3); /* Sombra intensa */
-        }
-        
-        /* Estilos Lightbox (Modal para la foto grande) */
-        .lightbox {
-            display: none; 
-            position: fixed; 
-            z-index: 10000; 
-            padding-top: 10vh; 
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.9); 
-            backdrop-filter: blur(5px);
-        }
-        .lightbox-content {
-            margin: auto;
-            display: block;
-            width: 90%;
-            max-width: 700px;
-            max-height: 80vh; 
-            object-fit: contain;
-            border-radius: 12px;
-            animation: zoom 0.6s;
-        }
-        @keyframes zoom {
-            from {transform:scale(0)} 
-            to {transform:scale(1)}
-        }
-        .lightbox-close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .lightbox-close:hover,
-        .lightbox-close:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        @media only screen and (max-width: 700px){
-            .lightbox-content {
-                width: 100%;
-            }
-        }
-        
-        /* ---------- DUAL LIGHTBOX (NUEVO) ---------- */
-        #dualLightbox {
-            display: none;
-            position: fixed;
-            z-index: 10000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            backdrop-filter: blur(5px);
-            overflow: auto;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .dual-content-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            margin: auto;
-        }
-        .dual-content-wrapper img {
-            width: 100%;
-            height: auto;
-            max-height: calc(45vh - 5px); /* Divide el espacio vertical */
-            object-fit: contain; /* Muestra la imagen entera */
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-        .lightbox-close-dual {
-            position: fixed;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .lightbox-close-dual:hover {
-            color: #bbb;
-        }
-
-        /* ---------- Contador Mejorado ---------- */
-        .counter-section{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px; 
-            margin-bottom: 28px; 
-        }
-        .counter-card{
-            width: 100%;
-            max-width: 400px;
-            text-align:center;
-            font-weight:700;
-            font-size:1.1rem;
-            padding: 20px 10px; 
-            border-radius: var(--rounded);
-            background: var(--glass-strong); 
-            box-shadow: var(--card-shadow);
-            backdrop-filter: blur(6px);
-            border: 1px solid rgba(255,255,255,0.4);
-        }
-        .counter-card .fun-fact-text{ 
-            font-size:1.4rem; 
-            margin-bottom:8px;
-            color: var(--text);
-        }
-        
-        /* ESTILOS PARA EL CONTADOR ANIMADO */
-        .counter-wrap {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; 
-            gap: 5px;
-            padding: 5px 0;
-        }
-        .counter-segment {
-            display: inline-block;
-            min-width: 50px; 
-            text-align: center;
-            padding: 0 4px;
-        }
-
-        .counter-digit-group {
-            display: block; 
-            font-size: 1.8rem;
-            color: var(--accent);
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            transition: transform 0.1s ease-out, opacity 0.1s ease-out; 
-        }
-        
-        .counter-digit-group.change-animation {
-            transform: scale(1.2); 
-            opacity: 0.8;
-        }
-
-        .label {
-            display: block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: rgba(0, 0, 0, 0.5);
-            margin-top: -4px;
-            text-transform: uppercase;
-        }
-
-        .separator {
-            display: inline-block;
-            font-size: 1.8rem;
-            color: var(--text);
-            font-weight: 900;
-            padding: 0 5px;
-        }
-
-        /* ---------- Timeline ---------- */
-        .timeline-wrapper {
-            max-width:820px; 
-            margin:10px auto 30px;
-        }
-        .timeline-wrapper .text-card {
-            margin: 0 0 30px 0; 
-        }
-
-        .timeline{ 
-            display:flex; 
-            flex-direction:column; 
-            gap:12px; 
-        }
-        .event{ 
-            background:linear-gradient(180deg,rgba(255,255,255,0.7),rgba(255,255,255,0.55)); 
-            border-radius:12px; 
-            padding:12px 14px; 
-            box-shadow:var(--card-shadow); 
-            border-left:4px solid var(--accent); 
-            opacity:0; 
-            transform:translateY(20px); 
-            transition:all .5s ease; 
-            display:flex; 
-            gap:12px; 
-        }
-        .event.visible{ 
-            opacity:1; 
-            transform:none; 
-        }
-        .event > .dot{ 
-            width:12px;
-            height:12px;
-            border-radius:50%;
-            background:var(--accent);
-            margin-top:6px; 
-            flex-shrink: 0; 
-        }
-        .date{
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: var(--text);
-        }
-        .desc{
-            font-size: 0.95rem;
-            color: rgba(0,0,0,0.75);
-        }
-        
-        /* Separador temático */
-        .section-separator {
-            text-align: center;
-            margin: 40px auto;
-            max-width: 500px;
-        }
-        .section-separator hr {
-            border: none;
-            border-top: 1px solid rgba(0,0,0,0.1);
-            margin: 10px 0;
-        }
-        .section-separator separator span {
-            font-size: 2rem;
-            color: var(--accent);
-        }
-
-        /* Texto final */
-        .final-message-card {
-            max-width: 700px;
-            margin: 40px auto 0;
-            padding: 25px;
-            border-radius: var(--rounded);
-            background: linear-gradient(180deg, var(--glass-strong), var(--glass));
-            box-shadow: var(--card-shadow);
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 500;
-            line-height: 1.5;
-        }
-        
-        /* Clases para Scroll Reveal */
-        .hidden-section {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-        
-        .hidden-section.visible {
-            opacity: 1;
-            transform: none;
-        }
-        .final-message-card.hidden-section {
-             transition-delay: 0.3s;
-        }
-
-
-        /* ---------- Responsive ---------- */
-        @media(max-width:720px){ 
-            h1{ 
-                font-size:2.4rem 
-            } 
-            .counter-segment {
-                min-width: 50px; 
-            }
-            .collage-grid {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            }
-        }
-        @media(max-width:420px){ 
-            h1{ 
-                font-size:2rem 
-            } 
-            .counter-segment {
-                min-width: 40px; 
-            }
-            .counter-digit-group, .separator {
-                font-size: 1.6rem;
-            }
-            .collage-grid {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            }
-        }
-
-        .typewriter-text {
-            border-right: 2px solid var(--accent);
-             white-space: normal;
-            overflow: hidden;
-            display: inline;
-            animation: blink 0.7s infinite;
-        }
-
-        @keyframes blink {
-            50% { border-color: transparent; }
-        }
-        .type-me { opacity: 0; transition: opacity 0.3s; }
-        .type-me.visible { opacity: 1; }
-        .typewriter-cursor { border-right: 2px solid var(--accent); animation: blinkCursor 0.7s infinite; }
-        @keyframes blinkCursor { 50% { border-color: transparent; } }
-        
+        /* ---------- Botón Lluvia de Amor ---------- */
         #loveButton {
-                position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px;
+            position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px;
             border-radius: 50%; background: var(--accent); border: 4px solid white;
             font-size: 30px; z-index: 9999; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             display: flex; align-items: center; justify-content: center; cursor: pointer;
             -webkit-tap-highlight-color: transparent; transition: transform 0.2s;
         }
-    #loveButton:active { transform: scale(0.9); }
-    .floating-heart { position: fixed; pointer-events: none; z-index: 10000; font-size: 24px; animation: flyUp 2s forwards ease-out; }
-    @keyframes flyUp {
-        0% { transform: translateY(0) scale(1); opacity: 1; }
-        100% { transform: translateY(-250px) translateX(var(--random-x)) rotate(var(--random-deg)); opacity: 0; }
-    }
+        #loveButton:active { transform: scale(0.9); }
+        .floating-heart { position: fixed; pointer-events: none; z-index: 10000; font-size: 24px; animation: flyUp 2s forwards ease-out; }
+        @keyframes flyUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-200px) translateX(var(--random-x)) rotate(var(--random-deg)); opacity: 0; } }
 
+        /* ---------- Typewriter Styling ---------- */
+        .type-me { opacity: 0; }
+        .type-me.visible { opacity: 1; }
+        .typewriter-cursor { border-right: 2px solid var(--accent); animation: blinkCursor 0.7s infinite; }
+        @keyframes blinkCursor { 50% { border-color: transparent; } }
+
+        /* ---------- Post-its ---------- */
         .postit-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 30px 0; }
-        .postit {
-        width: 160px; padding: 15px; background: #fff9c4; box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
-        font-size: 0.95rem; transform: rotate(-2deg); transition: 0.3s; color: #5d4037; border-bottom-right-radius: 40px 5px;
-        font-weight: 600; text-align: center;
-        }
+        .postit { width: 160px; padding: 15px; background: #fff9c4; box-shadow: 3px 3px 10px rgba(0,0,0,0.1); font-size: 0.9rem; transform: rotate(-2deg); transition: 0.3s; color: #5d4037; border-bottom-right-radius: 40px 5px; font-weight: 600; text-align: center; }
         .postit:nth-child(even) { transform: rotate(2deg); background: #f1f8e9; }
         .postit:hover { transform: scale(1.05) rotate(0deg); }
 
+        /* ---------- Rasca y Gana ---------- */
         .scratch-section { margin: 40px auto; max-width: 400px; text-align: center; }
         #scratch-container { position: relative; width: 300px; height: 150px; margin: 0 auto; border-radius: 15px; overflow: hidden; background: #fff; box-shadow: var(--card-shadow); border: 2px solid var(--accent); }
         #scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; z-index: 2; }
         .scratch-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; text-align: center; position: relative; z-index: 1; }
 
-/* --- SOBRE MEJORADO --- */
-/* --- DISEÑO DEL SOBRE --- */
-#confirm { 
-    background: var(--bg); 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-}
+        /* ---------- Fondo emojis (RESTAURADO) ---------- */
+        #emoji-bg{ position:fixed; inset:0; z-index:-3; pointer-events:none; overflow:hidden; }
+        .emoji{ position:absolute; opacity:0.07; font-size: calc(14px + 1.4vw); transform-origin:center; animation: float linear infinite; animation-duration: calc(10s + var(--random-duration)); animation-delay: calc(var(--random-delay) * -1s); }
+        @keyframes float{ from{ transform: translateY(110vh) rotate(0deg); } to{ transform: translateY(-10vh) rotate(360deg); } }
 
-.envelope-wrapper { 
-    position: relative; 
-    width: 300px; 
-    height: 180px; 
-    background: var(--accent); 
-    border-bottom-left-radius: 10px; 
-    border-bottom-right-radius: 10px; 
-    cursor: pointer; 
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
+        /* ---------- Loader (VERDE) ---------- */
+        #loader{ position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background: var(--bg); z-index:9999; transition: opacity .5s ease, visibility .5s; }
+        #loader.hidden{ opacity:0; visibility:hidden; }
 
-.envelope .flap { 
-    position: absolute; top: 0; width: 0; height: 0; 
-    border-left: 150px solid transparent; 
-    border-right: 150px solid transparent; 
-    border-top: 100px solid var(--accent-dark); 
-    transform-origin: top; 
-    transition: transform 0.4s ease; 
-    z-index: 4; 
-}
+        /* ---------- Confirm (SISTEMA ORIGINAL) ---------- */
+        #confirm{ position:fixed; inset:0; display:grid; place-items:center; z-index:9998; padding: 20px; }
+        .confirm-card{ width:100%; max-width:520px; border-radius:18px; padding:18px; background:linear-gradient(180deg,rgba(255,255,255,0.75),rgba(255,255,255,0.5)); box-shadow:var(--card-shadow); backdrop-filter:blur(6px); display:flex; flex-direction:column; gap:12px; align-items:center; }
+        #openBtn { padding: 10px 30px; font-size: 1.2rem; font-weight: 700; border-radius: 8px; border: none; background: var(--accent); color: white; cursor: pointer; transition: 0.2s; }
+        #openBtn:hover { background: var(--accent-dark); }
 
-.envelope .body { 
-    position: absolute; bottom: 0; width: 100%; height: 100%; 
-    background: var(--accent); z-index: 3; 
-    clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%); 
-}
+        /* ---------- Players (STICKY) ---------- */
+        .player-wrapper {
+            display: flex; justify-content: center; position: sticky; top: 10px; z-index: 1000; margin-bottom: 20px; pointer-events: none; width: 100%;
+        }
+        .compact-player {
+            display: flex; align-items: center; gap: 12px; width: auto; max-width: fit-content; padding: 8px 15px; border-radius: var(--rounded); background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); box-shadow: var(--card-shadow); border: 1px solid rgba(102, 187, 106, 0.2); pointer-events: auto;
+        }
+        .cover-wrap { width: 50px; height: 50px; flex: 0 0 50px; border-radius: 8px; overflow: hidden; }
+        .cover-wrap img{ width:100%; height:100%; object-fit:cover; display:block; transition: transform 0.8s linear; }
+        .play-circle{ width:36px; height:36px; border-radius:50%; display:grid; place-items:center; background:rgba(255,255,255,0.12); border:2px solid rgba(255,255,255,0.15); cursor:pointer; }
+        .player-meta{ display:flex; flex-direction:column; gap:6px; }
+        .player-title{ font-size:0.95rem; font-weight:700; margin:0; }
+        .small-progress input[type="range"]{ width:100%; -webkit-appearance:none; height:6px; background:linear-gradient(90deg,var(--accent),rgba(76,175,80,.6)); border-radius: 6px; }
 
-.envelope .letter { 
-    position: absolute; bottom: 5px; left: 5px; 
-    width: 290px; height: 170px; 
-    background: white; border-radius: 5px; 
-    padding: 15px; text-align: center; 
-    display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
-    z-index: 2; transition: transform 0.5s ease; 
-}
+        /* ---------- Main & Text Cards ---------- */
+        .container{ max-width:1100px; margin:0 auto; padding:28px 16px 80px; position:relative; z-index:1; }
+        h1{ font-size:3em; margin:0; line-height:1.05; text-align:center; }
+        .title-wrap.visible h1 { text-shadow: 2px 2px 4px var(--pink-shadow), -2px -2px 4px var(--green-shadow); transform: scale(1.02); transition: transform 1s, text-shadow 1s ease-out 1s; }
+        .text-card { max-width: 820px; margin: 20px auto 30px; padding: 20px; border-radius: var(--rounded); background: var(--glass-strong); box-shadow: var(--card-shadow); backdrop-filter: blur(6px); }
+        p.message{ font-size:1.1rem; color:rgba(0,0,0,0.7); margin:14px 0; }
 
-/* --- ESTADO ABIERTO (CRUCIAL) --- */
-.envelope-wrapper.open .flap { transform: rotateX(180deg); z-index: 1; }
-.envelope-wrapper.open .letter { 
-    transform: translateY(-160px); 
-    z-index: 10 !important; /* SUBIDO AL MÁXIMO */
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
-}
-        
+        /* ---------- Carousel & Slider AB ---------- */
+        .carousel{ width:100%; max-width:820px; margin:10px auto 28px; position:relative; display: flex; flex-direction: column; align-items: center; }
+        .carousel-stage{ position:relative; display:flex; align-items:center; justify-content:center; width: 100%; height:360px; overflow:hidden; touch-action: pan-y; }
+        .slide{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; transition: opacity .8s ease; }
+        .slide.active{ opacity:1; }
+        .slide img{ max-width:100%; max-height:100%; object-fit:contain; border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,.12); }
+        .arrow button{ background:var(--glass-strong); border-radius:50%; border:none; width:44px; height:44px; display:grid; place-items:center; box-shadow:var(--card-shadow); cursor:pointer; }
+        .arrow-left{ position:absolute; top:50%; left:6px; transform:translateY(-50%); z-index: 10; }
+        .arrow-right{ position:absolute; top:50%; right:6px; transform:translateY(-50%); z-index: 10; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.2); transition: 0.3s; cursor: pointer; flex-shrink: 0; margin: 0 4px; }
+        .dot.active { background: var(--accent); transform: scale(1.2); }
+
+        /* Slider AB Spacing Fix */
+        #perspectiveStage .slide > div { 
+            display: flex; flex-direction: column; gap: 8px; width: 100%; height: 100%; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; background: white;
+        }
+        #perspectiveStage .slide img { width: 100% !important; height: calc(50% - 4px) !important; object-fit: cover; }
+
+        /* ---------- Collage & Counter ---------- */
+        .collage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); grid-gap: 4px; }
+        .collage-item img { width: 100%; border-radius: var(--rounded); box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
+        .counter-card{ width: 100%; max-width: 400px; text-align:center; padding: 20px 10px; border-radius: var(--rounded); background: var(--glass-strong); box-shadow: var(--card-shadow); margin: 0 auto; }
+        .counter-wrap { display: flex; justify-content: center; align-items: flex-start; gap: 5px; }
+        .counter-segment { display: inline-block; min-width: 50px; text-align: center; }
+        .counter-digit-group { display: block; font-size: 1.8rem; color: var(--accent); font-weight: 900; }
+        .counter-digit-group.change-animation { transform: scale(1.2); }
+
+        /* ---------- Timeline ---------- */
+        .timeline { display: flex; flex-direction: column; gap: 12px; }
+        .event { background: white; border-radius: 12px; padding: 12px 14px; box-shadow: var(--card-shadow); border-left: 4px solid var(--accent); opacity: 0; transform: translateY(20px); transition: 0.5s; display: flex; gap: 12px; }
+        .event.visible { opacity: 1; transform: none; }
+        .event > .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); margin-top: 6px; flex-shrink: 0; }
+
+        .lightbox { display: none; position: fixed; z-index: 10001; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); justify-content: center; align-items: center; }
+        .lightbox-content { max-width: 90%; max-height: 80vh; border-radius: 12px; }
+        .hidden-section { opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
+        .hidden-section.visible { opacity: 1; transform: none; }
     </style>
 </head>
 <body>
     <div id="progressBar"></div> 
     <div id="emoji-bg"></div>
+    <button id="loveButton">💚</button>
 
     <div id="loader"> 
         <span>💚</span> 
-        <div style="font-weight:600;color:#6b2b2b">Cargando algo hecho por el tontooo de tu novio...</div> 
+        <div style="font-weight:600;color: var(--accent-dark)">Cargando algo hecho por el tontooo de tu novio...</div> 
     </div>
 
     <div id="confirm"> 
-    <h2 id="introText" style="max-width: 600px; margin-bottom: 20px; padding: 0 20px; text-align: center; font-size: 1.1rem; line-height: 1.4;">
-        Ábreme si eres la niña guapa, lista, agradable, amable, cariñosa, te gustan los takis y tienes el novio mas suertudo del mundo por tenerte (SI TÚ, CARLOTA DURÁN GARCÍA.) 💚
-    </h2>
-
-    <div class="envelope-wrapper" onclick="openEnvelope()">
-        <div class="envelope">
-            <div class="flap"></div>
-            <div class="body"></div>
-            <div class="letter">
-                <p style="font-weight:900; color:var(--text); margin: 0 0 10px 0; font-size: 0.9rem;">Tienes un mensaje... 🔊</p>
-                
-                <div class="player-in-letter" style="width: 100%;">
-                    <div class="compact-player" style="width: 100% !important; max-width: none !important; transform: scale(0.85); background: #f9f9f9; border: 1px solid #ddd; box-shadow: none;">
-                        <div class="cover-wrap" id="msgCoverWrap">
-                            <img src="images/portada.JPG">
-                            <div class="play-overlay"><div class="play-circle" id="msgPlay"></div></div>
-                        </div>
-                        <div class="player-meta" style="text-align:left;">
-                             <span id="mCur">0:00</span> / <span id="mDur">0:00</span>
-                        </div>
-                    </div>
-                </div>
-
-                <button id="openBtn" style="width: 100%; padding: 12px; background: var(--accent-dark); color: white; border: none; font-weight: 900; cursor: pointer; border-radius: 0 !important; text-transform: uppercase;">
-                    Entrar
-                </button>
-            </div>
-        </div>
+        <div class="confirm-card"> 
+            <h2>Ábreme si eres la niña guapa, lista, agradable, amable, cariñosa, te gustan los takis y tienes el novio mas suertudo del mundo por tenerte (SI TÚ, CARLOTA DURÁN GARCÍA.) 💚</h2> 
+            <div class="compact-player" id="messagePlayerConfirm"> 
+                <div class="cover-wrap" id="messageCoverWrapConfirm"> 
+                    <img src="images/portada.JPG"> 
+                    <div class="play-overlay"><div class="play-circle" id="messagePlayOverlayConfirm"></div></div>
+                </div> 
+                <div class="player-meta"> 
+                    <div class="player-title">Tienes un mensajitoooo</div> 
+                    <div class="player-time"><span id="messageTimeCurC">0:00</span> / <span id="messageTimeDurC">0:00</span></div> 
+                    <div class="small-progress"><input id="messageProgressC" type="range" min="0" max="100"></div> 
+                </div> 
+            </div> 
+            <button id="openBtn">Abrir</button> 
+        </div> 
     </div>
-    <p class="tap-instruction" style="margin-top: 20px; font-weight: 700; color: var(--accent-dark);">Toca el sobre para abrirlo</p>
-</div>
+
     <div class="container" id="mainContent" style="display:none;"> 
         <div class="player-wrapper">
             <div class="compact-player"> 
                 <div class="cover-wrap" id="coverWrapMain"> 
-                    <img src="images/portada.JPG" id="coverImgMain" alt="Portada de la música"> 
-                    <div class="play-overlay">
-                        <div class="play-circle" id="playOverlayMain"></div>
-                    </div>
+                    <img src="images/portada.JPG"> 
+                    <div class="play-overlay"><div class="play-circle" id="playOverlayMain"></div></div>
                 </div> 
                 <div class="player-meta"> 
                     <div class="player-title">Jejejejejejej 🥹</div> 
-                    <div class="player-time">
-                        <span id="timeCurM">0:00</span> / <span id="timeDurM">0:00</span>
-                    </div> 
-                    <div class="small-progress">
-                        <input id="progressM" type="range" min="0" max="100">
-                    </div> 
+                    <div class="player-time"><span id="timeCurM">0:00</span> / <span id="timeDurM">0:00</span></div> 
+                    <div class="small-progress"><input id="progressM" type="range" min="0" max="100"></div> 
                 </div> 
             </div> 
         </div>
@@ -983,114 +192,51 @@
             <h1>¿Te creías que el concierto era lo único que iba a regalarte? Seguro que no jeje porque sabes lo tonto que soy... Es una super tontería pero espero que te guste MUCHO</h1> 
         </div>
 
-        <div class="text-card" id="reasonsCard" style="text-align: center;"> 
-            <p class="message" style="text-align: left;">Hola mi esquiadora favorita, te echo mucho de menos pero hoy es un día SÚPER ESPECIAL, que solo pasa una vez así. La verdad que te he dicho muchas cosas en estos 6 meses pero lo tanto que te quiero hace que nunca me vaya a quedar sin cosas que decirte, porque las siento y las vivo de verdad.</p> 
-            <p class="message" style="text-align: left;">Por desgracia estamos a unos 615km pero gracias a que tenemos internet y tu a un novio ingeniero pesado, se me ocurrió esto que espero que te guste mucho. Como te gusta que me enrolle y a mi se me da bien, tienes un rato por delante...</p> 
-            <p class="message" style="text-align: left;">Llevo los 6 meses que llevamos juntos y los 7 desde que conocí a la persona mas importante de todas queriéndote MUCHO. Considerándome la persona mas suertuda y mas feliz del mundo por poder tenerte y compartir mi vida contigo. Eres la niña MÁS guapa, MÁs inteligente, MÁS agradable, MÁS amable, MÁS maja, MÁS especial, MÁs interesante, MÁS comprensiva, MÁS trabajadora, MÁS IMPORTANTE, eso seguro.  </p> 
-            <p class="message" style="text-align: left;">¿185 días saliendo ya? Quien lo diría, que nada más acabar exámenes y sin esperarlo conocería a alguien tan ESPECIAl y perfecta, y que cambiaría mi vida TAN a bien. Eres TODO lo que podía querer, Y MÁS. La suerte que tengo no es descriptible, pero intento poder agradecerlo todo lo que puedo, y seguiré haciendolo, porque algo TAN bueno como tú tiene que agradecerse día si día también.  </p> 
-            <p class="message" style="text-align: left;">Uno de los mensajes que mas me gustaron fueron cuando te fuiste a dormir un poco molesta y como no me gustó NADA y me di cuenta, empecé a mandarte un mensaje cada día. Se que digo muchas cosas ahí y que te van a gustar releerlas, y encima son TAN VERDAD, asi que a continuación te las pongo. </p> 
-            <p class="message type-me" style="text-align: left;">1. Porque contigo puedo ser realmente yo, y me sacas una sonrisa hasta cuando nadie puede hacerme sonreír</p> 
-            <p class="message type-me" style="text-align: left;">2. Porque tienes el alma más pura que he visto nunca, y todo lo haces con una sonrisa que alegra hasta el peor de los días</p> 
-            <p class="message type-me" style="text-align: left;">3. Porque me haces la persona más feliz del mundo y estoy muy orgulloso de ti ❤️</p> 
-            <p class="message type-me" style="text-align: left;">4. Porque dia a dia te esfuerzas por hacer y decir cosas que no te apetecen o no son lo que más quieres 🥹❤️</p> 
-            <p class="message type-me" style="text-align: left;">5. Porque me incluyes en todo y me haces sentirme DEMASIADO cómodo y feliz en todo momento que paso contigo😁😇❤️😋</p> 
-            <p class="message type-me" style="text-align: left;">6. Porque si tengo que aprender de alguien, es de ti. Eres la hermana que todo hermano querría tener, la hija que todo padre y la nieta que todo abuelo (No pongo novia porque aunque cualquier hombre querría, u r mine)</p> 
-            <p class="message type-me" style="text-align: left;">7. Porque ahora que me he parado a pensarlo, mi suerte no es nada de 1 entre 1.000.000 ni nada por el estilo. Eres 1/1 y eso demuestra que no puedo tener mucha más suerte. No puedes ser mejor hermana mayor. Gracias por incluirme en tu familia, apoyarme y hacer que aprenda a ser una mejor persona día a día ❤️</p> 
-            <p class="message type-me" style="text-align: left;">8. Porque siempre sacas lo mejor de mí y me valoras mucho. Porque haces hasta las cosas que menos pueden apetecerte, algo que habla mucho y muy bien de quien y como eres</p> 
-            <p class="message type-me" style="text-align: left;">9. Porque no solo eres mi novia, sino que también mi mejor amiga y la persona con la que quiero hacerlo todo, incluso hacer nada. Y si esto es así, es por cómo eres. De buena, de maja, de considerada, de risueña, interesante, amigable, guapa, atenta, lista, te esfuerzas y haces todo lo mejor posible. Además, mensajes como el que te respondo hacen mucho, ya que hasta con la idea de que no iba a hacer más me has hecho ponerme a las 11 a terminar 3 ejercicios... en fin. 🩷</p> 
-            <p class="message type-me" style="text-align: left;">10. Porque gracias a ti, lo que me valoras y cuanto me haces saberlo para que me valore a mí mismo, el problema de sobrepensarlo todo va cada vez a menos. Y, en caso de darme, se que tengo una persona para hablar eso o cualquier cosa, y además es alguien en quien no puedo confiar más🤗❤️</p> 
-            <p class="message type-me" style="text-align: left;">11. Porque te admiro.</p> 
-            <p class="message type-me" style="text-align: left;">12. Porque no solo me duermo y me despierto pensando y hablandote/leyendo mensajes tuyos, si no que también me miro a la muñeca y veo un detalle que vale más que mucho dinero. Miro a la lámpara y hay otro. En mi armario? Otros dos. En otra caja, chocolates de tu primer partido del Madrid. Todos esos detalles que te parecen "tonterías" pero que aún así las haces, como podrás ver me importan y mucho, y te lo intento agradecer pero igual no lo suficiente. (Aun no sabes porque empieza todo por porque). 😁❤️</p> 
-            <p class="message type-me" style="text-align: left;">13. Porque cualquier día es automáticamente bueno si estoy o voy a quedar contigo</p> 
-            <p class="message type-me" style="text-align: left;">15. Dos semanas mandándote mensaje diario cutie. Fin? Jejeje. Siempre gracias pero tenía que añadir hoy que amo como cantas y como te sabes las letras y lo bien que cantas y entonces y pronuncias y entiendes. Todo ❤️❤️❤️❤️. Te quiero, good night peque, descansa 💚</p> 
-            <p class="message type-me" style="text-align: left;">14. No empiezo por porque pero si que explico. Si he empezado estos mensajes así al principio pensaba que era para decirte luego en plan porque te quiero. Pero muy basic no? Ahora creo que pueden haber sido razones (sencillas) que explican porque admiro y quiero, y agradezco a Carlota. <br> Es importante recordar lo que me dijo tu abuelo también al conocerle, y toda la razón que tenía.<br> Agradezco que me hagas una persona mejor cada día que pasa, agradezco que te preocupes, que seas atenta, que te esfuerzas por expresarte. En fin, todo esto te lo he dicho ya en alguno de los 14 mensajes previos. <br> Con motivo de ayer y algo que he pensado bastante inconscientemente, uso este mensaje para explicar otra vez porque estoy contigo y no con "otra" como me preguntabas ayer. <br> Otra, no me hace feliz. Otra, no me importa como haces tú. Otra no tiene la sonrisa bonita que tienes tú, ni los ojos oscuros pero en los que me veo reflejado cuando me miras, o tú pelo marrón/negro (depende de la luz) que siempre está perfecto y onduladito que tanto me gusta, ni tu habilidad para hacer una foto patata. Tampoco tiene los valores ni la educación que tienes tú. Ni tu forma de ser que TANTO me gusta y TANTO disfruto todos los días y que agradezco. <br> Tampoco tienen tu fe, ni la transmiten, ni vive orgullosa de ella como haces tú y algo de lo que estoy muy orgulloso y feliz. <br> No tiene esa atención al detalle que me has demostrado tener pese a decir que no te acuerdas de las cosas y eres "menos atenta". <br> No canta ni tanto ni tan bien. No me atrae como haces tú. No me importa como me importas tú. No me trata como me tratas tú. <br> No me ayuda ni me tranquiliza como haces tú.</p> 
-            <p class="message" style="text-align: left;">Desde que empecé a escribir todo han pasado cosa de dos meses, y he ido actualizando y añadiendo cosas pero es que, siento que tengo tanto que decir y podría no parar nunca. Por todo lo que vales, por todo lo que eres y por todo lo que significas para mí. Los tres últimos días antes de que te fueras a esquiar fueorn, para mi, fantasía. TAN necesarios, TAN importantes. Que bien me lo pase. Gracias a ti. Gracias a los dos.</p> 
-            <p class="message" style="text-align: left;">GRACIAS. POR TODO. Por motivarme, por animarne, por calmarme, por tenerme paciencia, dedicarme tanto tiempo y quererme tanto. Definitivamente, cada vez que te miro me siento tan afortunado, y mi inner child sale, a reirse, a disfrutar, a hacer el tonto contigo. Me lo paso TAN bien en todo momento, haciendo todo tipo de cosas... Escribiendo esto me emociono porque revivo todo lo que hemos ido haciendo y viviendo y te imagino en cada situación, y me doy cuenta de eso, mi suerte. Eres mi todo.  <br> Me chapo ya y te dejo ver el resto de cositas que he hecho, que son tontería pero fun creo? Me dices jejejeje. Enjoy mucho. Te QUIERO peque 💚💚💚💚</p> 
+        <div class="text-card" id="reasonsCard"> 
+            <p class="message">Hola mi esquiadora favorita, te echo mucho de menos pero hoy es un día SÚPER ESPECIAL...</p> 
+            <p class="message">Por desgracia estamos a unos 615km pero gracias a que tenemos internet y tu a un novio ingeniero pesado...</p> 
+            
+            <p class="message type-me">1. Porque contigo puedo ser realmente yo, y me sacas una sonrisa hasta cuando nadie puede hacerme sonreír</p> 
+            <p class="message type-me">2. Porque tienes el alma más pura que he visto nunca, y todo lo haces con una sonrisa que alegra hasta el peor de los días</p> 
+            <p class="message type-me">3. Porque me haces la persona más feliz del mundo y estoy muy orgulloso de ti ❤️</p> 
+            <p class="message type-me">4. Porque dia a dia te esfuerzas por hacer y decir cosas que no te apetecen o no son lo que más quieres 🥹❤️</p> 
+            <p class="message type-me">5. Porque me incluyes en todo y me haces sentirme DEMASIADO cómodo y feliz en todo momento que paso contigo😁😇❤️😋</p> 
+            <p class="message type-me">6. Porque si tengo que aprender de alguien, es de ti. Eres la hermana que todo hermano querría tener, la hija que todo padre y la nieta que todo abuelo (No pongo novia porque aunque cualquier hombre querría, u r mine)</p> 
+            <p class="message type-me">7. Porque ahora que me he parado a pensarlo, mi suerte no es nada de 1 entre 1.000.000 ni nada por el estilo. Eres 1/1 y eso demuestra que no puedo tener mucha más suerte. No puedes ser mejor hermana mayor. Gracias por incluirme en tu familia, apoyarme y hacer que aprenda a ser una mejor persona día a día ❤️</p> 
+            <p class="message type-me">8. Porque siempre sacas lo mejor de mí y me valoras mucho. Porque haces hasta las cosas que menos pueden apetecerte, algo que habla mucho y muy bien de quien y como eres</p> 
+            <p class="message type-me">9. Porque no solo eres mi novia, sino que también mi mejor amiga y la persona con la que quiero hacerlo todo, incluso hacer nada. Y si esto es así, es por cómo eres. De buena, de maja, de considerada, de risueña, interesante, amigable, guapa, atenta, lista, te esfuerzas y haces todo lo mejor posible. Además, mensajes como el que te respondo hacen mucho, ya que hasta con la idea de que no iba a hacer más me has hecho ponerme a las 11 a terminar 3 ejercicios... en fin. 🩷</p> 
+            <p class="message type-me">10. Porque gracias a ti, lo que me valoras y cuanto me haces saberlo para que me valore a mí mismo, el problema de sobrepensarlo todo va cada vez a menos. Y, en caso de darme, se que tengo una persona para hablar eso o cualquier cosa, y además es alguien en quien no puedo confiar más🤗❤️</p> 
+            <p class="message type-me">11. Porque te admiro.</p> 
+            <p class="message type-me">12. Porque no solo me duermo y me despierto pensando y hablandote/leyendo mensajes tuyos, si no que también me miro a la muñeca y veo un detalle que vale más que mucho dinero. Miro a la lámpara y hay otro. En mi armario? Otros dos. En otra caja, chocolates de tu primer partido del Madrid. Todos esos detalles que te parecen "tonterías" pero que aún así las haces, como podrás ver me importan y mucho, y te lo intento agradecer pero igual no lo suficiente. (Aun no sabes porque empieza todo por porque). 😁❤️</p> 
+            <p class="message type-me">13. Porque cualquier día es automáticamente bueno si estoy o voy a quedar contigo</p> 
+            <p class="message type-me">15. Dos semanas mandándote mensaje diario cutie. Fin? Jejeje. Siempre gracias pero tenía que añadir hoy que amo como cantas y como te sabes las letras y lo bien que cantas y entonces y pronuncias y entiendes. Todo ❤️❤️❤️❤️. Te quiero, good night peque, descansa 💚</p> 
+            <p class="message type-me">14. No empiezo por porque pero si que explico. Si he empezado estos mensajes así al principio pensaba que era para decirte luego en plan porque te quiero. Pero muy basic no? Ahora creo que pueden haber sido razones (sencillas) que explican porque admiro y quiero, y agradezco a Carlota. <br> Es importante recordar lo que me dijo tu abuelo también al conocerle, y toda la razón que tenía.<br> Agradezco que me hagas una persona mejor cada día que pasa, agradezco que te preocupes, que seas atenta, que te esfuerzas por expresarte. En fin, todo esto te lo he dicho ya en alguno de los 14 mensajes previos. <br> Con motivo de ayer y algo que he pensado bastante inconscientemente, uso este mensaje para explicar otra vez porque estoy contigo y no con "otra" como me preguntabas ayer. <br> Otra, no me hace feliz. Otra, no me importa como haces tú. Otra no tiene la sonrisa bonita que tienes tú, ni los ojos oscuros pero en los que me veo reflejado cuando me miras, o tú pelo marrón/negro (depende de la luz) que siempre está perfecto y onduladito que tanto me gusta, ni tu habilidad para hacer una foto patata. Tampoco tiene los valores ni la educación que tienes tú. Ni tu forma de ser que TANTO me gusta y TANTO disfruto todos los días y que agradezco. <br> Tampoco tienen tu fe, ni la transmiten, ni vive orgullosa de ella como haces tú y algo de lo que estoy muy orgulloso y feliz. <br> No tiene esa atención al detalle que me has demostrado tener pese a decir que no te acuerdas de las cosas y eres "menos atenta". <br> No canta ni tanto ni tan bien. No me atrae como haces tú. No me importa como me importas tú. No me trata como me tratas tú. <br> No me ayuda ni me tranquiliza como haces tú.</p> 
 
+            <p class="message">GRACIAS. POR TODO. Eres mi todo. Te QUIERO peque 💚💚💚💚</p> 
         </div>
-        
+
         <div class="postit-container hidden-section">
             <div class="postit">¡Eres capaz de TODO lo que te propongas! ✨</div>
             <div class="postit" style="background:#e1f5fe">6 meses y contando... 🔒</div>
             <div class="postit">Me debes un baile en cuanto vuelvas 💃</div>
         </div>
-        
+
         <div class="carousel hidden-section"> 
-            <div class="arrow-left">
-                <button id="prevBtn">‹</button>
-            </div> 
+            <div class="arrow-left"><button id="prevBtn">‹</button></div> 
             <div class="carousel-stage" id="stage" onclick="openMainCarouselLightbox()">
-                <div class="slide active"><img src="images/IMG_8777.jpeg" alt="Imagen 1"></div> 
-                <div class="slide"><img src="images/IMG_7604.jpeg" alt="Imagen 2"></div> 
-                <div class="slide"><img src="images/IMG_7567.jpeg" alt="Imagen 3"></div> 
-                <div class="slide"><img src="images/IMG_7372.jpeg" alt="Imagen 4"></div> 
-                <div class="slide"><img src="images/IMG_5003.jpeg" alt="Imagen 5"></div> 
-                <div class="slide"><img src="images/IMG_1427.jpeg" alt="Imagen 6"></div> 
-                <div class="slide"><img src="images/f52fc0bf-7153-43cc-abdc-201a14e7431c.jpeg" alt="Imagen 7"></div> 
-                <div class="slide"><img src="images/f051fdc8-7e2a-46e3-a65c-d632f135f325.jpeg" alt="Imagen 8"></div> 
-                <div class="slide"><img src="images/bc9a39ed-631b-43f8-9a86-ca373ff34698.jpeg" alt="Imagen 9"></div> 
-                <div class="slide"><img src="images/IMG_1204.jpeg" alt="Imagen 10"></div> 
-                <div class="slide"><img src="images/IMG_1113.jpeg" alt="Imagen 11"></div> 
-                <div class="slide"><img src="images/a35975e2-9ba2-42fe-8fdf-ab06c0f87336.jpeg" alt="Imagen 12"></div> 
-                <div class="slide"><img src="images/IMG_1097.jpeg" alt="Imagen 13"></div> 
-                <div class="slide"><img src="images/894dc007-6d33-4bd4-bef9-0f419769eb58.jpeg" alt="Imagen 14"></div> 
-                <div class="slide"><img src="images/7fa3e78a-31ea-4964-b4c9-bf778241b46a.jpeg" alt="Imagen 15"></div> 
-                <div class="slide"><img src="images/3dafce51-cfde-4746-9112-f214c3e11876.jpeg" alt="Imagen 16"></div> 
-                <div class="slide"><img src="images/31f14a18-3ecf-466d-97f6-350c24dbdbc5.jpeg" alt="Imagen 17"></div> 
-                <div class="slide"><img src="images/IMG_0991.jpeg" alt="Imagen 18"></div> 
-                <div class="slide"><img src="images/IMG_0951.jpeg" alt="Imagen 19"></div> 
-                <div class="slide"><img src="images/IMG_0594.jpeg" alt="Imagen 20"></div> 
-                <div class="slide"><img src="images/IMG_0567.jpeg" alt="Imagen 21"></div> 
-                <div class="slide"><img src="images/IMG_0411.jpeg" alt="Imagen 22"></div> 
-                <div class="slide"><img src="images/IMG_0056.jpeg" alt="Imagen 23"></div> 
-                <div class="slide"><img src="images/IMG_24_FIX.jpeg" alt="Imagen 24"></div> 
-                <div class="slide"><img src="images/24f8cb99-1774-441a-9c2a-ba494afdbec9.jpeg" alt="Imagen 25"></div> 
+                <div class="slide active"><img src="images/IMG_8777.jpeg"></div><div class="slide"><img src="images/IMG_7604.jpeg"></div><div class="slide"><img src="images/IMG_7567.jpeg"></div><div class="slide"><img src="images/IMG_7372.jpeg"></div><div class="slide"><img src="images/IMG_5003.jpeg"></div><div class="slide"><img src="images/IMG_1427.jpeg"></div><div class="slide"><img src="images/f52fc0bf-7153-43cc-abdc-201a14e7431c.jpeg"></div><div class="slide"><img src="images/f051fdc8-7e2a-46e3-a65c-d632f135f325.jpeg"></div><div class="slide"><img src="images/bc9a39ed-631b-43f8-9a86-ca373ff34698.jpeg"></div><div class="slide"><img src="images/IMG_1204.jpeg"></div><div class="slide"><img src="images/IMG_1113.jpeg"></div><div class="slide"><img src="images/a35975e2-9ba2-42fe-8fdf-ab06c0f87336.jpeg"></div><div class="slide"><img src="images/IMG_1097.jpeg"></div><div class="slide"><img src="images/894dc007-6d33-4bd4-bef9-0f419769eb58.jpeg"></div><div class="slide"><img src="images/7fa3e78a-31ea-4964-b4c9-bf778241b46a.jpeg"></div><div class="slide"><img src="images/3dafce51-cfde-4746-9112-f214c3e11876.jpeg"></div><div class="slide"><img src="images/31f14a18-3ecf-466d-97f6-350c24dbdbc5.jpeg"></div><div class="slide"><img src="images/IMG_0991.jpeg"></div><div class="slide"><img src="images/IMG_0951.jpeg"></div><div class="slide"><img src="images/IMG_0594.jpeg"></div><div class="slide"><img src="images/IMG_0567.jpeg"></div><div class="slide"><img src="images/IMG_0411.jpeg"></div><div class="slide"><img src="images/IMG_0056.jpeg"></div><div class="slide"><img src="images/IMG_24_FIX.jpeg"></div><div class="slide"><img src="images/24f8cb99-1774-441a-9c2a-ba494afdbec9.jpeg"></div>
             </div> 
-            <div class="arrow-right">
-                <button id="nextBtn">›</button>
-            </div> 
+            <div class="arrow-right"><button id="nextBtn">›</button></div> 
             <div class="carousel-dots" id="carouselDots"></div>
         </div>
 
         <div class="collage-section hidden-section" id="collageSection">
-            <h2 style="text-align: center; margin-bottom: 25px;">Appreciation "post" con fotos que adoro (mostly tuyas 😀😋🫶)</h2>
+            <h2 style="text-align: center;">Appreciation Post 🫶</h2>
             <div class="collage-grid" id="photoCollage">
-                <div class="collage-item"><img src="images/collage1.jpg" alt="Foto collage 1"></div>
-                <div class="collage-item"><img src="images/collage2.jpg" alt="Foto collage 2"></div>
-                <div class="collage-item"><img src="images/collage3.jpg" alt="Foto collage 3"></div>
-                <div class="collage-item"><img src="images/collage4.jpg" alt="Foto collage 4"></div>
-                <div class="collage-item"><img src="images/collage5.jpg" alt="Foto collage 5"></div>
-                <div class="collage-item"><img src="images/collage6.jpg" alt="Foto collage 6"></div>
-                <div class="collage-item"><img src="images/collage7.jpg" alt="Foto collage 7"></div>
-                <div class="collage-item"><img src="images/collage8.jpg" alt="Foto collage 8"></div>
-                <div class="collage-item"><img src="images/collage9.jpg" alt="Foto collage 9"></div>
-                <div class="collage-item"><img src="images/collage10.jpg" alt="Foto collage 10"></div>
-                <div class="collage-item"><img src="images/collage11.jpg" alt="Foto collage 11"></div>
-                <div class="collage-item"><img src="images/collage12.jpg" alt="Foto collage 12"></div>
-                <div class="collage-item"><img src="images/collage13.jpg" alt="Foto collage 13"></div>
-                <div class="collage-item"><img src="images/collage14.jpg" alt="Foto collage 14"></div>
-                <div class="collage-item"><img src="images/collage15.jpg" alt="Foto collage 15"></div>
-                <div class="collage-item"><img src="images/collage16.jpg" alt="Foto collage 16"></div>
-                <div class="collage-item"><img src="images/collage17.jpg" alt="Foto collage 17"></div>
-                <div class="collage-item"><img src="images/collage18.jpg" alt="Foto collage 18"></div>
-                <div class="collage-item"><img src="images/collage19.jpg" alt="Foto collage 19"></div>
-                <div class="collage-item"><img src="images/collage20.jpg" alt="Foto collage 20"></div>
-                <div class="collage-item"><img src="images/collage21.jpg" alt="Foto collage 21"></div>
-                <div class="collage-item"><img src="images/collage22.JPG" alt="Foto collage 22"></div>
-                <div class="collage-item"><img src="images/collage23.jpg" alt="Foto collage 23"></div>
-                <div class="collage-item"><img src="images/collage24.jpg" alt="Foto collage 24"></div>
-                <div class="collage-item"><img src="images/collage25.PNG" alt="Foto collage 25"></div>
-                <div class="collage-item"><img src="images/collage26.jpg" alt="Foto collage 26"></div>
-                <div class="collage-item"><img src="images/collage27.JPG" alt="Foto collage 27"></div>
-                <div class="collage-item"><img src="images/collage28.jpg" alt="Foto collage 28"></div>
-                <div class="collage-item"><img src="images/collage29.jpg" alt="Foto collage 29"></div>
-                <div class="collage-item"><img src="images/collage30.jpg" alt="Foto collage 30"></div>
-                
-            </div>
-            <div class="message-center" style="margin-top: 25px;">
-                <p>Puedes ampliar las fotos tocando :) </p>
+                <div class="collage-item"><img src="images/collage1.jpg"></div><div class="collage-item"><img src="images/collage2.jpg"></div><div class="collage-item"><img src="images/collage3.jpg"></div><div class="collage-item"><img src="images/collage4.jpg"></div><div class="collage-item"><img src="images/collage5.jpg"></div><div class="collage-item"><img src="images/collage6.jpg"></div><div class="collage-item"><img src="images/collage7.jpg"></div><div class="collage-item"><img src="images/collage8.jpg"></div><div class="collage-item"><img src="images/collage9.jpg"></div><div class="collage-item"><img src="images/collage10.jpg"></div><div class="collage-item"><img src="images/collage11.jpg"></div><div class="collage-item"><img src="images/collage12.jpg"></div><div class="collage-item"><img src="images/collage13.jpg"></div><div class="collage-item"><img src="images/collage14.jpg"></div><div class="collage-item"><img src="images/collage15.jpg"></div><div class="collage-item"><img src="images/collage16.jpg"></div><div class="collage-item"><img src="images/collage17.jpg"></div><div class="collage-item"><img src="images/collage18.jpg"></div><div class="collage-item"><img src="images/collage19.jpg"></div><div class="collage-item"><img src="images/collage20.jpg"></div><div class="collage-item"><img src="images/collage21.jpg"></div><div class="collage-item"><img src="images/collage22.JPG"></div><div class="collage-item"><img src="images/collage23.jpg"></div><div class="collage-item"><img src="images/collage24.jpg"></div><div class="collage-item"><img src="images/collage25.PNG"></div><div class="collage-item"><img src="images/collage26.jpg"></div><div class="collage-item"><img src="images/collage27.JPG"></div><div class="collage-item"><img src="images/collage28.jpg"></div><div class="collage-item"><img src="images/collage29.jpg"></div><div class="collage-item"><img src="images/collage30.jpg"></div>
             </div>
         </div>
+
         <div class="scratch-section hidden-section">
             <h2 style="text-align: center;">Tengo una noticia... (¡Rasca aquí!) 🚁</h2>
             <div id="scratch-container">
@@ -1101,751 +247,178 @@
                 <canvas id="scratch-canvas" width="300" height="150"></canvas>
             </div>
         </div>
-        
+
         <div class="counter-section hidden-section" id="counterSection">
             <div class="counter-card">
                 <div class="fun-fact-text">Parezca más o menos tiempo, llevamos saliendo: </div> 
                 <div id="contador"></div> 
             </div>
-            <div class="text-card" style="text-align: center; max-width: 500px; margin: 0;">
-                <p class="message" style="margin: 0;">Si mis calculos no fallan tendrían que poner 185 días.<br> 185 días, 26 semanas (y tres días), 6 meses, o 2,56% de tu vida. Como más te guste verlo. <br> <strong>4.440 horas</strong> en las que cada una de ellas hubiera deseado estar contigo, y haber compartido tanto mis experiencias como las tuyas juntos. <br>Son <strong>266.500 minutos</strong> en los que has sido lo más importante para mi, minuto si, minuto también. <br> <strong>15.897.600 segundos</strong> en los que has pasado por mi mente cada uno de ellos. <br>Un porcentaje tan pequeño pero que parece a la vez tanto... <br>Lo que te quiero no se puede medir de ninguna manera así que espero que este detallito pueda representar una parte de ese cariño que te tengo, y más cuando no puedo darte un abrazo en un día tan especial como este. </b></p>
+            <div class="text-card" style="text-align: center; max-width: 500px; margin: 0 auto;">
+                <p class="message" style="margin: 0;">Si mis calculos no fallan tendrían que poner 185 días... son <strong>15.897.600 segundos</strong> en los que has pasado por mi mente. 💚</p>
             </div>
         </div>
 
         <div class="timeline-wrapper hidden-section" id="timelineWrapper"> 
             <div class="text-card">
-                <p class="message" style="font-weight: 700;">
-                    También he querido incluir algunos momentos memorables o por lo menos que puedan ser importantes / fun recordar (no se ya que poner y que no poner :( ) . <br> No se me ha dado muy allá pero he hecho lo que he podido. Acepto quejas y recomendaciones:
-                </p>
                 <div class="timeline" id="timeline"> 
-                    <div class="event"><div class="dot"></div><div><div class="date">31 de Mayo de 2025</div><div class="desc">Conocí a la persona más importante (TÚ, por si acaso)</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">31 de Mayo de 2025</div><div class="desc">Conocí a la persona más importante (TÚ)</div></div></div> 
                     <div class="event"><div class="dot"></div><div><div class="date">3 de Junio de 2025</div><div class="desc">Nuestra primera cita (y caminata jeje)</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">9 de Junio de 2025</div><div class="desc">Tu primera visita a Tiki Tako (y cócteles)</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">21 de Junio de 2025</div><div class="desc">Primera vez que se rompió tu móvil bien (Portugal)</div></div></div>
-                    <div class="event"><div class="dot"></div><div><div class="date">29 de Junio de 2025</div><div class="desc">Primera visita a MG y Cine (F1) </div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">2 de Julio 2025</div><div class="desc">Empezamos a salir.</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">5 de Julio 2025</div><div class="desc">Nuestra primera foto juntos (en el RIU)</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">29 de Julio 2025</div><div class="desc">REENCUENTRO POST Honduras (y primera vez en tu casa + TSITP) </div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">10 de Agosto 2025</div><div class="desc">Día juntos en Santander (y primera vez juntos en misa + conocí a tu padre)</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">20 de Agosto 2025</div><div class="desc">Primer partido del Bernabeu (noche de despues), reencuentro y tren a Torrelavega</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">5 de Septiembre 2025</div><div class="desc">CONOCISTE A MIS PADRES!!!!!</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">7 de Septiembre 2025</div><div class="desc">CONOCÍ A TU FAMILIA!!!!! (excepto a Ale)</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">20 de Septiembre 2025</div><div class="desc">Conociste a TODA mi familia</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">25 de Septiembre 2025</div><div class="desc">Conocí a TODA tu familia (kinda)</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">28 de Septiembre 2025</div><div class="desc">Conocí a tus amigas de la UNI (todas, cumple Violeta)</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">10 de Octubre 2025</div><div class="desc">Primera sesión de Baking (Brookies!!)</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">11 de Octubre 2025</div><div class="desc">Primeras flores (MIRA QUE ME COSTÓ AGHH)</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">13 de Octubre 2025</div><div class="desc">TEÓRICO CHECK</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">16 de Octubre 2025</div><div class="desc">Musical REY LEÓN!</div></div></div> 
+                    <div class="event"><div class="dot"></div><div><div class="date">2 de Julio 2025</div><div class="desc">Empezamos a salir officially.</div></div></div> 
                     <div class="event"><div class="dot"></div><div><div class="date">30 de Octubre 2025</div><div class="desc">NUESTRO PRIMER VIAJE - LONDON!</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">15 de Noviembre 2025</div><div class="desc">TOEFL CHECK (y Crisantemos blancos)</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">21 de Noviembre 2025</div><div class="desc">TOEFL RESULT 116 - ENHORABUENA, SIGO TAN PROUD COMO EL PRIMER DÍA</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">2 de Diciembre 2025</div><div class="desc">5 MESES! Y visita de sorpresa en casa </div></div></div>
-                    <div class="event"><div class="dot"></div><div><div class="date">6 de Diciembre 2025</div><div class="desc">Viernes en casa, mi primer plato + jueg + serie etc. PERFECT DAY if you ask me</div></div></div> 
-                    <div class="event"><div class="dot"></div><div><div class="date">19 de Diciembre 2025</div><div class="desc">WICKED con mi familia (no contigo y mi familia, solo con mi familia)</div></div></div>
-                    <div class="event"><div class="dot"></div><div><div class="date">TBD de Diciembre 2025</div><div class="desc">Visita a la residencia con tu familia</div></div></div>
-
-
+                    <div class="event"><div class="dot"></div><div><div class="date">2 de Diciembre 2025</div><div class="desc">5 MESES! Y sorpresa en casa</div></div></div>
                 </div> 
             </div>
         </div> 
-        
+
         <div class="carousel hidden-section" id="perspectiveSlider">
-            <h2 style="text-align: center; margin-bottom: 25px;">JEJE ahora entiendes porqué quería mas fotos siguiendo este formaaaato 😁🙃 Me ha gustado como han quedado</h2>
-            <div class="arrow-left">
-                <button id="prevPerspectiveBtn">‹</button>
-            </div> 
+            <h2 style="text-align: center; margin-bottom: 25px;">Perspectivas 😁</h2>
+            <div class="arrow-left"><button id="prevPerspectiveBtn">‹</button></div> 
             <div class="carousel-stage" id="perspectiveStage"> 
-                <div class="slide active">
-                    <div onclick="openCurrentPerspectiveLightbox()">
-                        <img src="images/AB1-1.jpg" alt="Perspectiva 1 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <img src="images/AB1-2.jpg" alt="Perspectiva 1 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    </div>
-                </div>
-                <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox()">
-                        <img src="images/AB2-1.jpg" alt="Perspectiva 2 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <img src="images/AB2-2.jpg" alt="Perspectiva 2 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    </div>
-                </div>
-                <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox()">
-                        <img src="images/AB3-1.jpg" alt="Perspectiva 3 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <img src="images/AB3-2.jpg" alt="Perspectiva 3 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    </div>
-                </div>
-                <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox()">
-                        <img src="images/AB4-1.jpg" alt="Perspectiva 4 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <img src="images/AB4-2.jpg" alt="Perspectiva 4 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    </div>
-                </div>
-                <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox()">
-                        <img src="images/AB5-1.jpg" alt="Perspectiva 5 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <img src="images/AB5-2.jpg" alt="Perspectiva 5 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    </div>
-                </div>
-                <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox(this)">
-                        <img src="images/AB6-1.jpg" alt="Perspectiva 6 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <img src="images/AB6-2.jpg" alt="Perspectiva 6 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    </div>
-                </div>
-                <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox(this)">
-                        <img src="images/AB7-1.jpg" alt="Perspectiva 7 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <img src="images/AB7-2.jpg" alt="Perspectiva 7 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    </div>
-                </div>
-                <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox(this)">
-                        <img src="images/AB8-1.jpg" alt="Perspectiva 8 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <img src="images/AB8-2.jpg" alt="Perspectiva 8 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    </div>
-                </div>
-                <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox(this)">
-                        <img src="images/AB9-1.jpg" alt="Perspectiva 9 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <img src="images/AB9-2.jpg" alt="Perspectiva 9 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    </div>
-                </div>
-                <div class="slide">
-                    <div onclick="openCurrentPerspectiveLightbox(this)">
-                        <img src="images/AB10-1.jpg" alt="Perspectiva 10 - Foto A" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <img src="images/AB10-2.jpg" alt="Perspectiva 10 - Foto B" style="width: 100%; height: 50%; object-fit: contain; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                    </div>
-                </div>
+                <div class="slide active"><div onclick="openCurrentPerspectiveLightbox()"><img src="images/AB1-1.jpg"><img src="images/AB1-2.jpg"></div></div>
+                <div class="slide"><div onclick="openCurrentPerspectiveLightbox()"><img src="images/AB2-1.jpg"><img src="images/AB2-2.jpg"></div></div>
+                <div class="slide"><div onclick="openCurrentPerspectiveLightbox()"><img src="images/AB3-1.jpg"><img src="images/AB3-2.jpg"></div></div>
+                <div class="slide"><div onclick="openCurrentPerspectiveLightbox()"><img src="images/AB4-1.jpg"><img src="images/AB4-2.jpg"></div></div>
+                <div class="slide"><div onclick="openCurrentPerspectiveLightbox()"><img src="images/AB5-1.jpg"><img src="images/AB5-2.jpg"></div></div>
+                <div class="slide"><div onclick="openCurrentPerspectiveLightbox()"><img src="images/AB6-1.jpg"><img src="images/AB6-2.jpg"></div></div>
+                <div class="slide"><div onclick="openCurrentPerspectiveLightbox()"><img src="images/AB7-1.jpg"><img src="images/AB7-2.jpg"></div></div>
+                <div class="slide"><div onclick="openCurrentPerspectiveLightbox()"><img src="images/AB8-1.jpg"><img src="images/AB8-2.jpg"></div></div>
+                <div class="slide"><div onclick="openCurrentPerspectiveLightbox()"><img src="images/AB9-1.jpg"><img src="images/AB9-2.jpg"></div></div>
+                <div class="slide"><div onclick="openCurrentPerspectiveLightbox()"><img src="images/AB10-1.jpg"><img src="images/AB10-2.jpg"></div></div>
             </div> 
-            <div class="arrow-right">
-                <button id="nextPerspectiveBtn">›</button>
-            </div> 
-        </div>
-        
-        <div class="section-separator hidden-section">
-            <hr>
-            <span>🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶🫶</span>
-            <hr>
+            <div class="arrow-right"><button id="nextPerspectiveBtn">›</button></div> 
         </div>
 
         <div class="final-message-card hidden-section">
-            Sabeees que! La idea inicial (o original?) viene de una web brasileña parecida donde yo hice como un "mensaje de amor" / "carta" así que se supone que tendría que funcionar pues pagué (1.37€, tranqui). Al final ni funcionó ni me hicieron mucho caso, así queeee empecé a hacerla yo por mi cuenta incluso ANTES de comprar las entradas al concierto de Louis Tomilson.<br> La verdad que les agradezco que me robaran JAJAAJ porque me dieron la idea inicial y he estado casi dos meses poco a poco shaping el resultado final y creo que estoy satisfecho. <br>Sorprendentemente no se me escapó la sorpresa (ESPERO, estoy escribiendo esto a 18/11 y lo empecé el 10/11 😀) <br> Posdata, el separador de corazones de arriba tiene efectivamente 14 en total, por si no te habías fijado 😉 <br> Aún despues de todo lo que he escrito podría seguir y seguir, pero aunque hagamos 6 meses tendrás que dormir que mañana te toca esquiar! Que diver ❤️ (ahora se que evidentemente no te toca esquiar hoy pero bueno, voy a dejarlo como originalmente estaba jejejeje. Te amo)
+            Te amo pequeña. Mañana a esquiar! 💚
         </div>
     </div>
     
-    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-        <span class="lightbox-close">×</span>
-        <img class="lightbox-content" id="lightboxImage">
-    </div>
-
-    <div id="dualLightbox" onclick="closeDualLightbox()">
-        <span class="lightbox-close-dual">×</span>
-        <div class="dual-content-wrapper">
-            <img id="dualImageA" alt="Perspectiva A">
-            <img id="dualImageB" alt="Perspectiva B">
+    <div id="lightbox" class="lightbox" onclick="this.style.display='none'"><img class="lightbox-content" id="lightboxImage"></div>
+    <div id="dualLightbox" class="lightbox" onclick="this.style.display='none'">
+        <div style="display:flex; flex-direction:column; gap:10px; width:90%; align-items:center;">
+            <img id="dualImageA" style="max-height:45vh; border-radius:10px;"><img id="dualImageB" style="max-height:45vh; border-radius:10px;">
         </div>
     </div>
-    
-    <button id="loveButton">💚</button>
 
     <script> 
-
-
-        /* iconos */ 
+        /* --- CONFIGURACIÓN DE AUDIO (RESTAURADA) --- */
         const svgPlay='<svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9z" fill="#fff"/></svg>'; 
-        const svgPause='<svg width="14" height="14" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" fill="#fff"/><rect x="14" y="5" width="4" height="14" fill="#fff"/></rect></svg>'; 
-        
-        /* HAPTIC FEEDBACK */
-        function hapticFeedback(duration = 50) {
-            if ('vibrate' in navigator) {
-                navigator.vibrate(duration);
-            }
-        }
-        
-        /* Lógica para cerrar el lightbox del collage */
-        function closeLightbox() {
-            hapticFeedback(50);
-            document.getElementById('lightbox').style.display = 'none';
-        }
-        
-        /* Lógica para cerrar el lightbox DUAL */
-        function closeDualLightbox() {
-            hapticFeedback(50);
-            document.getElementById('dualLightbox').style.display = 'none';
-        }
-        
-        /* Lógica para ABRIR el lightbox DUAL (Perspectivas) */
-        function openCurrentPerspectiveLightbox() {
-            hapticFeedback(100);
-            
-            const activeSlide = document.querySelector('#perspectiveStage .slide.active');
-            const images = activeSlide ? activeSlide.querySelectorAll('img') : null;
-            
-            if (images && images.length === 2) {
-                document.getElementById('dualImageA').src = images[0].src;
-                document.getElementById('dualImageB').src = images[1].src;
-                document.getElementById('dualLightbox').style.display = 'flex';
-            }
-        }
-
-        // ** INICIO: FUNCIÓN CORREGIDA PARA EL LIGHTBOX DEL CARRUSEL PRINCIPAL **
-        function openMainCarouselLightbox() {
-            hapticFeedback(100);
-            // 1. Encontramos la diapositiva activa
-            const activeSlide = document.querySelector('#stage .slide.active');
-            
-            // 2. Encontramos la imagen DENTRO de esa diapositiva
-            const image = activeSlide ? activeSlide.querySelector('img') : null;
-            
-            if (image) {
-                // 3. Abrimos el lightbox con la fuente de la imagen activa
-                document.getElementById('lightboxImage').src = image.src;
-                document.getElementById('lightboxImage').alt = image.alt;
-                document.getElementById('lightbox').style.display = 'block';
-            }
-        }
-        // ** FIN: FUNCIÓN CORREGIDA **
-
-
-        /* emojis */ 
-        (function(){ 
-            const container = document.getElementById('emoji-bg'); 
-            const hearts=['💚','💖']; 
-            for(let i=0;i<35;i++){ 
-                const e=document.createElement('div'); 
-                e.className='emoji'; 
-                e.textContent=hearts[Math.floor(Math.random()*hearts.length)]; 
-                e.style.left=Math.random()*100+'%'; 
-                e.style.opacity=(0.04+Math.random()*0.08); 
-                e.style.fontSize=(12+Math.random()*36)+'px'; 
-                // Nuevas propiedades CSS personalizadas para duración y retraso
-                e.style.setProperty('--random-duration', `${Math.random() * 10}s`); 
-                e.style.setProperty('--random-delay', `${Math.random() * 10}s`);       
-                container.appendChild(e); 
-            } 
-        })(); 
-
-        /* loader */ 
-        window.addEventListener('load',()=>{ 
-            setTimeout(()=>document.getElementById('loader').classList.add('hidden'),2000); 
-            messageAudio.load();
-            audio.load();
-        }); 
-
-        /* funciones de audio (formato) */ 
-        function fmt(s){ 
-            if(!isFinite(s)) return '0:00'; 
-            const m=Math.floor(s/60); 
-            const sec=Math.floor(s%60).toString().padStart(2,'0'); 
-            return `${m}:${sec}`;
-        }
-
-        /* ---------------------------------------------------- */
-        /* ---------- 1. LÓGICA DEL MENSAJE ---------- */
-        /* ---------------------------------------------------- */
+        const svgPause='<svg width="14" height="14" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" fill="#fff"/><rect x="14" y="5" width="4" height="14" fill="#fff"/></svg>'; 
         const messageAudio = new Audio("images/mensaje.mp3"); 
-        messageAudio.preload = 'metadata';
+        const audio = new Audio("images/musica.mp3");
 
-        const messageCoverWrapConfirm = document.getElementById('messageCoverWrapConfirm');
-        const messagePlayOverlayConfirm = document.getElementById('messagePlayOverlayConfirm');
-        const messageProgressC = document.getElementById('messageProgressC');
-        const messageTimeCurC = document.getElementById('messageTimeCurC');
-        const messageTimeDurC = document.getElementById('messageTimeDurC');
+        function hapticFeedback(duration = 50) { if ('vibrate' in navigator) navigator.vibrate(duration); }
+        function fmt(s){ if(!isFinite(s)) return '0:00'; const m=Math.floor(s/60),sec=Math.floor(s%60).toString().padStart(2,'0'); return `${m}:${sec}`; }
 
-        function setMessagePlayingUI(play){ 
-            messageCoverWrapConfirm.classList.toggle('playing', play);
-            messagePlayOverlayConfirm.innerHTML = play ? svgPause : svgPlay;
+        /* --- TYPEWRITER LOGIC --- */
+        function typeWriter(element, text, speed = 40) {
+            let i = 0; element.innerHTML = ""; element.classList.add('typewriter-cursor');
+            function type() {
+                if (i < text.length) { element.innerHTML += text.charAt(i); i++; setTimeout(type, speed); }
+                else { element.classList.remove('typewriter-cursor'); }
+            }
+            type();
         }
-
-        function toggleMessagePlay(){ 
-            hapticFeedback(80); 
-            if (!audio.paused) {
-                 audio.pause();
-                 setMainPlayingUI(false); 
-            }
-
-            messageAudio.paused 
-                ? (messageAudio.play().catch(e => console.error('Message play failed:', e)), setMessagePlayingUI(true)) 
-                : (messageAudio.pause(), setMessagePlayingUI(false)); 
-        } 
-
-        messageCoverWrapConfirm.onclick = toggleMessagePlay;
-
-        messageAudio.onloadedmetadata = () => {
-            messageTimeDurC.textContent = fmt(messageAudio.duration);
-        };
-
-        messageAudio.ontimeupdate = () => {
-            if (!messageAudio.duration) return;
-            const pct = (messageAudio.currentTime / messageAudio.duration) * 100;
-            messageProgressC.value = pct;
-            messageTimeCurC.textContent = fmt(messageAudio.currentTime);
-        };
-
-        messageAudio.onended = () => setMessagePlayingUI(false);
-
-        messageProgressC.oninput = e => {
-            if (messageAudio.duration) {
-                messageAudio.currentTime = (e.target.value / 100) * messageAudio.duration;
-            }
-        };
-        setMessagePlayingUI(false); 
-
-        /* ---------------------------------------------------- */
-        /* ---------- 2. LÓGICA DE LA MÚSICA ---------- */
-        /* ---------------------------------------------------- */
-        const audio=new Audio("images/musica.mp3"); 
-        audio.preload='metadata'; 
-        // audio.loop = true; 
-
-        const playOverlayMain=document.getElementById('playOverlayMain'); 
-        const coverWrapMain=document.getElementById('coverWrapMain'); 
-        const progressM=document.getElementById('progressM'); 
-        const timeCurM=document.getElementById('timeCurM'); 
-        const timeDurM=document.getElementById('timeDurM'); 
-
-        function setMainPlayingUI(play){ 
-            coverWrapMain.classList.toggle('playing',play); 
-            playOverlayMain.innerHTML=play?svgPause:svgPlay; 
-        } 
-
-        function toggleMainPlay(){ 
-            hapticFeedback(80); 
-            if (!messageAudio.paused) {
-                 audio.pause();
-                 setMessagePlayingUI(false); 
-            }
-            
-            audio.paused?(audio.play().catch(e => console.log('Main play failed:', e)), setMainPlayingUI(true)):(audio.pause(),setMainPlayingUI(false)); 
-        } 
-
-        coverWrapMain.onclick=toggleMainPlay; 
-
-        audio.onloadedmetadata=()=>{ 
-            timeDurM.textContent=fmt(audio.duration); 
-        }; 
-
-        audio.ontimeupdate=()=>{ 
-            if(!audio.duration)return; 
-            const pct=(audio.currentTime/audio.duration)*100; 
-            progressM.value=pct; 
-            timeCurM.textContent=fmt(audio.currentTime); 
-        }; 
-
-        audio.onended=()=>setMainPlayingUI(false); 
-
-        progressM.oninput=e=>audio.currentTime=(e.target.value/100)*audio.duration; 
-
-        /* ---------------------------------------------------- */
-        /* ---------- 4. CARRUSEL PRINCIPAL CON DOTS --------- */
-        /* ---------------------------------------------------- */
-        const slides=[...document.querySelectorAll('#stage .slide')]; 
-        // Importante: El evento de clic para lightbox se ha movido al padre 'stage'
-        const stage = document.getElementById('stage');
-        const dotsContainer = document.getElementById('carouselDots');
-        
-        let current=0; 
-        let touchstartX = 0;
-        let touchendX = 0;
-        
-        slides.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.className = 'dot';
-            dot.onclick = () => {
-                hapticFeedback(50);
-                show(index);
-            };
-            dotsContainer.appendChild(dot);
-        });
-        const dots = [...document.querySelectorAll('.carousel-dots .dot')];
-
-        function updateDots() {
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === current);
-            });
-        }
-        
-        function show(i){ 
-            const length = slides.length;
-            current = (i + length) % length; 
-            slides.forEach((s,x)=>s.classList.toggle('active',x===current)); 
-            updateDots();
-        } 
-        
-        document.getElementById('prevBtn').onclick=()=>{
-            hapticFeedback(50);
-            show(current - 1);
-        };
-        document.getElementById('nextBtn').onclick=()=>{
-            hapticFeedback(50);
-            show(current + 1);
-        };
-        
-        stage.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        }, false);
-
-        stage.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleGesture();
-        }, false);
-
-        function handleGesture() {
-            const threshold = 50; 
-            const difference = touchendX - touchstartX;
-            
-            if (Math.abs(difference) < threshold) {
-                return;
-            }
-
-            if (difference > 0) {
-                hapticFeedback(50); 
-                show(current - 1);
-            } else {
-                hapticFeedback(50); 
-                show(current + 1);
-            }
-        }
-        show(0);
-
-
-        /* ---------------------------------------------------- */
-        /* ---------- 4B. LÓGICA DEL SLIDER DE PERSPECTIVAS (ACTUALIZADA) --------- */
-        /* ---------------------------------------------------- */
-        const perspectiveSlides = [...document.querySelectorAll('#perspectiveStage .slide')];
-        const perspectiveStage = document.getElementById('perspectiveStage');
-        let currentPerspective = 0;
-
-        function showPerspective(i) {
-            const length = perspectiveSlides.length;
-            currentPerspective = (i + length) % length;
-            perspectiveSlides.forEach((s, x) => s.classList.toggle('active', x === currentPerspective));
-        }
-
-        document.getElementById('prevPerspectiveBtn').onclick = () => {
-            hapticFeedback(50);
-            showPerspective(currentPerspective - 1);
-        };
-
-        document.getElementById('nextPerspectiveBtn').onclick = () => {
-            hapticFeedback(50);
-            showPerspective(currentPerspective + 1);
-        };
-
-        // Clonar lógica de swipe para el nuevo slider
-        let touchstartX2 = 0;
-        let touchendX2 = 0;
-        
-        perspectiveStage.addEventListener('touchstart', e => {
-            touchstartX2 = e.changedTouches[0].screenX;
-        }, false);
-
-        perspectiveStage.addEventListener('touchend', e => {
-            touchendX2 = e.changedTouches[0].screenX;
-            handlePerspectiveGesture();
-        }, false);
-
-        function handlePerspectiveGesture() {
-            const threshold = 50;
-            const difference = touchendX2 - touchstartX2;
-            
-            if (Math.abs(difference) < threshold) return;
-
-            if (difference > 0) {
-                hapticFeedback(50);
-                showPerspective(currentPerspective - 1);
-            } else {
-                hapticFeedback(50);
-                showPerspective(currentPerspective + 1);
-            }
-        }
-
-        showPerspective(0);
-        // --------------------------------------------------------------------
-
-
-        /* ---------------------------------------------------- */
-        /* ---------- 5. CONTADOR ANIMADO ---------- */
-        /* ---------------------------------------------------- */
-        const startDate=new Date('2025-07-02T00:00:00+02:00'); 
-        const contador=document.getElementById('contador'); 
-        
-        let daysSpan, hoursSpan, minutesSpan, secondsSpan;
-
-        function initializeCounter() {
-            const html = `
-                <div class="counter-wrap">
-                    <span class="counter-segment"><span class="counter-digit-group" id="daysVal">0</span><span class="label">Días</span></span>
-                    <span class="separator">/</span>
-                    <span class="counter-segment"><span class="counter-digit-group" id="hoursVal">00</span><span class="label">h</span></span>
-                    <span class="separator">:</span>
-                    <span class="counter-segment"><span class="counter-digit-group" id="minutesVal">00</span><span class="label">m</span></span>
-                    <span class="separator">:</span>
-                    <span class="counter-segment"><span class="counter-digit-group" id="secondsVal">00</span><span class="label">s</span></span>
-                </div>
-            `;
-            contador.innerHTML = html;
-            
-            daysSpan = document.getElementById('daysVal');
-            hoursSpan = document.getElementById('hoursVal');
-            minutesSpan = document.getElementById('minutesVal');
-            secondsSpan = document.getElementById('secondsVal');
-        }
-        
-        function updateDigit(element, newValue) {
-            const newValueStr = newValue.toString();
-            if (element.textContent !== newValueStr) {
-                element.classList.add('change-animation');
-                element.textContent = newValueStr;
-                
-                setTimeout(() => {
-                    element.classList.remove('change-animation');
-                }, 200); 
-            }
-        }
-
-        function update(){ 
-            const now=new Date(); 
-            let diff=Math.floor((now-startDate)/1000); 
-            
-            const d=Math.floor(diff/86400); 
-            diff%=86400; 
-            const h=Math.floor(diff/3600); 
-            diff%=3600; 
-            const m=Math.floor(diff/60); 
-            const s=diff%60; 
-            
-            updateDigit(daysSpan, d);
-            updateDigit(hoursSpan, h.toString().padStart(2, '0'));
-            updateDigit(minutesSpan, m.toString().padStart(2, '0'));
-            updateDigit(secondsSpan, s.toString().padStart(2, '0'));
-        } 
-        
-        initializeCounter();
-        update(); 
-        setInterval(update,1000); 
-
-        /* ---------------------------------------------------- */
-        /* ---------- 6. LÓGICA DEL COLLAGE Y LIGHTBOX ---------- */
-        /* ---------------------------------------------------- */
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImage = document.getElementById('lightboxImage');
-        // Seleccionamos todas las imágenes dentro de la rejilla de collage
-        const collageImages = document.querySelectorAll('#photoCollage img');
-
-        collageImages.forEach(img => {
-            img.onclick = function() {
-                hapticFeedback(50);
-                lightbox.style.display = 'block';
-                lightboxImage.src = this.src;
-                lightboxImage.alt = this.alt;
-            }
-        });
-        
-        /* ---------------------------------------------------- */
-        /* ---------- 7. BARRA DE PROGRESO DE LECTURA (FIXED) ---------- */
-        /* ---------------------------------------------------- */
-        const progressBar = document.getElementById('progressBar');
-
-        function updateProgressBar() {
-            // Solo actualizamos si el contenido principal es visible
-            if (document.getElementById('mainContent').style.display === 'block') {
-                // Cálculo de scroll más robusto (FIXED)
-                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                
-                // Aseguramos que la división no sea por cero y que el valor sea entre 0 y 100
-                if (height > 0) {
-                    const scrolled = (winScroll / height) * 100;
-                    progressBar.style.width = scrolled + "%";
-                } else {
-                    // Contenido muy corto
-                    progressBar.style.width = "100%";
-                }
-            }
-        }
-        
-        // Escucha el scroll global para actualizar la barra
-        window.onscroll = updateProgressBar;
-
-
-        /* ---------------------------------------------------- */
-        /* --------- Lógica de Scroll Reveal General ----- */
-        /* ---------------------------------------------------- */
-        const observerOptions = {
-            root: null, 
-            rootMargin: '0px',
-            threshold: 0.15 
-        };
-
-        const generalObserver = new IntersectionObserver((entries, observer) => {
+        const typeObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
+                if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+                    entry.target.classList.add('typed');
                     entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
+                    typeWriter(entry.target, entry.target.innerText);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        function observeSections() {
-            document.querySelectorAll('.hidden-section').forEach(section => {
-                generalObserver.observe(section);
-            });
-            
-            observeTimelineEvents();
-        }
-
-        /* ---------------------------------------------------- */
-        /* -------- Lógica de Scroll Reveal para Timeline ------- */
-        /* ---------------------------------------------------- */
-        const timelineObserverOptions = {
-            root: null, 
-            rootMargin: '0px',
-            threshold: 0.8 
+        /* --- LLUVIA DE CORAZONES --- */
+        document.getElementById('loveButton').onclick = (ev) => {
+            hapticFeedback(100);
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div'); heart.className = 'floating-heart'; heart.innerHTML = '💚';
+                const x = ev.clientX || window.innerWidth - 50; const y = ev.clientY || window.innerHeight - 50;
+                heart.style.left = x + 'px'; heart.style.top = y + 'px';
+                heart.style.setProperty('--random-x', (Math.random() * 200 - 100) + 'px');
+                heart.style.setProperty('--random-deg', (Math.random() * 360) + 'deg');
+                document.body.appendChild(heart); setTimeout(() => heart.remove(), 2000);
+            }
         };
-        
-        const timelineObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, timelineObserverOptions);
 
-        function observeTimelineEvents() {
-            document.querySelectorAll('.timeline .event').forEach((event, index) => {
-                event.style.transition = `all .5s ease ${index * 0.15}s`;
-                timelineObserver.observe(event);
-            });
+        /* --- RASCA Y GANA --- */
+        function initScratch() {
+            const can = document.getElementById('scratch-canvas'), ctx = can.getContext('2d');
+            ctx.fillStyle = '#66BB6A'; ctx.fillRect(0, 0, 300, 150); ctx.fillStyle = '#fff'; ctx.font = '20px Quicksand'; ctx.textAlign = 'center'; ctx.fillText('¡RASCA AQUÍ! 👆', 150, 85);
+            let drawing = false;
+            function scratch(e) { if(!drawing) return; const r = can.getBoundingClientRect(), x = (e.clientX || e.touches[0].clientX) - r.left, y = (e.clientY || e.touches[0].clientY) - r.top; ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x, y, 25, 0, Math.PI * 2); ctx.fill(); }
+            can.addEventListener('mousedown', () => drawing = true); can.addEventListener('touchstart', () => drawing = true); window.addEventListener('mouseup', () => drawing = false); can.addEventListener('mousemove', scratch); can.addEventListener('touchmove', scratch);
         }
 
-/* --- LOGICA TYPEWRITER --- */
-function typeWriter(element, text, speed = 30) {
-    let i = 0;
-    element.innerHTML = "";
-    element.classList.add('typewriter-cursor', 'visible');
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        } else {
-            element.classList.remove('typewriter-cursor');
+        /* --- CONTADOR ANIMADO --- */
+        const startDate=new Date('2025-07-02T00:00:00+02:00');
+        function initCounter() {
+            document.getElementById('contador').innerHTML = `<div class="counter-wrap"><span class="counter-segment"><span class="counter-digit-group" id="dVal">0</span><span class="label">Días</span></span><span style="font-size:1.8rem;">/</span><span class="counter-segment"><span class="counter-digit-group" id="hVal">00</span><span class="label">h</span></span><span style="font-size:1.8rem;">:</span><span class="counter-segment"><span class="counter-digit-group" id="mVal">00</span><span class="label">m</span></span><span style="font-size:1.8rem;">:</span><span class="counter-segment"><span class="counter-digit-group" id="sVal">00</span><span class="label">s</span></span></div>`;
         }
-    }
-    type();
-}
-
-const typeObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
-            entry.target.classList.add('typed');
-            typeWriter(entry.target, entry.target.innerText);
+        function updateDigit(el, val) { if (el.textContent !== val.toString()) { el.classList.add('change-animation'); el.textContent = val; setTimeout(() => el.classList.remove('change-animation'), 200); } }
+        function update() {
+            const diff = Math.floor((new Date() - startDate) / 1000);
+            updateDigit(document.getElementById('dVal'), Math.floor(diff/86400));
+            updateDigit(document.getElementById('hVal'), Math.floor((diff%86400)/3600).toString().padStart(2,'0'));
+            updateDigit(document.getElementById('mVal'), Math.floor((diff%3600)/60).toString().padStart(2,'0'));
+            updateDigit(document.getElementById('sVal'), (diff%60).toString().padStart(2,'0'));
         }
-    });
-}, { threshold: 0.1 });
 
-document.querySelectorAll('.type-me').forEach(el => typeObserver.observe(el));
-
-/* --- LOGICA BOTON CORAZONES --- */
-const lBtn = document.getElementById('loveButton');
-if(lBtn){
-    lBtn.onclick = (event) => {
-        if ('vibrate' in navigator) navigator.vibrate(80);
-        for (let i = 0; i < 15; i++) {
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.innerHTML = '💚';
-            const x = event.clientX || window.innerWidth - 50;
-            const y = event.clientY || window.innerHeight - 50;
-            heart.style.left = x + 'px';
-            heart.style.top = y + 'px';
-            heart.style.setProperty('--random-x', (Math.random() * 200 - 100) + 'px');
-            heart.style.setProperty('--random-deg', (Math.random() * 360) + 'deg');
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 2000);
+        /* --- AUDIO LOGIC --- */
+        function setupAudio(aud, btn, prog, cur, dur, isMsg) {
+            btn.onclick = () => { hapticFeedback(80); if(aud.paused){ aud.play(); btn.innerHTML=svgPause; if(isMsg) audio.pause(); } else { aud.pause(); btn.innerHTML=svgPlay; } };
+            aud.ontimeupdate = () => { prog.value = (aud.currentTime/aud.duration)*100; cur.textContent = fmt(aud.currentTime); };
+            aud.onloadedmetadata = () => dur.textContent = fmt(aud.duration);
+            prog.oninput = () => aud.currentTime = (prog.value/100)*aud.duration;
         }
-    };
-}
-        
-function initScratch() {
-    const canvas = document.getElementById('scratch-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#66BB6A';
-    ctx.fillRect(0, 0, 300, 150);
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 20px Quicksand';
-    ctx.textAlign = 'center';
-    ctx.fillText('¡RASCA AQUÍ! 👆', 150, 85);
 
-    let isDrawing = false;
-    function scratch(e) {
-        if (!isDrawing) return;
-        const rect = canvas.getBoundingClientRect();
-        const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-        const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath();
-        ctx.arc(x, y, 25, 0, Math.PI * 2);
-        ctx.fill();
-    }
-    canvas.addEventListener('mousedown', () => isDrawing = true);
-    canvas.addEventListener('touchstart', () => isDrawing = true);
-    window.addEventListener('mouseup', () => isDrawing = false);
-    window.addEventListener('touchend', () => isDrawing = false);
-    canvas.addEventListener('mousemove', scratch);
-    canvas.addEventListener('touchmove', scratch);
-}
+        /* --- INICIO Y OBSERVERS --- */
+        document.getElementById('openBtn').onclick = () => {
+            hapticFeedback(150); messageAudio.pause();
+            document.getElementById('confirm').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('titleSection').classList.add('visible'); 
+            initScratch();
+            document.querySelectorAll('.hidden-section, .event').forEach(s => genObs.observe(s));
+            document.querySelectorAll('.type-me').forEach(t => typeObserver.observe(t));
+            window.scrollTo(0,0);
+        };
+        const genObs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
 
-/* --- LOGICA DEL SOBRE --- */
-function openEnvelope() {
-    hapticFeedback(100);
-    const envelope = document.querySelector('.envelope-wrapper');
-    if (!envelope.classList.contains('open')) {
-        envelope.classList.add('open');
-    }
-}
+        window.onload = () => {
+            setTimeout(() => document.getElementById('loader').classList.add('hidden'), 1500);
+            initCounter(); setInterval(update, 1000);
+            setupAudio(messageAudio, document.getElementById('messagePlayOverlayConfirm'), document.getElementById('messageProgressC'), document.getElementById('messageTimeCurC'), document.getElementById('messageTimeDurC'), true);
+            setupAudio(audio, document.getElementById('playOverlayMain'), document.getElementById('progressM'), document.getElementById('timeCurM'), document.getElementById('timeDurM'), false);
+            // BG Emojis
+            const bg = document.getElementById('emoji-bg');
+            for(let i=0; i<35; i++){
+                const e = document.createElement('div'); e.className='emoji'; e.textContent = i%2===0?'💚':'💖';
+                e.style.left=Math.random()*100+'%'; e.style.setProperty('--random-duration', Math.random()*10+'s');
+                e.style.setProperty('--random-delay', Math.random()*10+'s'); bg.appendChild(e);
+            }
+        };
 
-/* --- LOGICA UNIFICADA DEL BOTON ENTRAR --- */
-document.getElementById('openBtn').onclick = (e) => {
-    e.stopPropagation(); // Evita conflictos con el sobre
-    const envelope = document.querySelector('.envelope-wrapper');
-    
-    // Solo permitimos el clic si el sobre ya está abierto
-    if (envelope.classList.contains('open')) {
-        hapticFeedback(150);
-        
-        // 1. Detener el audio del mensaje del sobre
-        messageAudio.pause(); 
-        
-        // 2. Ocultar el sobre y mostrar la web
-        document.getElementById('confirm').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-        
-        // 3. DISPARADORES DE LA WEB (Lo que hace que aparezca el contenido)
-        document.getElementById('titleSection').classList.add('visible'); 
-        updateProgressBar(); 
-        observeSections();
-        if (typeof initScratch === "function") initScratch();
-        
-        // 4. Asegurar que empiece arriba del todo
-        window.scrollTo(0,0);
-        
-        console.log("Web cargada correctamente");
-    }
-};
+        /* --- CARRUSELES --- */
+        function initCarousel(id, prev, next, isMain) {
+            let cur = 0; const slides = document.querySelectorAll(`#${id} .slide`);
+            const show = (i) => { cur = (i + slides.length) % slides.length; slides.forEach((s,x) => s.classList.toggle('active', x === cur)); if(isMain) updateDots(cur); };
+            document.getElementById(prev).onclick = () => { hapticFeedback(50); show(cur-1); };
+            document.getElementById(next).onclick = () => { hapticFeedback(50); show(cur+1); };
+            if(isMain) {
+                const dots = document.getElementById('carouselDots');
+                slides.forEach((_, i) => { const d = document.createElement('div'); d.className = 'dot' + (i===0?' active':''); d.onclick = () => show(i); dots.appendChild(d); });
+            }
+        }
+        function updateDots(idx) { document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === idx)); }
+        initCarousel('stage', 'prevBtn', 'nextBtn', true);
+        initCarousel('perspectiveStage', 'prevPerspectiveBtn', 'nextPerspectiveBtn', false);
 
-/* --- LOGICA DEL AUDIO DENTRO DE LA CARTA --- */
-const letterMsgCover = document.getElementById('msgCoverWrap');
-if(letterMsgCover) {
-    letterMsgCover.onclick = (e) => {
-        e.stopPropagation(); // Evita que se intente abrir el sobre al tocar el audio
-        toggleMessagePlay(); 
-    };
-}
+        function openMainCarouselLightbox() { const img = document.querySelector('#stage .slide.active img'); document.getElementById('lightboxImage').src = img.src; document.getElementById('lightbox').style.display='flex'; }
+        function openCurrentPerspectiveLightbox() { const imgs = document.querySelector('#perspectiveStage .slide.active').querySelectorAll('img'); document.getElementById('dualImageA').src = imgs[0].src; document.getElementById('dualImageB').src = imgs[1].src; document.getElementById('dualLightbox').style.display='flex'; }
+        document.querySelectorAll('#photoCollage img').forEach(img => img.onclick = () => { document.getElementById('lightboxImage').src = img.src; document.getElementById('lightbox').style.display='flex'; });
+        window.onscroll = () => { const s = document.documentElement.scrollTop, h = document.documentElement.scrollHeight - document.documentElement.clientHeight; document.getElementById('progressBar').style.width = (s/h)*100 + "%"; };
     </script>
-
 </body>
 </html>
