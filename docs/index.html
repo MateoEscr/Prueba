@@ -862,32 +862,20 @@
         .scratch-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; text-align: center; position: relative; z-index: 1; }
 
 /* --- SOBRE MEJORADO --- */
-/* --- DISEÑO DEL SOBRE Y CARTA --- */
-#confirm { 
-    background: var(--bg); 
-    flex-direction: column; 
-    justify-content: center; 
-}
+/* --- DISEÑO DEL SOBRE MEJORADO --- */
+#confirm { background: var(--bg); flex-direction: column; }
 
 .envelope-wrapper { 
     position: relative; 
     width: 320px; 
-    height: 200px; 
+    height: 220px; /* Un poco más alto */
     background: var(--accent); 
     border-bottom-left-radius: 10px; 
     border-bottom-right-radius: 10px; 
     cursor: pointer; 
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-}
-
-/* Animación de flotado antes de abrir */
-.envelope-wrapper:not(.open) {
-    animation: floatEnvelope 3s ease-in-out infinite;
-}
-@keyframes floatEnvelope {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    transition: 0.3s;
+    margin-top: 50px;
 }
 
 .envelope .flap { 
@@ -896,8 +884,8 @@
     border-right: 160px solid transparent; 
     border-top: 110px solid var(--accent-dark); 
     transform-origin: top; 
-    transition: transform 0.4s ease, z-index 0.2s; 
-    z-index: 4; 
+    transition: transform 0.4s ease; 
+    z-index: 4; /* Por encima de la carta cuando está cerrado */
 }
 
 .envelope .body { 
@@ -908,17 +896,48 @@
 }
 
 .envelope .letter { 
-    position: absolute; bottom: 5px; left: 10px; 
-    width: 300px; height: 180px; 
+    position: absolute; bottom: 10px; left: 10px; 
+    width: 300px; 
+    height: 200px; /* Carta más alta */
     background: white; border-radius: 5px; 
     padding: 15px; text-align: center; 
     display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
-    z-index: 2; transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 2; /* Por debajo del flap al principio */
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* BOTÓN ENTRAR: Cuadrado y llamativo */
+#openBtn {
+    width: 100%;
+    padding: 14px;
+    background: var(--accent-dark);
+    color: white;
+    border: none;
+    font-weight: 900;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 0 !important; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 0px #2e7d32;
+    transition: all 0.1s;
+}
+#openBtn:active { transform: translateY(2px); box-shadow: 0 2px 0px #2e7d32; }
+
+/* ESTADO ABIERTO */
+.envelope-wrapper.open .flap { 
+    transform: rotateX(180deg); 
+    z-index: 1; /* El flap se va al fondo al abrirse */
+}
+
+.envelope-wrapper.open .letter { 
+    transform: translateY(-160px); /* Sale más hacia arriba */
+    z-index: 5; /* LA CARTA PASA AL FRENTE DE TODO */
 }
 
 /* REPRODUCTOR DENTRO DE LA CARTA */
-.player-in-letter { width: 100%; }
+.player-in-letter { width: 100%; padding: 5px 0; }
 .player-in-letter .compact-player {
     width: 100% !important;
     max-width: none !important;
@@ -929,38 +948,7 @@
     transform: scale(0.9);
 }
 
-/* BOTÓN ENTRAR TOTALMENTE CUADRADO */
-#openBtn {
-    width: 100%;
-    padding: 12px;
-    background: var(--accent-dark);
-    color: white;
-    border: none;
-    font-weight: 900;
-    font-size: 1.1rem;
-    cursor: pointer;
-    border-radius: 0 !important; 
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* ESTADO ABIERTO */
-.envelope-wrapper.open .flap { 
-    transform: rotateX(180deg); 
-    z-index: 1; /* Pasa atrás de la carta */
-}
-
-.envelope-wrapper.open .letter { 
-    transform: translateY(-140px); 
-    z-index: 5; /* Pasa delante de todo para poder clicar */
-}
-
-.tap-instruction { 
-    margin-top: 40px; 
-    font-weight: 700; 
-    color: var(--accent-dark); 
-    text-align: center;
-}
+.tap-instruction { margin-top: 40px; font-weight: 700; color: var(--accent-dark); text-align: center; }
         
     </style>
 </head>
@@ -974,14 +962,14 @@
     </div>
 
     <div id="confirm"> 
-    <h2 style="max-width: 600px; margin-bottom: 30px; padding: 0 20px; font-size: 1.2rem;">Ábreme si eres la niña guapa, lista, agradable, amable, cariñosa, te gustan los takis y tienes el novio mas suertudo del mundo por tenerte (SI TÚ, CARLOTA DURÁN GARCÍA.) 💚</h2>
+    <h2 style="max-width: 600px; margin-bottom: 30px; padding: 0 20px; font-size: 1.2rem; line-height:1.4;">Ábreme si eres la niña guapa, lista, agradable, amable, cariñosa, te gustan los takis y tienes el novio mas suertudo del mundo por tenerte (SI TÚ, CARLOTA DURÁN GARCÍA.) 💚</h2>
 
     <div class="envelope-wrapper" onclick="openEnvelope()">
         <div class="envelope">
             <div class="flap"></div>
             <div class="body"></div>
             <div class="letter">
-                <p class="letter-title">Tienes un mensaje... 🔊</p>
+                <p class="letter-title" style="font-weight:900; color:var(--text); margin-top:0;">Tienes un mensaje... 🔊</p>
                 
                 <div class="player-in-letter">
                     <div class="compact-player">
@@ -989,8 +977,8 @@
                             <img src="images/portada.JPG">
                             <div class="play-overlay"><div class="play-circle" id="msgPlay"></div></div>
                         </div>
-                        <div class="player-meta">
-                             <span id="mCur">0:00</span>
+                        <div class="player-meta" style="text-align:left;">
+                             <span id="mCur">0:00</span> / <span id="mDur">0:00</span>
                         </div>
                     </div>
                 </div>
@@ -1869,31 +1857,35 @@ function openEnvelope() {
     }
 }
 
-// Vinculamos el click del audio del sobre
+// Vinculamos el click del audio del sobre (StopPropagation es clave para que no se cierre/abra el sobre al tocar el audio)
 const msgCover = document.getElementById('msgCoverWrap');
 if(msgCover) {
     msgCover.onclick = (e) => {
-        e.stopPropagation(); // Evita conflictos con la apertura del sobre
+        e.stopPropagation(); 
         toggleMessagePlay(); 
     };
 }
 
-// Botón de entrar (funcionando y con stopPropagation)
+// BOTÓN ENTRAR: Ahora detectará el click porque la carta está en z-index 5
 document.getElementById('openBtn').onclick = (e) => {
+    e.stopPropagation(); // Evita problemas de burbujeo
     const envelope = document.querySelector('.envelope-wrapper');
-    // Solo permitimos el clic si el sobre ya está animado (abierto)
+    
     if (envelope.classList.contains('open')) {
-        e.stopPropagation(); 
         hapticFeedback(150);
-        messageAudio.pause(); 
+        messageAudio.pause(); // Pausamos tu audio mensaje
         document.getElementById('confirm').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
+        
+        // Iniciamos el resto de la web
         initScratch();
         observeSections();
         window.scrollTo(0,0);
+        
+        // Si quieres que la música empiece sola al entrar, descomenta la siguiente línea:
+        // toggleMainPlay(); 
     }
 };
-        
         
     </script>
 
