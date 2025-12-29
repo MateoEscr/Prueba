@@ -8,15 +8,16 @@
     <style>
         /* ---------- Variables y reset ---------- */
         :root{
-            --bg: #FFD6E0;
-            --accent: #4CAF50;
-            --text: #2b2b2b;
-            --glass: rgba(255,255,255,0.65);
-            --glass-strong: rgba(255,255,255,0.85);
-            --card-shadow: 0 10px 28px rgba(0,0,0,0.12);
-            --rounded: 14px;
-            --pink-shadow: rgba(255, 99, 132, 0.4); 
-            --green-shadow: rgba(76, 175, 80, 0.4); 
+            --bg: #F1F8E9; /* Verde muy clarito, casi blanco */
+            --accent: #66BB6A; /* Verde principal */
+            --accent-dark: #388E3C;
+            --text: #1B5E20; /* Texto en verde muy oscuro para contraste */
+            --glass: rgba(255, 255, 255, 0.7);
+            --glass-strong: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 8px 32px rgba(102, 187, 106, 0.15); /* Sombra con tinte verde */
+            --rounded: 20px;
+            --pink-shadow: rgba(129, 199, 132, 0.4); /* Cambiado de rosa a verde claro */
+            --green-shadow: rgba(76, 175, 80, 0.3);
         }
         *{box-sizing:border-box}
         html,body{height:100%; overflow-x:hidden;}
@@ -806,6 +807,19 @@
                 grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             }
         }
+
+        .typewriter-text {
+            border-right: 2px solid var(--accent);
+             white-space: normal;
+            overflow: hidden;
+            display: inline;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        
     </style>
 </head>
 <body>
@@ -1115,6 +1129,40 @@
     </div>
 
     <script> 
+
+        /* typewriter */
+        function typeWriter(element, text, speed = 30) {
+    let i = 0;
+    element.innerHTML = ""; // Limpiamos el texto inicial
+    element.style.opacity = "1";
+    
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            element.style.borderRight = "none"; // Quita el cursor al terminar
+        }
+    }
+    type();
+}
+
+// Modificamos el observador para que dispare el typewriter
+const typeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+            const text = entry.target.getAttribute('data-text') || entry.target.innerText;
+            entry.target.setAttribute('data-text', text); // Guardamos original
+            entry.target.classList.add('typed');
+            typeWriter(entry.target, text);
+        }
+    });
+}, { threshold: 0.5 });
+
+        // Para aplicarlo, a los párrafos de las "razones" dales la clase 'type-me'
+        // Ejemplo: <p class="message type-me">1. Porque contigo...</p>
+        
         /* iconos */ 
         const svgPlay='<svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9z" fill="#fff"/></svg>'; 
         const svgPause='<svg width="14" height="14" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" fill="#fff"/><rect x="14" y="5" width="4" height="14" fill="#fff"/></rect></svg>'; 
