@@ -862,39 +862,108 @@
         .scratch-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; text-align: center; position: relative; z-index: 1; }
 
 /* --- SOBRE MEJORADO --- */
+/* --- DISEÑO DEL SOBRE Y CARTA --- */
+#confirm { background: var(--bg); }
+
 .envelope-wrapper { 
     position: relative; 
-    width: 300px; 
+    width: 320px; 
     height: 200px; 
     background: var(--accent); 
     border-bottom-left-radius: 10px; 
     border-bottom-right-radius: 10px; 
     cursor: pointer; 
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
 }
+
 .envelope .flap { 
-    position: absolute; top: 0; width: 0; height: 0; 
-    border-left: 150px solid transparent; 
-    border-right: 150px solid transparent; 
+    position: absolute; 
+    top: 0; 
+    width: 0; 
+    height: 0; 
+    border-left: 160px solid transparent; 
+    border-right: 160px solid transparent; 
     border-top: 110px solid var(--accent-dark); 
-    transform-origin: top; transition: transform 0.4s ease; z-index: 3; 
+    transform-origin: top; 
+    transition: transform 0.4s ease; 
+    z-index: 4; 
 }
+
 .envelope .body { 
-    position: absolute; bottom: 0; width: 100%; height: 100%; 
-    background: var(--accent); z-index: 2; 
+    position: absolute; 
+    bottom: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: var(--accent); 
+    z-index: 3; 
     clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%); 
-    border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px; 
+    border-bottom-right-radius: 10px;
 }
+
 .envelope .letter { 
-    position: absolute; bottom: 5px; left: 10px; 
-    width: 280px; height: 180px; 
-    background: white; border-radius: 5px; 
-    padding: 15px; text-align: center; 
-    display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
-    z-index: 1; transition: transform 0.6s ease; 
+    position: absolute; 
+    bottom: 5px; 
+    left: 10px; 
+    width: 300px; 
+    height: 180px; 
+    background: white; 
+    border-radius: 5px; 
+    padding: 15px; 
+    text-align: center; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-between; 
+    z-index: 2; 
+    transition: transform 0.6s ease; 
 }
-.envelope-wrapper.open .flap { transform: rotateX(180deg); z-index: 0; }
-.envelope-wrapper.open .letter { transform: translateY(-130px); z-index: 2; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); }
+
+/* --- REPRODUCTOR DENTRO DE LA CARTA --- */
+.letter-title { font-size: 0.9rem; font-weight: 900; color: var(--text); margin: 0; }
+
+.player-in-letter { width: 100%; }
+.player-in-letter .compact-player {
+    width: 100% !important;
+    max-width: none !important;
+    background: #f1f8e9 !important;
+    border: 1px solid var(--accent);
+    padding: 5px 10px !important;
+    box-shadow: none !important;
+}
+
+/* --- BOTÓN ENTRAR CUADRADO --- */
+#openBtn {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent-dark);
+    color: white;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0 !important;
+    transition: background 0.2s;
+}
+
+/* --- ESTADO ABIERTO (CORREGIDO) --- */
+.envelope-wrapper.open .flap { 
+    transform: rotateX(180deg); 
+    z-index: 1; /* Baja para que no tape la carta */
+}
+
+.envelope-wrapper.open .letter { 
+    transform: translateY(-130px); 
+    z-index: 5; /* Sube al máximo para que el botón funcione */
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+}
+
+.tap-instruction { 
+    margin-top: 30px; 
+    font-weight: 700; 
+    color: var(--accent-dark); 
+    animation: pulse 1.5s infinite; 
+}
 
 /* --- REPRODUCTOR STICKY (SOLO PARA LA CANCION) --- */
 #mainContent .player-wrapper {
@@ -919,32 +988,33 @@
     </div>
 
     <div id="confirm"> 
-    <h2 style="max-width: 600px; margin-bottom: 30px; padding: 0 20px;">Ábreme si eres la niña guapa, lista, agradable, amable, cariñosa, te gustan los takis y tienes el novio mas suertudo del mundo por tenerte (SI TÚ, CARLOTA DURÁN GARCÍA.) 💚</h2>
+    <h2 style="max-width: 600px; margin-bottom: 30px; padding: 0 20px; font-size: 1.2rem;">Ábreme si eres la niña guapa, lista, agradable, amable, cariñosa, te gustan los takis y tienes el novio mas suertudo del mundo por tenerte (SI TÚ, CARLOTA DURÁN GARCÍA.) 💚</h2>
 
     <div class="envelope-wrapper" onclick="openEnvelope()">
         <div class="envelope">
             <div class="flap"></div>
             <div class="body"></div>
             <div class="letter">
-                <p style="font-size:0.9rem; margin-bottom:10px; font-weight:900; color:var(--text);">Tienes un mensaje... 🔊</p>
+                <p class="letter-title">Tienes un mensaje... 🔊</p>
                 
-                <div class="compact-player" style="transform: scale(0.8); margin-bottom: 10px; background: #f9f9f9; border: 1px solid #ddd;">
-                    <div class="cover-wrap" id="msgCoverWrap">
-                        <img src="images/portada.JPG">
-                        <div class="play-overlay"><div class="play-circle" id="msgPlay"></div></div>
-                    </div>
-                    <div class="player-meta" style="text-align:left;">
-                         <span id="mCur" style="font-size:12px; color: #666;">0:00</span>
+                <div class="player-in-letter">
+                    <div class="compact-player">
+                        <div class="cover-wrap" id="msgCoverWrap">
+                            <img src="images/portada.JPG">
+                            <div class="play-overlay"><div class="play-circle" id="msgPlay"></div></div>
+                        </div>
+                        <div class="player-meta">
+                             <span id="mCur">0:00</span>
+                        </div>
                     </div>
                 </div>
 
-                <button id="openBtn" style="padding: 8px 20px; width: 100%; cursor: pointer;">Entrar a la web</button>
+                <button id="openBtn">Entrar</button>
             </div>
         </div>
     </div>
-    <p style="margin-top: 30px; font-weight: 700; color: var(--accent-dark); animation: pulse 1.5s infinite;">Toca el sobre para abrirlo</p>
+    <p class="tap-instruction">Toca el sobre para abrirlo</p>
 </div>
-
     <div class="container" id="mainContent" style="display:none;"> 
         <div class="player-wrapper">
             <div class="compact-player"> 
@@ -1813,26 +1883,29 @@ function openEnvelope() {
     }
 }
 
-// Vinculamos el click del audio del sobre de nuevo
+// Vinculamos el click del audio del sobre
 const msgCover = document.getElementById('msgCoverWrap');
 if(msgCover) {
     msgCover.onclick = (e) => {
-        e.stopPropagation(); // Evita que el sobre intente "abrirse" otra vez al tocar el audio
+        e.stopPropagation(); // Evita conflictos con la apertura del sobre
         toggleMessagePlay(); 
     };
 }
 
-// Aseguramos que el botón de entrar funcione
+// Botón de entrar (funcionando y con stopPropagation)
 document.getElementById('openBtn').onclick = (e) => {
-    e.stopPropagation(); // Evita conflictos con el sobre
+    e.stopPropagation(); 
     hapticFeedback(150);
-    messageAudio.pause(); // Para el audio del sobre
-    document.getElementById('confirm').style.display = 'none';
-    document.getElementById('mainContent').style.display = 'block';
     
-    // Dispara las funciones de la web
-    initScratch();
-    observeSections();
+    // Solo permitimos entrar si el sobre está abierto
+    if(document.querySelector('.envelope-wrapper').classList.contains('open')) {
+        messageAudio.pause(); 
+        document.getElementById('confirm').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'block';
+        initScratch();
+        observeSections();
+        window.scrollTo(0,0);
+    }
 };
         
         
