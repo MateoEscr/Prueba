@@ -837,6 +837,20 @@
         0% { transform: translateY(0) scale(1); opacity: 1; }
         100% { transform: translateY(-250px) translateX(var(--random-x)) rotate(var(--random-deg)); opacity: 0; }
     }
+
+        .postit-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin: 30px 0; }
+        .postit {
+        width: 160px; padding: 15px; background: #fff9c4; box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+        font-size: 0.95rem; transform: rotate(-2deg); transition: 0.3s; color: #5d4037; border-bottom-right-radius: 40px 5px;
+        font-weight: 600; text-align: center;
+        }
+        .postit:nth-child(even) { transform: rotate(2deg); background: #f1f8e9; }
+        .postit:hover { transform: scale(1.05) rotate(0deg); }
+
+        .scratch-section { margin: 40px auto; max-width: 400px; text-align: center; }
+        #scratch-container { position: relative; width: 300px; height: 150px; margin: 0 auto; border-radius: 15px; overflow: hidden; background: #fff; box-shadow: var(--card-shadow); border: 2px solid var(--accent); }
+        #scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; z-index: 2; }
+        .scratch-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; text-align: center; position: relative; z-index: 1; }
         
     </style>
 </head>
@@ -926,6 +940,13 @@
             <p class="message" style="text-align: left;">GRACIAS. POR TODO. Por motivarme, por animarne, por calmarme, por tenerme paciencia, dedicarme tanto tiempo y quererme tanto. Definitivamente, cada vez que te miro me siento tan afortunado, y mi inner child sale, a reirse, a disfrutar, a hacer el tonto contigo. Me lo paso TAN bien en todo momento, haciendo todo tipo de cosas... Escribiendo esto me emociono porque revivo todo lo que hemos ido haciendo y viviendo y te imagino en cada situación, y me doy cuenta de eso, mi suerte. Eres mi todo.  <br> Me chapo ya y te dejo ver el resto de cositas que he hecho, que son tontería pero fun creo? Me dices jejejeje. Enjoy mucho. Te QUIERO peque 💚💚💚💚</p> 
 
         </div>
+        
+        <div class="postit-container hidden-section">
+            <div class="postit">¡Eres capaz de TODO lo que te propongas! ✨</div>
+            <div class="postit" style="background:#e1f5fe">6 meses y contando... 🔒</div>
+            <div class="postit">Me debes un baile en cuanto vuelvas 💃</div>
+        </div>
+        
         <div class="carousel hidden-section"> 
             <div class="arrow-left">
                 <button id="prevBtn">‹</button>
@@ -1002,6 +1023,17 @@
                 <p>Puedes ampliar las fotos tocando :) </p>
             </div>
         </div>
+        <div class="scratch-section hidden-section">
+            <h2 style="text-align: center;">Tengo una noticia... (¡Rasca aquí!) 🚁</h2>
+            <div id="scratch-container">
+                <div class="scratch-content">
+                    <p style="font-weight: 900; color: var(--accent-dark); margin: 0; font-size: 1.2rem;">¡DRONE SHOW TICKETS! 🌌</p>
+                    <p style="font-size: 0.85rem; margin-top: 10px;">Sé que los organizadores lo cancelaron... ¡pero iremos en cuanto lo reprogramen! ❤️</p>
+                </div>
+                <canvas id="scratch-canvas" width="300" height="150"></canvas>
+            </div>
+        </div>
+        
         <div class="counter-section hidden-section" id="counterSection">
             <div class="counter-card">
                 <div class="fun-fact-text">Parezca más o menos tiempo, llevamos saliendo: </div> 
@@ -1352,6 +1384,7 @@
             
             updateProgressBar(); 
             observeSections();
+            initScratch();
         }; 
 
         /* ---------------------------------------------------- */
@@ -1686,6 +1719,37 @@ if(lBtn){
         }
     };
 }
+        
+function initScratch() {
+    const canvas = document.getElementById('scratch-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#66BB6A';
+    ctx.fillRect(0, 0, 300, 150);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 20px Quicksand';
+    ctx.textAlign = 'center';
+    ctx.fillText('¡RASCA AQUÍ! 👆', 150, 85);
+
+    let isDrawing = false;
+    function scratch(e) {
+        if (!isDrawing) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+        const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x, y, 25, 0, Math.PI * 2);
+        ctx.fill();
+    }
+    canvas.addEventListener('mousedown', () => isDrawing = true);
+    canvas.addEventListener('touchstart', () => isDrawing = true);
+    window.addEventListener('mouseup', () => isDrawing = false);
+    window.addEventListener('touchend', () => isDrawing = false);
+    canvas.addEventListener('mousemove', scratch);
+    canvas.addEventListener('touchmove', scratch);
+}
+        
         
     </script>
 
