@@ -1801,14 +1801,15 @@
             type();
         }
         const typeObs = new IntersectionObserver((entries) => {
-            entries.forEach(e => {
-                if (e.isIntersecting && !e.target.classList.contains('typed')) {
-                    const text = e.target.textContent;
-                    e.target.classList.add('typed', 'visible');
-                    typeW(e.target, text);
-                }
-            });
-        }, { threshold: 0.1 });
+    entries.forEach(e => {
+        if (e.isIntersecting && !e.target.classList.contains('typed')) {
+            const text = e.target.innerText; // Capturamos el texto antes de borrarlo
+            e.target.classList.add('typed', 'visible'); // Lo hacemos visible
+            e.target.style.opacity = "1"; // Aseguramos opacidad total
+            typeW(e.target, text); // Empezamos a escribir
+        }
+    });
+}, { threshold: 0.1 });
 
         /* --- RASCA Y GANA --- */
         function initScratch() {
