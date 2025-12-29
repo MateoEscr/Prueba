@@ -910,9 +910,9 @@
 /* --- ESTADO ABIERTO (CRUCIAL) --- */
 .envelope-wrapper.open .flap { transform: rotateX(180deg); z-index: 1; }
 .envelope-wrapper.open .letter { 
-    transform: translateY(-130px); 
-    z-index: 5; /* Esto hace que el botón esté por ENCIMA del sobre y funcione el click */
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+    transform: translateY(-160px); 
+    z-index: 10 !important; /* SUBIDO AL MÁXIMO */
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
 }
         
     </style>
@@ -1436,25 +1436,6 @@
 
         progressM.oninput=e=>audio.currentTime=(e.target.value/100)*audio.duration; 
 
-        
-        /* ---------------------------------------------------- */
-        /* ------------------ 3. CONFIRM & MAIN ----------------- */
-        /* ---------------------------------------------------- */
-        document.getElementById('openBtn').onclick=()=>{ 
-            hapticFeedback(150); 
-            messageAudio.pause();
-            setMessagePlayingUI(false); 
-            document.getElementById('confirm').style.display='none'; 
-            document.getElementById('mainContent').style.display='block'; 
-            
-            // Disparador de la animación del título al entrar
-            document.getElementById('titleSection').classList.add('visible'); 
-            
-            updateProgressBar(); 
-            observeSections();
-            initScratch();
-        }; 
-
         /* ---------------------------------------------------- */
         /* ---------- 4. CARRUSEL PRINCIPAL CON DOTS --------- */
         /* ---------------------------------------------------- */
@@ -1818,38 +1799,52 @@ function initScratch() {
     canvas.addEventListener('touchmove', scratch);
 }
 
+/* --- LOGICA DEL SOBRE --- */
 function openEnvelope() {
     hapticFeedback(100);
-    document.querySelector('.envelope-wrapper').classList.add('open');
+    const envelope = document.querySelector('.envelope-wrapper');
+    if (!envelope.classList.contains('open')) {
+        envelope.classList.add('open');
+    }
 }
 
-// Lógica del botón Entrar
+/* --- LOGICA UNIFICADA DEL BOTON ENTRAR --- */
 document.getElementById('openBtn').onclick = (e) => {
-    e.stopPropagation(); // Evita que el clic se confunda con el sobre
-    const wrapper = document.querySelector('.envelope-wrapper');
+    e.stopPropagation(); // Evita conflictos con el sobre
+    const envelope = document.querySelector('.envelope-wrapper');
     
-    if (wrapper.classList.contains('open')) {
+    // Solo permitimos el clic si el sobre ya está abierto
+    if (envelope.classList.contains('open')) {
         hapticFeedback(150);
-        messageAudio.pause(); // Para el audio del mensaje
+        
+        // 1. Detener el audio del mensaje del sobre
+        messageAudio.pause(); 
+        
+        // 2. Ocultar el sobre y mostrar la web
         document.getElementById('confirm').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
         
-        // Ejecuta las funciones necesarias para cargar la web
+        // 3. DISPARADORES DE LA WEB (Lo que hace que aparezca el contenido)
+        document.getElementById('titleSection').classList.add('visible'); 
+        updateProgressBar(); 
+        observeSections();
         if (typeof initScratch === "function") initScratch();
-        if (typeof observeSections === "function") observeSections();
+        
+        // 4. Asegurar que empiece arriba del todo
         window.scrollTo(0,0);
+        
+        console.log("Web cargada correctamente");
     }
 };
 
-// Vincula el click del audio mensaje que está en la carta
+/* --- LOGICA DEL AUDIO DENTRO DE LA CARTA --- */
 const letterMsgCover = document.getElementById('msgCoverWrap');
 if(letterMsgCover) {
     letterMsgCover.onclick = (e) => {
-        e.stopPropagation();
+        e.stopPropagation(); // Evita que se intente abrir el sobre al tocar el audio
         toggleMessagePlay(); 
     };
 }
-        
     </script>
 
 </body>
