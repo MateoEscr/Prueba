@@ -141,22 +141,22 @@
 
 
         /* ---------- Music player compacto ---------- */
-        .player-wrapper{
-            display:flex;
-            justify-content:center;
-            margin-bottom: 20px;
-        }
-        .compact-player{ 
-            display:flex; 
-            align-items:center; 
-            gap:12px; 
-            width:100%; 
-            max-width: fit-content;
-            justify-content:center; 
-            padding: 10px 20px;
-            border-radius: var(--rounded);
-            background: var(--glass-strong);
-            box-shadow: var(--card-shadow);
+        .player-wrapper {
+    display: flex;
+    justify-content: center;
+    position: sticky; /* Se queda fijo al llegar arriba */
+    top: 10px; /* Margen superior cuando está fijo */
+    z-index: 1000; /* Siempre por encima de todo */
+    margin-bottom: 20px;
+    pointer-events: none; /* Permite tocar lo que hay debajo en los bordes */
+}
+
+.compact-player {
+    pointer-events: auto; /* Los controles sí son clicables */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px); /* Desenfoque elegante */
+    border: 1px solid rgba(102, 187, 106, 0.2);
+}
         }
         .cover-wrap{ 
             position:relative; 
