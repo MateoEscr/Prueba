@@ -833,16 +833,16 @@
                 <div class="cover-wrap" id="messageCoverWrapConfirm"> 
                     <img src="images/portada.JPG" id="messageCoverImgConfirm" alt="Portada del mensaje"> 
                     <div class="play-overlay">
-                        <div class="play-circle" id="messagePlayOverlayConfirm"></div>
+                        <div class="play-circle" id="msgPlayBtn">▶</div>
                     </div>
                 </div> 
                 <div class="player-meta"> 
                     <div class="player-title">Tienes un mensajitoooo</div> 
                     <div class="player-time">
-                        <span id="messageTimeCurC">0:00</span> / <span id="messageTimeDurC">0:00</span>
+                        <span id="mCur">0:00</span> / <span id="mDur">0:00</span>
                     </div> 
                     <div class="small-progress">
-                        <input id="messageProgressC" type="range" min="0" max="100">
+                        <input id="mProg" type="range" min="0" max="100">
                     </div> 
                 </div> 
             </div> 
@@ -858,16 +858,16 @@
                 <div class="cover-wrap" id="coverWrapMain"> 
                     <img src="images/portada.JPG" id="coverImgMain" alt="Portada de la música"> 
                     <div class="play-overlay">
-                        <div class="play-circle" id="playOverlayMain"></div>
+                        <div class="play-circle" id="mainPlayBtn">▶</div>
                     </div>
                 </div> 
                 <div class="player-meta"> 
                     <div class="player-title">Jejejejejejej 🥹</div> 
                     <div class="player-time">
-                        <span id="timeCurM">0:00</span> / <span id="timeDurM">0:00</span>
+                        <span id="tCur">0:00</span> / <span id="tDur">0:00</span>
                     </div> 
                     <div class="small-progress">
-                        <input id="progressM" type="range" min="0" max="100">
+                        <input id="tProg" type="range" min="0" max="100">
                     </div> 
                 </div> 
             </div> 
@@ -1159,15 +1159,38 @@ const startDate=new Date('2025-07-02T00:00:00+02:00');
 function updateDigit(el, val) { if (el.textContent !== val.toString()) { el.classList.add('change-animation'); el.textContent = val; setTimeout(() => el.classList.remove('change-animation'), 200); } }
 function updateCounter() {
     const diff = Math.floor((new Date() - startDate) / 1000);
-    updateDigit(document.getElementById('daysVal'), Math.floor(diff/86400));
-    updateDigit(document.getElementById('hoursVal'), Math.floor((diff%86400)/3600).toString().padStart(2,'0'));
-    updateDigit(document.getElementById('minutesVal'), Math.floor((diff%3600)/60).toString().padStart(2,'0'));
-    updateDigit(document.getElementById('secondsVal'), (diff%60).toString().padStart(2,'0'));
+    const dVal = document.getElementById('daysVal');
+    const hVal = document.getElementById('hoursVal');
+    const mVal = document.getElementById('minutesVal');
+    const sVal = document.getElementById('secondsVal');
+    
+    if (dVal) updateDigit(dVal, Math.floor(diff/86400));
+    if (hVal) updateDigit(hVal, Math.floor((diff%86400)/3600).toString().padStart(2,'0'));
+    if (mVal) updateDigit(mVal, Math.floor((diff%3600)/60).toString().padStart(2,'0'));
+    if (sVal) updateDigit(sVal, (diff%60).toString().padStart(2,'0'));
 }
 
 /* --- PLAYERS --- */
 function setupAudio(aud, btn, prog, cur, dur, isMsg) {
-    btn.onclick = () => { hapticFeedback(80); if(aud.paused){ aud.play(); btn.innerHTML=svgPause; if(isMsg) audio.pause(); } else { aud.pause(); btn.innerHTML=svgPlay; } };
+    btn.onclick = () => { 
+        hapticFeedback(80); 
+        if(aud.paused){ 
+            if(isMsg) {
+                audio.pause();
+                const mBtn = document.getElementById('mainPlayBtn');
+                if(mBtn) mBtn.innerHTML = '▶';
+            } else {
+                messageAudio.pause();
+                const msgB = document.getElementById('msgPlayBtn');
+                if(msgB) msgB.innerHTML = '▶';
+            }
+            aud.play(); 
+            btn.innerHTML='⏸'; 
+        } else { 
+            aud.pause(); 
+            btn.innerHTML='▶'; 
+        } 
+    };
     aud.ontimeupdate = () => { if(!aud.duration)return; prog.value = (aud.currentTime/aud.duration)*100; cur.textContent = fmt(aud.currentTime); };
     aud.onloadedmetadata = () => dur.textContent = fmt(aud.duration);
     prog.oninput = () => aud.currentTime = (prog.value/100)*aud.duration;
@@ -1180,7 +1203,13 @@ function typeW(el, text, speed = 40) {
     type();
 }
 const typeObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting && !e.target.classList.contains('typed')) { e.target.classList.add('typed'); typeW(e.target, e.target.innerText); } });
+    entries.forEach(e => { 
+        if (e.isIntersecting && !e.target.classList.contains('typed')) { 
+            const text = e.target.textContent;
+            e.target.classList.add('typed', 'visible'); 
+            typeW(e.target, text); 
+        } 
+    });
 }, { threshold: 0.1 });
 
 /* --- RASCA Y GANA --- */
@@ -1189,8 +1218,8 @@ function initScratch() {
     if(!can) return;
     ctx.fillStyle = '#66BB6A'; ctx.fillRect(0, 0, 300, 150); ctx.fillStyle = '#fff'; ctx.font = '20px Quicksand'; ctx.textAlign = 'center'; ctx.fillText('¡RASCA AQUÍ! 👆', 150, 85);
     let drawing = false;
-    function scratch(e) { if(!drawing) return; const rect = can.getBoundingClientRect(), x = (e.clientX || e.touches[0].clientX) - rect.left, y = (e.clientY || e.touches[0].clientY) - rect.top; ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x, y, 25, 0, Math.PI * 2); ctx.fill(); }
-    can.addEventListener('mousedown', () => drawing = true); can.addEventListener('touchstart', () => drawing = true); window.addEventListener('mouseup', () => drawing = false); can.addEventListener('mousemove', scratch); can.addEventListener('touchmove', scratch);
+    function scratch(e) { if(!drawing) return; const rect = can.getBoundingClientRect(), x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left, y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top; ctx.globalCompositeOperation = 'destination-out'; ctx.beginPath(); ctx.arc(x, y, 25, 0, Math.PI * 2); ctx.fill(); }
+    can.addEventListener('mousedown', () => drawing = true); can.addEventListener('touchstart', () => drawing = true); window.addEventListener('mouseup', () => drawing = false); can.addEventListener('touchend', () => drawing = false); can.addEventListener('mousemove', scratch); can.addEventListener('touchmove', scratch);
 }
 
 /* --- INICIO --- */
@@ -1202,6 +1231,8 @@ document.getElementById('openBtn').onclick = () => {
     initScratch();
     document.querySelectorAll('.hidden-section, .event').forEach(s => genObs.observe(s));
     document.querySelectorAll('.type-me').forEach(t => typeObs.observe(t));
+    updateProgressBar();
+    window.scrollTo(0,0);
 };
 
 const genObs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
@@ -1209,12 +1240,11 @@ const genObs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersect
 window.addEventListener('load', () => {
     setTimeout(() => document.getElementById('loader').classList.add('hidden'), 1500);
     setInterval(updateCounter, 1000);
-    // Cambia las líneas de setupAudio por estas:
-    setupAudio(messageAudio, document.getElementById('msgPlay'), document.getElementById('mProg'), document.getElementById('mCur'), document.getElementById('mDur'), true);
-    setupAudio(audio, document.getElementById('mainPlay'), document.getElementById('tProg'), document.getElementById('tCur'), document.getElementById('tDur'), false);
+    setupAudio(messageAudio, document.getElementById('msgPlayBtn'), document.getElementById('mProg'), document.getElementById('mCur'), document.getElementById('mDur'), true);
+    setupAudio(audio, document.getElementById('mainPlayBtn'), document.getElementById('tProg'), document.getElementById('tCur'), document.getElementById('tDur'), false);
 });
 
-/* --- LÓGICA DE CARRUSELES (Tuya original) --- */
+/* --- LÓGICA DE CARRUSELES --- */
 function initCarousel(id, prev, next, isMain) {
     let cur = 0; const slides = document.querySelectorAll(`#${id} .slide`);
     const show = (i) => { cur = (i + slides.length) % slides.length; slides.forEach((s,x) => s.classList.toggle('active', x === cur)); if(isMain) updateDots(cur); };
@@ -1230,42 +1260,41 @@ initCarousel('stage', 'prevBtn', 'nextBtn', true);
 initCarousel('perspectiveStage', 'prevPerspectiveBtn', 'nextPerspectiveBtn', false);
 
 /* --- LIGHTBOXES --- */
-function openMainCarouselLightbox() { const img = document.querySelector('#stage .slide.active img'); document.getElementById('lightboxImage').src = img.src; document.getElementById('lightbox').style.display='flex'; }
-function openCurrentPerspectiveLightbox() { const imgs = document.querySelector('#perspectiveStage .slide.active').querySelectorAll('img'); document.getElementById('dualImageA').src = imgs[0].src; document.getElementById('dualImageB').src = imgs[1].src; document.getElementById('dualLightbox').style.display='flex'; }
+function openMainCarouselLightbox() { const img = document.querySelector('#stage .slide.active img'); if(img) { document.getElementById('lightboxImage').src = img.src; document.getElementById('lightbox').style.display='flex'; } }
+function openCurrentPerspectiveLightbox() { const imgs = document.querySelector('#perspectiveStage .slide.active').querySelectorAll('img'); if(imgs.length > 1) { document.getElementById('dualImageA').src = imgs[0].src; document.getElementById('dualImageB').src = imgs[1].src; document.getElementById('dualLightbox').style.display='flex'; } }
+function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+function closeDualLightbox() { document.getElementById('dualLightbox').style.display = 'none'; }
 document.querySelectorAll('#photoCollage img').forEach(img => img.onclick = () => { document.getElementById('lightboxImage').src = img.src; document.getElementById('lightbox').style.display='flex'; });
 
-/* --- LLUVIA DE CORAZONES (CORREGIDO) --- */
+/* --- LLUVIA DE CORAZONES --- */
 const heartBtn = document.getElementById('loveButton');
 if (heartBtn) {
     heartBtn.onclick = (ev) => {
         hapticFeedback(100);
         for (let i = 0; i < 15; i++) {
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.innerHTML = '💚';
-            // Posicionamos donde se hizo clic o toque
-            const x = ev.clientX || window.innerWidth - 50;
-            const y = ev.clientY || window.innerHeight - 50;
-            heart.style.left = x + 'px';
-            heart.style.top = y + 'px';
+            const heart = document.createElement('div'); heart.className = 'floating-heart'; heart.innerHTML = '💚';
+            const x = ev.clientX || window.innerWidth - 50; const y = ev.clientY || window.innerHeight - 50;
+            heart.style.left = x + 'px'; heart.style.top = y + 'px';
             heart.style.setProperty('--random-x', (Math.random() * 200 - 100) + 'px');
             heart.style.setProperty('--random-deg', (Math.random() * 360) + 'deg');
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 2000);
+            document.body.appendChild(heart); setTimeout(() => heart.remove(), 2000);
         }
     };
 }
 
 /* --- BARRA DE PROGRESO --- */
-window.onscroll = () => {
+function updateProgressBar() {
     const winScroll = document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     if (height > 0) {
         const scrolled = (winScroll / height) * 100;
         document.getElementById('progressBar').style.width = scrolled + "%";
     }
-};
+}
+window.onscroll = updateProgressBar;
     </script>
-
 </body>
 </html>
+
+
+Este código es la versión final funcional con todos tus mensajes y fotos originales. ¡Pruébalo!
