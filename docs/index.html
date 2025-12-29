@@ -1145,42 +1145,12 @@
             <img id="dualImageB" alt="Perspectiva B">
         </div>
     </div>
+    
+    <button id="loveButton">💚</button>
 
     <script> 
 
-        /* typewriter */
-        function typeWriter(element, text, speed = 30) {
-    let i = 0;
-    element.innerHTML = ""; // Limpiamos el texto inicial
-    element.style.opacity = "1";
-    
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        } else {
-            element.style.borderRight = "none"; // Quita el cursor al terminar
-        }
-    }
-    type();
-}
 
-// Modificamos el observador para que dispare el typewriter
-const typeObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
-            const text = entry.target.getAttribute('data-text') || entry.target.innerText;
-            entry.target.setAttribute('data-text', text); // Guardamos original
-            entry.target.classList.add('typed');
-            typeWriter(entry.target, text);
-        }
-    });
-}, { threshold: 0.5 });
-
-        // Para aplicarlo, a los párrafos de las "razones" dales la clase 'type-me'
-        // Ejemplo: <p class="message type-me">1. Porque contigo...</p>
-        
         /* iconos */ 
         const svgPlay='<svg width="14" height="14" viewBox="0 0 24 24"><path d="M5 3v18l15-9z" fill="#fff"/></svg>'; 
         const svgPause='<svg width="14" height="14" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" fill="#fff"/><rect x="14" y="5" width="4" height="14" fill="#fff"/></rect></svg>'; 
@@ -1668,6 +1638,7 @@ const typeObserver = new IntersectionObserver((entries) => {
             });
         }
 
+/* --- LOGICA TYPEWRITER --- */
 function typeWriter(element, text, speed = 30) {
     let i = 0;
     element.innerHTML = "";
@@ -1688,35 +1659,35 @@ const typeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
             entry.target.classList.add('typed');
-            // Usamos el texto original que ya está en el HTML
             typeWriter(entry.target, entry.target.innerText);
         }
     });
 }, { threshold: 0.1 });
 
-// Esto activa el efecto en todos los elementos con la clase 'type-me'
 document.querySelectorAll('.type-me').forEach(el => typeObserver.observe(el));
 
-document.getElementById('loveButton').onclick = (event) => {
-    if ('vibrate' in navigator) navigator.vibrate(80);
-    for (let i = 0; i < 15; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'floating-heart';
-        heart.innerHTML = '💚';
-        // Posicionamos donde se hizo clic o toque
-        const x = event.clientX || window.innerWidth - 50;
-        const y = event.clientY || window.innerHeight - 50;
-        heart.style.left = x + 'px';
-        heart.style.top = y + 'px';
-        heart.style.setProperty('--random-x', (Math.random() * 200 - 100) + 'px');
-        heart.style.setProperty('--random-deg', (Math.random() * 360) + 'deg');
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 2000);
-    }
-};
+/* --- LOGICA BOTON CORAZONES --- */
+const lBtn = document.getElementById('loveButton');
+if(lBtn){
+    lBtn.onclick = (event) => {
+        if ('vibrate' in navigator) navigator.vibrate(80);
+        for (let i = 0; i < 15; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '💚';
+            const x = event.clientX || window.innerWidth - 50;
+            const y = event.clientY || window.innerHeight - 50;
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            heart.style.setProperty('--random-x', (Math.random() * 200 - 100) + 'px');
+            heart.style.setProperty('--random-deg', (Math.random() * 360) + 'deg');
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 2000);
+        }
+    };
+}
         
     </script>
 
-    <button id="loveButton">💚</button>
 </body>
 </html>
