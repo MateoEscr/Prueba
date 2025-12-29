@@ -79,7 +79,7 @@
             flex-direction:column; 
             align-items:center; 
             justify-content:center; 
-            background:linear-gradient(180deg,rgba(255,214,224,0.98),var(--bg)); 
+            background: var(--bg);
             z-index:9999; 
             transition: opacity .5s ease, visibility .5s; 
         }
@@ -819,6 +819,10 @@
         @keyframes blink {
             50% { border-color: transparent; }
         }
+        .type-me { opacity: 0; transition: opacity 0.3s; }
+        .type-me.visible { opacity: 1; }
+        .typewriter-cursor { border-right: 2px solid var(--accent); animation: blinkCursor 0.7s infinite; }
+        @keyframes blinkCursor { 50% { border-color: transparent; } }
         
     </style>
 </head>
@@ -889,21 +893,21 @@
             <p class="message" style="text-align: left;">Llevo los 6 meses que llevamos juntos y los 7 desde que conocí a la persona mas importante de todas queriéndote MUCHO. Considerándome la persona mas suertuda y mas feliz del mundo por poder tenerte y compartir mi vida contigo. Eres la niña MÁS guapa, MÁs inteligente, MÁS agradable, MÁS amable, MÁS maja, MÁS especial, MÁs interesante, MÁS comprensiva, MÁS trabajadora, MÁS IMPORTANTE, eso seguro.  </p> 
             <p class="message" style="text-align: left;">¿185 días saliendo ya? Quien lo diría, que nada más acabar exámenes y sin esperarlo conocería a alguien tan ESPECIAl y perfecta, y que cambiaría mi vida TAN a bien. Eres TODO lo que podía querer, Y MÁS. La suerte que tengo no es descriptible, pero intento poder agradecerlo todo lo que puedo, y seguiré haciendolo, porque algo TAN bueno como tú tiene que agradecerse día si día también.  </p> 
             <p class="message" style="text-align: left;">Uno de los mensajes que mas me gustaron fueron cuando te fuiste a dormir un poco molesta y como no me gustó NADA y me di cuenta, empecé a mandarte un mensaje cada día. Se que digo muchas cosas ahí y que te van a gustar releerlas, y encima son TAN VERDAD, asi que a continuación te las pongo. </p> 
-            <p class="message" style="text-align: left;">1. Porque contigo puedo ser realmente yo, y me sacas una sonrisa hasta cuando nadie puede hacerme sonreír</p> 
-            <p class="message" style="text-align: left;">2. Porque tienes el alma más pura que he visto nunca, y todo lo haces con una sonrisa que alegra hasta el peor de los días</p> 
-            <p class="message" style="text-align: left;">3. Porque me haces la persona más feliz del mundo y estoy muy orgulloso de ti ❤️</p> 
-            <p class="message" style="text-align: left;">4. Porque dia a dia te esfuerzas por hacer y decir cosas que no te apetecen o no son lo que más quieres 🥹❤️</p> 
-            <p class="message" style="text-align: left;">5. Porque me incluyes en todo y me haces sentirme DEMASIADO cómodo y feliz en todo momento que paso contigo😁😇❤️😋</p> 
-            <p class="message" style="text-align: left;">6. Porque si tengo que aprender de alguien, es de ti. Eres la hermana que todo hermano querría tener, la hija que todo padre y la nieta que todo abuelo (No pongo novia porque aunque cualquier hombre querría, u r mine)</p> 
-            <p class="message" style="text-align: left;">7. Porque ahora que me he parado a pensarlo, mi suerte no es nada de 1 entre 1.000.000 ni nada por el estilo. Eres 1/1 y eso demuestra que no puedo tener mucha más suerte. No puedes ser mejor hermana mayor. Gracias por incluirme en tu familia, apoyarme y hacer que aprenda a ser una mejor persona día a día ❤️</p> 
-            <p class="message" style="text-align: left;">8. Porque siempre sacas lo mejor de mí y me valoras mucho. Porque haces hasta las cosas que menos pueden apetecerte, algo que habla mucho y muy bien de quien y como eres</p> 
-            <p class="message" style="text-align: left;">9. Porque no solo eres mi novia, sino que también mi mejor amiga y la persona con la que quiero hacerlo todo, incluso hacer nada. Y si esto es así, es por cómo eres. De buena, de maja, de considerada, de risueña, interesante, amigable, guapa, atenta, lista, te esfuerzas y haces todo lo mejor posible. Además, mensajes como el que te respondo hacen mucho, ya que hasta con la idea de que no iba a hacer más me has hecho ponerme a las 11 a terminar 3 ejercicios... en fin. 🩷</p> 
-            <p class="message" style="text-align: left;">10. Porque gracias a ti, lo que me valoras y cuanto me haces saberlo para que me valore a mí mismo, el problema de sobrepensarlo todo va cada vez a menos. Y, en caso de darme, se que tengo una persona para hablar eso o cualquier cosa, y además es alguien en quien no puedo confiar más🤗❤️</p> 
-            <p class="message" style="text-align: left;">11. Porque te admiro.</p> 
-            <p class="message" style="text-align: left;">12. Porque no solo me duermo y me despierto pensando y hablandote/leyendo mensajes tuyos, si no que también me miro a la muñeca y veo un detalle que vale más que mucho dinero. Miro a la lámpara y hay otro. En mi armario? Otros dos. En otra caja, chocolates de tu primer partido del Madrid. Todos esos detalles que te parecen "tonterías" pero que aún así las haces, como podrás ver me importan y mucho, y te lo intento agradecer pero igual no lo suficiente. (Aun no sabes porque empieza todo por porque). 😁❤️</p> 
-            <p class="message" style="text-align: left;">13. Porque cualquier día es automáticamente bueno si estoy o voy a quedar contigo</p> 
-            <p class="message" style="text-align: left;">15. Dos semanas mandándote mensaje diario cutie. Fin? Jejeje. Siempre gracias pero tenía que añadir hoy que amo como cantas y como te sabes las letras y lo bien que cantas y entonces y pronuncias y entiendes. Todo ❤️❤️❤️❤️. Te quiero, good night peque, descansa 💚</p> 
-            <p class="message" style="text-align: left;">14. No empiezo por porque pero si que explico. Si he empezado estos mensajes así al principio pensaba que era para decirte luego en plan porque te quiero. Pero muy basic no? Ahora creo que pueden haber sido razones (sencillas) que explican porque admiro y quiero, y agradezco a Carlota. <br> Es importante recordar lo que me dijo tu abuelo también al conocerle, y toda la razón que tenía.<br> Agradezco que me hagas una persona mejor cada día que pasa, agradezco que te preocupes, que seas atenta, que te esfuerzas por expresarte. En fin, todo esto te lo he dicho ya en alguno de los 14 mensajes previos. <br> Con motivo de ayer y algo que he pensado bastante inconscientemente, uso este mensaje para explicar otra vez porque estoy contigo y no con "otra" como me preguntabas ayer. <br> Otra, no me hace feliz. Otra, no me importa como haces tú. Otra no tiene la sonrisa bonita que tienes tú, ni los ojos oscuros pero en los que me veo reflejado cuando me miras, o tú pelo marrón/negro (depende de la luz) que siempre está perfecto y onduladito que tanto me gusta, ni tu habilidad para hacer una foto patata. Tampoco tiene los valores ni la educación que tienes tú. Ni tu forma de ser que TANTO me gusta y TANTO disfruto todos los días y que agradezco. <br> Tampoco tienen tu fe, ni la transmiten, ni vive orgullosa de ella como haces tú y algo de lo que estoy muy orgulloso y feliz. <br> No tiene esa atención al detalle que me has demostrado tener pese a decir que no te acuerdas de las cosas y eres "menos atenta". <br> No canta ni tanto ni tan bien. No me atrae como haces tú. No me importa como me importas tú. No me trata como me tratas tú. <br> No me ayuda ni me tranquiliza como haces tú.</p> 
+            <p class="message type-me" style="text-align: left;">1. Porque contigo puedo ser realmente yo, y me sacas una sonrisa hasta cuando nadie puede hacerme sonreír</p> 
+            <p class="message type-me" style="text-align: left;">2. Porque tienes el alma más pura que he visto nunca, y todo lo haces con una sonrisa que alegra hasta el peor de los días</p> 
+            <p class="message type-me" style="text-align: left;">3. Porque me haces la persona más feliz del mundo y estoy muy orgulloso de ti ❤️</p> 
+            <p class="message type-me" style="text-align: left;">4. Porque dia a dia te esfuerzas por hacer y decir cosas que no te apetecen o no son lo que más quieres 🥹❤️</p> 
+            <p class="message type-me" style="text-align: left;">5. Porque me incluyes en todo y me haces sentirme DEMASIADO cómodo y feliz en todo momento que paso contigo😁😇❤️😋</p> 
+            <p class="message type-me" style="text-align: left;">6. Porque si tengo que aprender de alguien, es de ti. Eres la hermana que todo hermano querría tener, la hija que todo padre y la nieta que todo abuelo (No pongo novia porque aunque cualquier hombre querría, u r mine)</p> 
+            <p class="message type-me" style="text-align: left;">7. Porque ahora que me he parado a pensarlo, mi suerte no es nada de 1 entre 1.000.000 ni nada por el estilo. Eres 1/1 y eso demuestra que no puedo tener mucha más suerte. No puedes ser mejor hermana mayor. Gracias por incluirme en tu familia, apoyarme y hacer que aprenda a ser una mejor persona día a día ❤️</p> 
+            <p class="message type-me" style="text-align: left;">8. Porque siempre sacas lo mejor de mí y me valoras mucho. Porque haces hasta las cosas que menos pueden apetecerte, algo que habla mucho y muy bien de quien y como eres</p> 
+            <p class="message type-me" style="text-align: left;">9. Porque no solo eres mi novia, sino que también mi mejor amiga y la persona con la que quiero hacerlo todo, incluso hacer nada. Y si esto es así, es por cómo eres. De buena, de maja, de considerada, de risueña, interesante, amigable, guapa, atenta, lista, te esfuerzas y haces todo lo mejor posible. Además, mensajes como el que te respondo hacen mucho, ya que hasta con la idea de que no iba a hacer más me has hecho ponerme a las 11 a terminar 3 ejercicios... en fin. 🩷</p> 
+            <p class="message type-me" style="text-align: left;">10. Porque gracias a ti, lo que me valoras y cuanto me haces saberlo para que me valore a mí mismo, el problema de sobrepensarlo todo va cada vez a menos. Y, en caso de darme, se que tengo una persona para hablar eso o cualquier cosa, y además es alguien en quien no puedo confiar más🤗❤️</p> 
+            <p class="message type-me" style="text-align: left;">11. Porque te admiro.</p> 
+            <p class="message type-me" style="text-align: left;">12. Porque no solo me duermo y me despierto pensando y hablandote/leyendo mensajes tuyos, si no que también me miro a la muñeca y veo un detalle que vale más que mucho dinero. Miro a la lámpara y hay otro. En mi armario? Otros dos. En otra caja, chocolates de tu primer partido del Madrid. Todos esos detalles que te parecen "tonterías" pero que aún así las haces, como podrás ver me importan y mucho, y te lo intento agradecer pero igual no lo suficiente. (Aun no sabes porque empieza todo por porque). 😁❤️</p> 
+            <p class="message type-me" style="text-align: left;">13. Porque cualquier día es automáticamente bueno si estoy o voy a quedar contigo</p> 
+            <p class="message type-me" style="text-align: left;">15. Dos semanas mandándote mensaje diario cutie. Fin? Jejeje. Siempre gracias pero tenía que añadir hoy que amo como cantas y como te sabes las letras y lo bien que cantas y entonces y pronuncias y entiendes. Todo ❤️❤️❤️❤️. Te quiero, good night peque, descansa 💚</p> 
+            <p class="message type-me" style="text-align: left;">14. No empiezo por porque pero si que explico. Si he empezado estos mensajes así al principio pensaba que era para decirte luego en plan porque te quiero. Pero muy basic no? Ahora creo que pueden haber sido razones (sencillas) que explican porque admiro y quiero, y agradezco a Carlota. <br> Es importante recordar lo que me dijo tu abuelo también al conocerle, y toda la razón que tenía.<br> Agradezco que me hagas una persona mejor cada día que pasa, agradezco que te preocupes, que seas atenta, que te esfuerzas por expresarte. En fin, todo esto te lo he dicho ya en alguno de los 14 mensajes previos. <br> Con motivo de ayer y algo que he pensado bastante inconscientemente, uso este mensaje para explicar otra vez porque estoy contigo y no con "otra" como me preguntabas ayer. <br> Otra, no me hace feliz. Otra, no me importa como haces tú. Otra no tiene la sonrisa bonita que tienes tú, ni los ojos oscuros pero en los que me veo reflejado cuando me miras, o tú pelo marrón/negro (depende de la luz) que siempre está perfecto y onduladito que tanto me gusta, ni tu habilidad para hacer una foto patata. Tampoco tiene los valores ni la educación que tienes tú. Ni tu forma de ser que TANTO me gusta y TANTO disfruto todos los días y que agradezco. <br> Tampoco tienen tu fe, ni la transmiten, ni vive orgullosa de ella como haces tú y algo de lo que estoy muy orgulloso y feliz. <br> No tiene esa atención al detalle que me has demostrado tener pese a decir que no te acuerdas de las cosas y eres "menos atenta". <br> No canta ni tanto ni tan bien. No me atrae como haces tú. No me importa como me importas tú. No me trata como me tratas tú. <br> No me ayuda ni me tranquiliza como haces tú.</p> 
             <p class="message" style="text-align: left;">Desde que empecé a escribir todo han pasado cosa de dos meses, y he ido actualizando y añadiendo cosas pero es que, siento que tengo tanto que decir y podría no parar nunca. Por todo lo que vales, por todo lo que eres y por todo lo que significas para mí. Los tres últimos días antes de que te fueras a esquiar fueorn, para mi, fantasía. TAN necesarios, TAN importantes. Que bien me lo pase. Gracias a ti. Gracias a los dos.</p> 
             <p class="message" style="text-align: left;">GRACIAS. POR TODO. Por motivarme, por animarne, por calmarme, por tenerme paciencia, dedicarme tanto tiempo y quererme tanto. Definitivamente, cada vez que te miro me siento tan afortunado, y mi inner child sale, a reirse, a disfrutar, a hacer el tonto contigo. Me lo paso TAN bien en todo momento, haciendo todo tipo de cosas... Escribiendo esto me emociono porque revivo todo lo que hemos ido haciendo y viviendo y te imagino en cada situación, y me doy cuenta de eso, mi suerte. Eres mi todo.  <br> Me chapo ya y te dejo ver el resto de cositas que he hecho, que son tontería pero fun creo? Me dices jejejeje. Enjoy mucho. Te QUIERO peque 💚💚💚💚</p> 
 
@@ -1649,6 +1653,36 @@ const typeObserver = new IntersectionObserver((entries) => {
                 timelineObserver.observe(event);
             });
         }
+
+function typeWriter(element, text, speed = 30) {
+    let i = 0;
+    element.innerHTML = "";
+    element.classList.add('typewriter-cursor', 'visible');
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            element.classList.remove('typewriter-cursor');
+        }
+    }
+    type();
+}
+
+const typeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.classList.contains('typed')) {
+            entry.target.classList.add('typed');
+            // Usamos el texto original que ya está en el HTML
+            typeWriter(entry.target, entry.target.innerText);
+        }
+    });
+}, { threshold: 0.1 });
+
+// Esto activa el efecto en todos los elementos con la clase 'type-me'
+document.querySelectorAll('.type-me').forEach(el => typeObserver.observe(el));
+        
     </script>
 </body>
 </html>
