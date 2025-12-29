@@ -862,93 +862,58 @@
         .scratch-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 20px; text-align: center; position: relative; z-index: 1; }
 
 /* --- SOBRE MEJORADO --- */
-/* --- DISEÑO DEL SOBRE MEJORADO --- */
-#confirm { background: var(--bg); flex-direction: column; }
+/* --- DISEÑO DEL SOBRE --- */
+#confirm { 
+    background: var(--bg); 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+}
 
 .envelope-wrapper { 
     position: relative; 
-    width: 320px; 
-    height: 220px; /* Un poco más alto */
+    width: 300px; 
+    height: 180px; 
     background: var(--accent); 
     border-bottom-left-radius: 10px; 
     border-bottom-right-radius: 10px; 
     cursor: pointer; 
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    transition: 0.3s;
-    margin-top: 50px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 .envelope .flap { 
     position: absolute; top: 0; width: 0; height: 0; 
-    border-left: 160px solid transparent; 
-    border-right: 160px solid transparent; 
-    border-top: 110px solid var(--accent-dark); 
+    border-left: 150px solid transparent; 
+    border-right: 150px solid transparent; 
+    border-top: 100px solid var(--accent-dark); 
     transform-origin: top; 
     transition: transform 0.4s ease; 
-    z-index: 4; /* Por encima de la carta cuando está cerrado */
+    z-index: 4; 
 }
 
 .envelope .body { 
     position: absolute; bottom: 0; width: 100%; height: 100%; 
     background: var(--accent); z-index: 3; 
     clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%); 
-    border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;
 }
 
 .envelope .letter { 
-    position: absolute; bottom: 10px; left: 10px; 
-    width: 300px; 
-    height: 200px; /* Carta más alta */
+    position: absolute; bottom: 5px; left: 5px; 
+    width: 290px; height: 170px; 
     background: white; border-radius: 5px; 
     padding: 15px; text-align: center; 
     display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
-    z-index: 2; /* Por debajo del flap al principio */
-    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 2; transition: transform 0.5s ease; 
 }
 
-/* BOTÓN ENTRAR: Cuadrado y llamativo */
-#openBtn {
-    width: 100%;
-    padding: 14px;
-    background: var(--accent-dark);
-    color: white;
-    border: none;
-    font-weight: 900;
-    font-size: 1.1rem;
-    cursor: pointer;
-    border-radius: 0 !important; 
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 4px 0px #2e7d32;
-    transition: all 0.1s;
-}
-#openBtn:active { transform: translateY(2px); box-shadow: 0 2px 0px #2e7d32; }
-
-/* ESTADO ABIERTO */
-.envelope-wrapper.open .flap { 
-    transform: rotateX(180deg); 
-    z-index: 1; /* El flap se va al fondo al abrirse */
-}
-
+/* --- ESTADO ABIERTO (CRUCIAL) --- */
+.envelope-wrapper.open .flap { transform: rotateX(180deg); z-index: 1; }
 .envelope-wrapper.open .letter { 
-    transform: translateY(-160px); /* Sale más hacia arriba */
-    z-index: 5; /* LA CARTA PASA AL FRENTE DE TODO */
+    transform: translateY(-130px); 
+    z-index: 5; /* Esto hace que el botón esté por ENCIMA del sobre y funcione el click */
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
 }
-
-/* REPRODUCTOR DENTRO DE LA CARTA */
-.player-in-letter { width: 100%; padding: 5px 0; }
-.player-in-letter .compact-player {
-    width: 100% !important;
-    max-width: none !important;
-    background: #f9f9f9 !important;
-    border: 1px solid #eee;
-    padding: 5px 10px !important;
-    box-shadow: none !important;
-    transform: scale(0.9);
-}
-
-.tap-instruction { margin-top: 40px; font-weight: 700; color: var(--accent-dark); text-align: center; }
         
     </style>
 </head>
@@ -962,17 +927,19 @@
     </div>
 
     <div id="confirm"> 
-    <h2 style="max-width: 600px; margin-bottom: 30px; padding: 0 20px; font-size: 1.2rem; line-height:1.4;">Ábreme si eres la niña guapa, lista, agradable, amable, cariñosa, te gustan los takis y tienes el novio mas suertudo del mundo por tenerte (SI TÚ, CARLOTA DURÁN GARCÍA.) 💚</h2>
+    <h2 id="introText" style="max-width: 600px; margin-bottom: 20px; padding: 0 20px; text-align: center; font-size: 1.1rem; line-height: 1.4;">
+        Ábreme si eres la niña guapa, lista, agradable, amable, cariñosa, te gustan los takis y tienes el novio mas suertudo del mundo por tenerte (SI TÚ, CARLOTA DURÁN GARCÍA.) 💚
+    </h2>
 
     <div class="envelope-wrapper" onclick="openEnvelope()">
         <div class="envelope">
             <div class="flap"></div>
             <div class="body"></div>
             <div class="letter">
-                <p class="letter-title" style="font-weight:900; color:var(--text); margin-top:0;">Tienes un mensaje... 🔊</p>
+                <p style="font-weight:900; color:var(--text); margin: 0 0 10px 0; font-size: 0.9rem;">Tienes un mensaje... 🔊</p>
                 
-                <div class="player-in-letter">
-                    <div class="compact-player">
+                <div class="player-in-letter" style="width: 100%;">
+                    <div class="compact-player" style="width: 100% !important; max-width: none !important; transform: scale(0.85); background: #f9f9f9; border: 1px solid #ddd; box-shadow: none;">
                         <div class="cover-wrap" id="msgCoverWrap">
                             <img src="images/portada.JPG">
                             <div class="play-overlay"><div class="play-circle" id="msgPlay"></div></div>
@@ -983,11 +950,13 @@
                     </div>
                 </div>
 
-                <button id="openBtn">Entrar</button>
+                <button id="openBtn" style="width: 100%; padding: 12px; background: var(--accent-dark); color: white; border: none; font-weight: 900; cursor: pointer; border-radius: 0 !important; text-transform: uppercase;">
+                    Entrar
+                </button>
             </div>
         </div>
     </div>
-    <p class="tap-instruction">Toca el sobre para abrirlo</p>
+    <p class="tap-instruction" style="margin-top: 20px; font-weight: 700; color: var(--accent-dark);">Toca el sobre para abrirlo</p>
 </div>
     <div class="container" id="mainContent" style="display:none;"> 
         <div class="player-wrapper">
@@ -1851,41 +1820,35 @@ function initScratch() {
 
 function openEnvelope() {
     hapticFeedback(100);
-    const envelope = document.querySelector('.envelope-wrapper');
-    if (!envelope.classList.contains('open')) {
-        envelope.classList.add('open');
-    }
+    document.querySelector('.envelope-wrapper').classList.add('open');
 }
 
-// Vinculamos el click del audio del sobre (StopPropagation es clave para que no se cierre/abra el sobre al tocar el audio)
-const msgCover = document.getElementById('msgCoverWrap');
-if(msgCover) {
-    msgCover.onclick = (e) => {
-        e.stopPropagation(); 
-        toggleMessagePlay(); 
-    };
-}
-
-// BOTÓN ENTRAR: Ahora detectará el click porque la carta está en z-index 5
+// Lógica del botón Entrar
 document.getElementById('openBtn').onclick = (e) => {
-    e.stopPropagation(); // Evita problemas de burbujeo
-    const envelope = document.querySelector('.envelope-wrapper');
+    e.stopPropagation(); // Evita que el clic se confunda con el sobre
+    const wrapper = document.querySelector('.envelope-wrapper');
     
-    if (envelope.classList.contains('open')) {
+    if (wrapper.classList.contains('open')) {
         hapticFeedback(150);
-        messageAudio.pause(); // Pausamos tu audio mensaje
+        messageAudio.pause(); // Para el audio del mensaje
         document.getElementById('confirm').style.display = 'none';
         document.getElementById('mainContent').style.display = 'block';
         
-        // Iniciamos el resto de la web
-        initScratch();
-        observeSections();
+        // Ejecuta las funciones necesarias para cargar la web
+        if (typeof initScratch === "function") initScratch();
+        if (typeof observeSections === "function") observeSections();
         window.scrollTo(0,0);
-        
-        // Si quieres que la música empiece sola al entrar, descomenta la siguiente línea:
-        // toggleMainPlay(); 
     }
 };
+
+// Vincula el click del audio mensaje que está en la carta
+const letterMsgCover = document.getElementById('msgCoverWrap');
+if(letterMsgCover) {
+    letterMsgCover.onclick = (e) => {
+        e.stopPropagation();
+        toggleMessagePlay(); 
+    };
+}
         
     </script>
 
