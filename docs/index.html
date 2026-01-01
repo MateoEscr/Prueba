@@ -526,7 +526,7 @@
         }
 
         .collage-item {
-            overflow: hidden;
+            overflow: visible;
             position: relative;
             z-index: 1;
             box-shadow: none;
@@ -535,18 +535,21 @@
         }
 
         .collage-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-            cursor: pointer;
-            /* Transiciones para los efectos de hover */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            transform-origin: center center;
-            border-radius: var(--rounded);
-            /* Sombra por defecto para que las imágenes tengan relieve */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-origin: center center; 
+    border-radius: var(--rounded); 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+    /* --- AÑADE ESTO PARA EL MÓVIL --- */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+}
 
         .collage-item img:hover {
             transform: scale(1.05) !important;
@@ -891,6 +894,7 @@
         .hidden-section.visible {
             opacity: 1;
             transform: none;
+            visibility: visible;
         }
 
         .final-message-card.hidden-section {
