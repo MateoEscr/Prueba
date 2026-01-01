@@ -543,12 +543,14 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     transform-origin: center center; 
     border-radius: var(--rounded); 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-    /* --- AÑADE ESTO PARA EL MÓVIL --- */
-    backface-visibility: hidden;
+    /* --- ESTO ES LO QUE SOLUCIONA EL ERROR EN MÓVIL --- */
     -webkit-backface-visibility: hidden;
-    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform, opacity;
 }
 
         .collage-item img:hover {
@@ -891,11 +893,13 @@
             transition: opacity 1s ease-out, transform 1s ease-out;
         }
 
-        .hidden-section.visible {
-            opacity: 1;
-            transform: none;
-            visibility: visible;
-        }
+       .hidden-section.visible {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    /* Forzamos al navegador a redibujar */
+    -webkit-transform: translate3d(0,0,0); 
+}
 
         .final-message-card.hidden-section {
             transition-delay: 0.3s;
